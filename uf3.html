@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UF3 CSS Avanzado – Repaso + Test (2º DAW)</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111c36;
+      --text: #e5e7eb;
+      --muted: #a7b0c0;
+      --accent: #38bdf8;
+      --ok: #22c55e;
+      --bad: #ef4444;
+      --warn: #f59e0b;
+      --border: rgba(255,255,255,.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg, #0b1226 0%, var(--bg) 70%);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    header {
+      padding: 28px 16px 16px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(11,18,38,.92);
+      backdrop-filter: blur(8px);
+      z-index: 10;
+    }
+    header .wrap { max-width: 1100px; margin: 0 auto; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    h1 { margin: 0; font-size: 18px; letter-spacing: .3px; }
+    .sub { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 12px;
+      display: inline-block;
+      margin: 4px 4px 0 0;
+    }
+    nav a:hover { border-color: rgba(56,189,248,.5); color: var(--accent); }
+    main { max-width: 1100px; margin: 0 auto; padding: 18px 16px 60px; }
+    .grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 14px; }
+    @media (max-width: 980px) { .grid { grid-template-columns: 1fr; } }
+    .card {
+      background: rgba(17,28,54,.88);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    h2 { margin: 0 0 10px; font-size: 16px; }
+    h3 { margin: 16px 0 8px; font-size: 14px; color: var(--accent); }
+    ul { margin: 8px 0 0 18px; }
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    pre {
+      margin: 10px 0 0;
+      padding: 12px;
+      background: rgba(2,6,23,.55);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: auto;
+      font-size: 12px;
+    }
+    .pill {
+      display: inline-block;
+      padding: 2px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0 6px 6px 0;
+    }
+    .key {
+      border-left: 4px solid var(--accent);
+      padding: 10px 12px;
+      background: rgba(56,189,248,.08);
+      border-radius: 12px;
+      margin-top: 10px;
+    }
+    .warn {
+      border-left: 4px solid var(--warn);
+      background: rgba(245,158,11,.10);
+    }
+    .two-col { columns: 2; column-gap: 22px; }
+    @media (max-width: 900px) { .two-col { columns: 1; } }
+
+    /* Test */
+    .q { padding: 12px; border: 1px solid var(--border); border-radius: 14px; margin: 10px 0; }
+    .q legend { padding: 0 6px; color: var(--accent); font-weight: 600; }
+    .opts { display: grid; gap: 6px; margin-top: 8px; }
+    label { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+    input[type="radio"] { margin-top: 3px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    button {
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,.5);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover { border-color: rgba(56,189,248,.55); color: var(--accent); }
+    .result {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,.35);
+    }
+    .ok { color: var(--ok); font-weight: 700; }
+    .bad { color: var(--bad); font-weight: 700; }
+    .muted { color: var(--muted); }
+    details { margin-top: 10px; }
+    summary { cursor: pointer; color: var(--muted); }
+    .small { font-size: 12px; color: var(--muted); }
+    footer { max-width: 1100px; margin: 0 auto; padding: 0 16px 40px; color: var(--muted); }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <div>
+        <h1>UF3 – CSS Avanzado (2º DAW) · Repaso para examen</h1>
+        <p class="sub">Resumen por puntos + ejemplos + Test final de 30 preguntas (autocorrección).</p>
+      </div>
+      <nav>
+        <a href="#p1">1. Diseños</a>
+        <a href="#p2">2. Media Queries</a>
+        <a href="#p3">3. Efectos</a>
+        <a href="#p4">4. Preprocesadores</a>
+        <a href="#test">Test 30</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1 -->
+    <section id="p1" class="grid">
+      <div class="card">
+        <h2>1) Tipos de diseño web (examen)</h2>
+        <span class="pill">Fijo</span>
+        <span class="pill">Elástico</span>
+        <span class="pill">Fluido</span>
+        <span class="pill">Responsivo</span>
+
+        <div class="key">
+          <strong>Regla de oro:</strong> memoriza la unidad típica:
+          <ul>
+            <li><strong>Fijo</strong> → <code>px</code> (no se adapta)</li>
+            <li><strong>Elástico</strong> → <code>em</code> (depende del texto)</li>
+            <li><strong>Fluido</strong> → <code>%</code> (depende del ancho)</li>
+            <li><strong>Responsivo</strong> → <code>@media</code> (cambia según pantalla)</li>
+          </ul>
+        </div>
+
+        <h3>Fijo (estático)</h3>
+        <ul>
+          <li>Medidas fijas en <code>px</code>. En móvil puede aparecer scroll horizontal.</li>
+          <li>Ventaja: simple. Desventaja: mala UX en pantallas pequeñas.</li>
+        </ul>
+        <pre><code>.contenedor { width: 1024px; margin: 0 auto; }</code></pre>
+
+        <h3>Elástico</h3>
+        <ul>
+          <li>Usa <code>em</code>: escala con el tamaño del texto.</li>
+          <li>No es responsive por pantalla: es “responsive al texto”.</li>
+        </ul>
+        <pre><code>h1 { font-size: 2em; width: 12em; }</code></pre>
+
+        <h3>Fluido (líquido)</h3>
+        <ul>
+          <li>Usa <code>%</code>: se adapta al ancho del viewport.</li>
+          <li>Problema típico: en pantallas muy grandes el texto puede quedar demasiado ancho.</li>
+        </ul>
+        <pre><code>.col { width: 50%; }</code></pre>
+
+        <h3>Responsivo (adaptable)</h3>
+        <ul>
+          <li>Usa <code>media queries</code> para aplicar CSS distinto.</li>
+          <li>Concepto clave: <strong>breakpoints</strong>.</li>
+          <li>Enfoque muy típico: <strong>mobile-first</strong>.</li>
+        </ul>
+        <pre><code>@media screen and (max-width: 768px) { .menu { display:none; } }</code></pre>
+      </div>
+
+      <div class="card">
+        <h2>Lo que suelen preguntar</h2>
+        <ul class="two-col">
+          <li>Reconocer diseño por unidades (px / em / %).</li>
+          <li>Ventaja/desventaja de fijo vs fluido.</li>
+          <li>Qué significa mobile-first.</li>
+          <li>Qué técnica hace responsive (media queries).</li>
+        </ul>
+        <div class="key warn">
+          <strong>Trampa típica:</strong> “Elástico” no depende de la pantalla; depende del <strong>tamaño del texto</strong>.
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section id="p2" class="grid" style="margin-top:14px;">
+      <div class="card">
+        <h2>2) Media Queries (examen)</h2>
+        <span class="pill">@media</span>
+        <span class="pill">screen/print/all</span>
+        <span class="pill">min/max-width</span>
+        <span class="pill">orientation</span>
+        <span class="pill">resolution</span>
+
+        <div class="key">
+          <strong>Definición:</strong> reglas CSS condicionales. Si se cumple la condición, se aplica el bloque.
+        </div>
+
+        <h3>Meta viewport (móvil)</h3>
+        <pre><code>&lt;meta name="viewport" content="initial-scale=1, width=device-width"&gt;</code></pre>
+
+        <h3>Sintaxis base</h3>
+        <pre><code>@media screen and (max-width: 768px) {
+  /* CSS que solo se aplica si se cumple la condición */
+}</code></pre>
+
+        <h3>Medios</h3>
+        <ul>
+          <li><code>screen</code> (pantalla), <code>print</code> (impresión), <code>speech</code>, <code>all</code> (por defecto).</li>
+          <li><strong>Trampa:</strong> si no indicas medio, es <code>all</code>.</li>
+        </ul>
+
+        <h3>Operadores</h3>
+        <ul>
+          <li><code>and</code> → todas las condiciones</li>
+          <li><code>,</code> (coma) → OR</li>
+          <li><code>not</code> → niega</li>
+          <li><code>only</code> → compatibilidad con navegadores antiguos</li>
+        </ul>
+
+        <h3>Propiedades típicas</h3>
+        <ul>
+          <li><code>min-width</code>, <code>max-width</code> (las más importantes)</li>
+          <li><code>orientation: portrait | landscape</code></li>
+          <li><code>resolution</code> (dpi, dppx, dpcm; más usado en print)</li>
+        </ul>
+
+        <h3>Breakpoints de ejemplo</h3>
+        <pre><code>/* móvil */
+@media screen and (max-width: 767px) { }
+
+/* tablet */
+@media screen and (min-width: 768px) and (max-width: 1279px) { }
+
+/* escritorio */
+@media screen and (min-width: 1280px) { }</code></pre>
+      </div>
+
+      <div class="card">
+        <h2>Trampas de test</h2>
+        <ul>
+          <li>Condición SIEMPRE entre paréntesis: <code>(max-width: 768px)</code>.</li>
+          <li>No existe <code>(width &lt; 768px)</code> en CSS.</li>
+          <li>La coma es OR: <code>@media screen, print</code>.</li>
+          <li>Sin medio → <code>all</code> (no “solo screen”).</li>
+        </ul>
+        <details>
+          <summary>Ejemplo de OR con coma</summary>
+          <pre><code>@media screen and (max-width: 600px), print {
+  body { font-size: 14px; }
+}</code></pre>
+        </details>
+        <details>
+          <summary>Ejemplo de orientación</summary>
+          <pre><code>@media (orientation: landscape) {
+  body { background: #222; }
+}</code></pre>
+        </details>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section id="p3" class="grid" style="margin-top:14px;">
+      <div class="card">
+        <h2>3) Efectos avanzados (examen)</h2>
+
+        <h3>3.1 Sombras</h3>
+        <div class="key">
+          <strong>Texto</strong> → <code>text-shadow</code> · <strong>Caja</strong> → <code>box-shadow</code>
+        </div>
+        <pre><code>/* text-shadow: x y blur color */
+h1 { text-shadow: 2px 2px 4px #000; }
+
+/* box-shadow: [inset] x y blur spread color */
+.card { box-shadow: 8px 8px 10px 0 rgba(0,0,0,.4); }
+.card2 { box-shadow: inset 4px 4px 6px 0 rgba(0,0,0,.4); }</code></pre>
+        <ul>
+          <li><code>inset</code> → sombra interior.</li>
+          <li><code>spread</code> agranda/reduce la sombra (no confundir con blur).</li>
+          <li>Múltiples sombras separadas por comas.</li>
+        </ul>
+
+        <h3>3.2 Gradientes</h3>
+        <div class="key">
+          <strong>Regla:</strong> un gradiente necesita <strong>mínimo 2 colores</strong>.
+        </div>
+        <pre><code>/* lineal (por defecto: to bottom) */
+.bg1 { background: linear-gradient(red, blue); }
+
+/* radial (tamaño por defecto: farthest-corner) */
+.bg2 { background: radial-gradient(circle, red, blue); }
+
+/* cónico */
+.bg3 { background: conic-gradient(from 30deg, blue, beige, pink, green); }
+
+/* varios gradientes con comas (se superponen) */
+.bg4 { background:
+  radial-gradient(rgba(255,255,255,0), rgba(255,255,255,.6)),
+  linear-gradient(45deg, blue, red);
+}</code></pre>
+
+        <h3>3.3 Transiciones</h3>
+        <div class="key">
+          <strong>Clave:</strong> necesita <strong>2 estados</strong> (p.ej. normal y <code>:hover</code>). La <strong>duración</strong> es obligatoria.
+        </div>
+        <pre><code>.btn {
+  background: #1e90ff;
+  transition: background-color 1.5s ease, transform .5s linear;
+}
+.btn:hover {
+  background: beige;
+  transform: scale(1.1);
+}</code></pre>
+
+        <h3>3.4 Transformaciones</h3>
+        <div class="key warn">
+          <strong>Trampa:</strong> <code>transform</code> NO cambia el flujo del documento; solo la apariencia.
+        </div>
+        <pre><code>.caja { transform: scale(1.2) translate(20px) rotate(10deg); }
+/* El orden cambia el resultado */</code></pre>
+        <ul>
+          <li><code>scale()</code> tamaño, <code>translate()</code> mueve, <code>rotate()</code> gira, <code>skew()</code> inclina.</li>
+          <li>Se combinan y el orden importa.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Checklist rápido (3.x)</h2>
+        <ul>
+          <li><strong>text-shadow</strong> orden: x, y, blur, color.</li>
+          <li><strong>box-shadow</strong> incluye opcional <code>inset</code> y <code>spread</code>.</li>
+          <li><strong>linear-gradient</strong> por defecto: <code>to bottom</code>.</li>
+          <li><strong>radial-gradient</strong> tamaño por defecto: <code>farthest-corner</code>.</li>
+          <li><strong>transition</strong> se declara en el estado base (no en <code>:hover</code>).</li>
+          <li><strong>transform</strong>: el orden importa.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section id="p4" class="grid" style="margin-top:14px;">
+      <div class="card">
+        <h2>4) Preprocesadores (SASS/SCSS/LESS) (examen)</h2>
+
+        <div class="key">
+          <strong>Idea clave:</strong> el navegador solo entiende <strong>CSS</strong>.
+          <br />SASS/SCSS/LESS deben <strong>compilarse</strong> a CSS.
+        </div>
+
+        <h3>4.1 Procesadores CSS</h3>
+        <ul>
+          <li><strong>Preprocesador</strong>: genera CSS desde un metalenguaje.</li>
+          <li><strong>Postprocesador</strong>: optimiza el CSS ya generado (p.ej. PostCSS).</li>
+          <li>Lo habitual: se <strong>complementan</strong>.</li>
+        </ul>
+        <pre><code>SCSS/LESS → (compilar) → CSS → (PostCSS) → CSS optimizado</code></pre>
+
+        <h3>4.2 Tipos</h3>
+        <ul>
+          <li><strong>SASS</strong> (sintaxis .sass): sin llaves ni ;, sangrado estricto.</li>
+          <li><strong>SCSS</strong> (sintaxis .scss): parecida a CSS; un CSS válido es SCSS válido.</li>
+          <li><strong>LESS</strong>: variables con <code>@</code>; compilación en cliente o servidor.</li>
+        </ul>
+        <pre><code>/* SCSS */
+$color: red; h1 { color: $color; }
+
+/* LESS */
+@color: red; h1 { color: @color; }
+
+/* SASS */
+$color: red
+h1
+  color: $color</code></pre>
+
+        <h3>4.3 Elementos</h3>
+        <ul>
+          <li><strong>Variables</strong> (valores)</li>
+          <li><strong>Operadores</strong> (+ - * / %)</li>
+          <li><strong>Anidación</strong> y <code>&amp;</code> (selector padre)</li>
+          <li><strong>Mixins</strong> (reutilizar código)</li>
+          <li><strong>Funciones</strong> (devuelven valores)</li>
+          <li><strong>Directivas</strong>: <code>@import</code>, <code>@extend</code>, <code>@if</code>, <code>@for</code>...</li>
+          <li><code>@for ... through</code> incluye el final; <code>to</code> no.</li>
+        </ul>
+
+        <details>
+          <summary>Ejemplo corto integrando todo (SCSS)</summary>
+          <pre><code>$color: #1e90ff;
+
+@mixin sombra($b: 10px) {
+  box-shadow: 0 0 $b rgba(0,0,0,.35);
+}
+
+@function doble($n) { @return $n * 2; }
+
+.boton {
+  color: $color;
+  padding: doble(6px);
+  @include sombra(12px);
+
+  &:hover { background: $color; color: white; }
+}</code></pre>
+        </details>
+      </div>
+
+      <div class="card">
+        <h2>Trampas de test (4.x)</h2>
+        <ul>
+          <li>SCSS es <strong>sintaxis</strong> de SASS (no herramienta distinta).</li>
+          <li>LESS usa <code>@</code> para variables (ojo con confundir con <code>@media</code>).</li>
+          <li>Mixin ≠ función: mixin inserta código; función devuelve valor.</li>
+          <li><code>through</code> incluye final; <code>to</code> lo excluye.</li>
+        </ul>
+        <div class="key warn">
+          <strong>Trampa típica:</strong> “El navegador interpreta SCSS/LESS”. → FALSO.
+        </div>
+      </div>
+    </section>
+
+    <!-- Test -->
+    <section id="test" class="card" style="margin-top:14px;">
+      <h2>Test final (30 preguntas) – Estilo examen</h2>
+      <p class="muted">Marca una opción por pregunta. Pulsa “Corregir” para ver tu nota y los fallos.</p>
+
+      <form id="exam">
+        <!-- Q1 -->
+        <fieldset class="q">
+          <legend>1) El diseño fijo suele usar…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q1" value="A"> A) %</label>
+            <label><input type="radio" name="q1" value="B"> B) em</label>
+            <label><input type="radio" name="q1" value="C"> C) px</label>
+            <label><input type="radio" name="q1" value="D"> D) vw</label>
+          </div>
+        </fieldset>
+
+        <!-- Q2 -->
+        <fieldset class="q">
+          <legend>2) El diseño elástico se adapta principalmente a…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q2" value="A"> A) el tamaño del texto</label>
+            <label><input type="radio" name="q2" value="B"> B) el ancho de pantalla</label>
+            <label><input type="radio" name="q2" value="C"> C) el alto de pantalla</label>
+            <label><input type="radio" name="q2" value="D"> D) la resolución de impresión</label>
+          </div>
+        </fieldset>
+
+        <!-- Q3 -->
+        <fieldset class="q">
+          <legend>3) El diseño fluido suele basarse en…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q3" value="A"> A) px</label>
+            <label><input type="radio" name="q3" value="B"> B) %</label>
+            <label><input type="radio" name="q3" value="C"> C) em</label>
+            <label><input type="radio" name="q3" value="D"> D) rem</label>
+          </div>
+        </fieldset>
+
+        <!-- Q4 -->
+        <fieldset class="q">
+          <legend>4) La base del diseño responsivo son…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q4" value="A"> A) flexbox</label>
+            <label><input type="radio" name="q4" value="B"> B) media queries</label>
+            <label><input type="radio" name="q4" value="C"> C) if/else</label>
+            <label><input type="radio" name="q4" value="D"> D) canvas</label>
+          </div>
+        </fieldset>
+
+        <!-- Q5 -->
+        <fieldset class="q">
+          <legend>5) ¿Qué regla define una media query?</legend>
+          <div class="opts">
+            <label><input type="radio" name="q5" value="A"> A) @query</label>
+            <label><input type="radio" name="q5" value="B"> B) @media</label>
+            <label><input type="radio" name="q5" value="C"> C) @screen</label>
+            <label><input type="radio" name="q5" value="D"> D) @responsive</label>
+          </div>
+        </fieldset>
+
+        <!-- Q6 -->
+        <fieldset class="q">
+          <legend>6) Si no indicas medio en @media, el medio por defecto es…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q6" value="A"> A) screen</label>
+            <label><input type="radio" name="q6" value="B"> B) print</label>
+            <label><input type="radio" name="q6" value="C"> C) all</label>
+            <label><input type="radio" name="q6" value="D"> D) none</label>
+          </div>
+        </fieldset>
+
+        <!-- Q7 -->
+        <fieldset class="q">
+          <legend>7) La coma “,” en media queries funciona como…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q7" value="A"> A) AND</label>
+            <label><input type="radio" name="q7" value="B"> B) OR</label>
+            <label><input type="radio" name="q7" value="C"> C) NOT</label>
+            <label><input type="radio" name="q7" value="D"> D) XOR</label>
+          </div>
+        </fieldset>
+
+        <!-- Q8 -->
+        <fieldset class="q">
+          <legend>8) ¿Qué propiedad detecta vertical/horizontal en móviles?</legend>
+          <div class="opts">
+            <label><input type="radio" name="q8" value="A"> A) orientation</label>
+            <label><input type="radio" name="q8" value="B"> B) resolution</label>
+            <label><input type="radio" name="q8" value="C"> C) display-mode</label>
+            <label><input type="radio" name="q8" value="D"> D) monochrome</label>
+          </div>
+        </fieldset>
+
+        <!-- Q9 -->
+        <fieldset class="q">
+          <legend>9) ¿Cuál está bien escrita?</legend>
+          <div class="opts">
+            <label><input type="radio" name="q9" value="A"> A) @media (width &lt; 768px) {}</label>
+            <label><input type="radio" name="q9" value="B"> B) @media screen and max-width:768px {}</label>
+            <label><input type="radio" name="q9" value="C"> C) @media screen and (max-width: 768px) {}</label>
+            <label><input type="radio" name="q9" value="D"> D) @media only (max-width:768px) {}</label>
+          </div>
+        </fieldset>
+
+        <!-- Q10 -->
+        <fieldset class="q">
+          <legend>10) En radial-gradient, el tamaño por defecto es…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q10" value="A"> A) closest-side</label>
+            <label><input type="radio" name="q10" value="B"> B) farthest-side</label>
+            <label><input type="radio" name="q10" value="C"> C) closest-corner</label>
+            <label><input type="radio" name="q10" value="D"> D) farthest-corner</label>
+          </div>
+        </fieldset>
+
+        <!-- Q11 -->
+        <fieldset class="q">
+          <legend>11) Un gradiente CSS necesita mínimo…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q11" value="A"> A) 1 color</label>
+            <label><input type="radio" name="q11" value="B"> B) 2 colores</label>
+            <label><input type="radio" name="q11" value="C"> C) 3 colores</label>
+            <label><input type="radio" name="q11" value="D"> D) depende del gradiente</label>
+          </div>
+        </fieldset>
+
+        <!-- Q12 -->
+        <fieldset class="q">
+          <legend>12) Un linear-gradient sin dirección va por defecto…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q12" value="A"> A) to top</label>
+            <label><input type="radio" name="q12" value="B"> B) to right</label>
+            <label><input type="radio" name="q12" value="C"> C) to bottom</label>
+            <label><input type="radio" name="q12" value="D"> D) to left</label>
+          </div>
+        </fieldset>
+
+        <!-- Q13 -->
+        <fieldset class="q">
+          <legend>13) ¿Qué propiedad aplica sombra al texto?</legend>
+          <div class="opts">
+            <label><input type="radio" name="q13" value="A"> A) box-shadow</label>
+            <label><input type="radio" name="q13" value="B"> B) text-shadow</label>
+            <label><input type="radio" name="q13" value="C"> C) font-shadow</label>
+            <label><input type="radio" name="q13" value="D"> D) shadow-text</label>
+          </div>
+        </fieldset>
+
+        <!-- Q14 -->
+        <fieldset class="q">
+          <legend>14) Orden correcto en text-shadow:</legend>
+          <div class="opts">
+            <label><input type="radio" name="q14" value="A"> A) color – blur – x – y</label>
+            <label><input type="radio" name="q14" value="B"> B) x – y – blur – color</label>
+            <label><input type="radio" name="q14" value="C"> C) blur – x – y – color</label>
+            <label><input type="radio" name="q14" value="D"> D) y – x – color – blur</label>
+          </div>
+        </fieldset>
+
+        <!-- Q15 -->
+        <fieldset class="q">
+          <legend>15) En box-shadow, “inset” crea…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q15" value="A"> A) sombra exterior</label>
+            <label><input type="radio" name="q15" value="B"> B) sombra interior</label>
+            <label><input type="radio" name="q15" value="C"> C) un blur obligatorio</label>
+            <label><input type="radio" name="q15" value="D"> D) el color de la sombra</label>
+          </div>
+        </fieldset>
+
+        <!-- Q16 -->
+        <fieldset class="q">
+          <legend>16) En box-shadow, “spread” sirve para…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q16" value="A"> A) cambiar el color</label>
+            <label><input type="radio" name="q16" value="B"> B) controlar el blur</label>
+            <label><input type="radio" name="q16" value="C"> C) aumentar/reducir tamaño de sombra</label>
+            <label><input type="radio" name="q16" value="D"> D) cambiar dirección</label>
+          </div>
+        </fieldset>
+
+        <!-- Q17 -->
+        <fieldset class="q">
+          <legend>17) Varias sombras en box-shadow se separan con…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q17" value="A"> A) punto y coma</label>
+            <label><input type="radio" name="q17" value="B"> B) dos puntos</label>
+            <label><input type="radio" name="q17" value="C"> C) comas</label>
+            <label><input type="radio" name="q17" value="D"> D) barras</label>
+          </div>
+        </fieldset>
+
+        <!-- Q18 -->
+        <fieldset class="q">
+          <legend>18) La propiedad para transiciones es…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q18" value="A"> A) animation</label>
+            <label><input type="radio" name="q18" value="B"> B) transition</label>
+            <label><input type="radio" name="q18" value="C"> C) transform</label>
+            <label><input type="radio" name="q18" value="D"> D) effect</label>
+          </div>
+        </fieldset>
+
+        <!-- Q19 -->
+        <fieldset class="q">
+          <legend>19) En una transición, el valor obligatorio es…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q19" value="A"> A) la propiedad</label>
+            <label><input type="radio" name="q19" value="B"> B) la duración</label>
+            <label><input type="radio" name="q19" value="C"> C) el delay</label>
+            <label><input type="radio" name="q19" value="D"> D) el timing-function</label>
+          </div>
+        </fieldset>
+
+        <!-- Q20 -->
+        <fieldset class="q">
+          <legend>20) Normalmente, transition debe declararse…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q20" value="A"> A) en :hover</label>
+            <label><input type="radio" name="q20" value="B"> B) en el selector base</label>
+            <label><input type="radio" name="q20" value="C"> C) en ambos indistintamente</label>
+            <label><input type="radio" name="q20" value="D"> D) en otro archivo</label>
+          </div>
+        </fieldset>
+
+        <!-- Q21 -->
+        <fieldset class="q">
+          <legend>21) “linear” en timing-function significa…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q21" value="A"> A) velocidad constante</label>
+            <label><input type="radio" name="q21" value="B"> B) velocidad variable</label>
+            <label><input type="radio" name="q21" value="C"> C) pausa al final</label>
+            <label><input type="radio" name="q21" value="D"> D) solo con hover</label>
+          </div>
+        </fieldset>
+
+        <!-- Q22 -->
+        <fieldset class="q">
+          <legend>22) La propiedad para transformaciones es…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q22" value="A"> A) transition</label>
+            <label><input type="radio" name="q22" value="B"> B) transform</label>
+            <label><input type="radio" name="q22" value="C"> C) translate</label>
+            <label><input type="radio" name="q22" value="D"> D) rotate</label>
+          </div>
+        </fieldset>
+
+        <!-- Q23 -->
+        <fieldset class="q">
+          <legend>23) ¿Qué función cambia el tamaño?</legend>
+          <div class="opts">
+            <label><input type="radio" name="q23" value="A"> A) translate()</label>
+            <label><input type="radio" name="q23" value="B"> B) rotate()</label>
+            <label><input type="radio" name="q23" value="C"> C) scale()</label>
+            <label><input type="radio" name="q23" value="D"> D) skew()</label>
+          </div>
+        </fieldset>
+
+        <!-- Q24 -->
+        <fieldset class="q">
+          <legend>24) ¿Qué función desplaza visualmente?</legend>
+          <div class="opts">
+            <label><input type="radio" name="q24" value="A"> A) translate()</label>
+            <label><input type="radio" name="q24" value="B"> B) rotate()</label>
+            <label><input type="radio" name="q24" value="C"> C) scale()</label>
+            <label><input type="radio" name="q24" value="D"> D) matrix()</label>
+          </div>
+        </fieldset>
+
+        <!-- Q25 -->
+        <fieldset class="q">
+          <legend>25) ¿Cuál es correcta?</legend>
+          <div class="opts">
+            <label><input type="radio" name="q25" value="A"> A) transform modifica el flujo del documento</label>
+            <label><input type="radio" name="q25" value="B"> B) solo se aplica una transformación</label>
+            <label><input type="radio" name="q25" value="C"> C) el orden de transformaciones afecta al resultado</label>
+            <label><input type="radio" name="q25" value="D"> D) transform necesita transition obligatoriamente</label>
+          </div>
+        </fieldset>
+
+        <!-- Q26 -->
+        <fieldset class="q">
+          <legend>26) Un preprocesador CSS…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q26" value="A"> A) genera CSS desde un metalenguaje</label>
+            <label><input type="radio" name="q26" value="B"> B) solo añade prefijos</label>
+            <label><input type="radio" name="q26" value="C"> C) es interpretado por el navegador</label>
+            <label><input type="radio" name="q26" value="D"> D) sustituye a CSS</label>
+          </div>
+        </fieldset>
+
+        <!-- Q27 -->
+        <fieldset class="q">
+          <legend>27) Un postprocesador CSS se usa para…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q27" value="A"> A) escribir SASS</label>
+            <label><input type="radio" name="q27" value="B"> B) optimizar CSS ya generado</label>
+            <label><input type="radio" name="q27" value="C"> C) crear HTML</label>
+            <label><input type="radio" name="q27" value="D"> D) sustituir CSS</label>
+          </div>
+        </fieldset>
+
+        <!-- Q28 -->
+        <fieldset class="q">
+          <legend>28) SCSS es…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q28" value="A"> A) un lenguaje que el navegador interpreta</label>
+            <label><input type="radio" name="q28" value="B"> B) un postprocesador</label>
+            <label><input type="radio" name="q28" value="C"> C) una sintaxis de SASS</label>
+            <label><input type="radio" name="q28" value="D"> D) una sintaxis de LESS</label>
+          </div>
+        </fieldset>
+
+        <!-- Q29 -->
+        <fieldset class="q">
+          <legend>29) LESS usa variables con…</legend>
+          <div class="opts">
+            <label><input type="radio" name="q29" value="A"> A) $</label>
+            <label><input type="radio" name="q29" value="B"> B) @</label>
+            <label><input type="radio" name="q29" value="C"> C) #</label>
+            <label><input type="radio" name="q29" value="D"> D) &amp;</label>
+          </div>
+        </fieldset>
+
+        <!-- Q30 -->
+        <fieldset class="q">
+          <legend>30) En @for de SASS, “through” vs “to”:</legend>
+          <div class="opts">
+            <label><input type="radio" name="q30" value="A"> A) no hay diferencia</label>
+            <label><input type="radio" name="q30" value="B"> B) through excluye final</label>
+            <label><input type="radio" name="q30" value="C"> C) to incluye final</label>
+            <label><input type="radio" name="q30" value="D"> D) through incluye final y to no</label>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <button type="button" id="gradeBtn">Corregir</button>
+          <button type="button" id="resetBtn">Reiniciar</button>
+          <a href="#p1" class="small">↑ Volver arriba</a>
+        </div>
+
+        <div id="result" class="result" aria-live="polite">
+          <div class="muted">Tu resultado aparecerá aquí.</div>
+        </div>
+
+        <details>
+          <summary>Ver plantilla de respuestas (útil para repasar sin corregir)</summary>
+          <p class="small" style="margin-top:8px;">
+            1C, 2A, 3B, 4B, 5B, 6C, 7B, 8A, 9C, 10D, 11B, 12C, 13B, 14B, 15B, 16C, 17C, 18B, 19B, 20B, 21A, 22B, 23C, 24A, 25C, 26A, 27B, 28C, 29B, 30D
+          </p>
+        </details>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>Consejo de uso: repasa cada bloque y luego haz el test sin mirar la plantilla. Repite hasta sacar ≥ 24/30.</p>
+  </footer>
+
+  <script>
+    (function () {
+      const answers = {
+        q1: "C",  q2: "A",  q3: "B",  q4: "B",  q5: "B",
+        q6: "C",  q7: "B",  q8: "A",  q9: "C",  q10: "D",
+        q11: "B", q12: "C", q13: "B", q14: "B", q15: "B",
+        q16: "C", q17: "C", q18: "B", q19: "B", q20: "B",
+        q21: "A", q22: "B", q23: "C", q24: "A", q25: "C",
+        q26: "A", q27: "B", q28: "C", q29: "B", q30: "D"
+      };
+
+      const form = document.getElementById("exam");
+      const result = document.getElementById("result");
+      const gradeBtn = document.getElementById("gradeBtn");
+      const resetBtn = document.getElementById("resetBtn");
+
+      function getSelected(name) {
+        const el = form.querySelector(`input[name="${name}"]:checked`);
+        return el ? el.value : null;
+      }
+
+      function grade() {
+        let score = 0;
+        let wrong = [];
+        for (const q in answers) {
+          const picked = getSelected(q);
+          const correct = answers[q];
+          if (picked === correct) score++;
+          else wrong.push({ q, picked, correct });
+        }
+
+        // Limpiar estilos previos
+        form.querySelectorAll(".q").forEach(fs => {
+          fs.style.borderColor = "rgba(255,255,255,.08)";
+        });
+
+        // Marcar fallos
+        wrong.forEach(item => {
+          const fs = form.querySelector(`input[name="${item.q}"]`).closest(".q");
+          fs.style.borderColor = "rgba(239,68,68,.6)";
+        });
+
+        const total = Object.keys(answers).length;
+        const percent = Math.round((score / total) * 100);
+
+        let html = `
+          <div><strong>Nota:</strong> <span class="${score >= 24 ? "ok" : "bad"}">${score}/${total} (${percent}%)</span></div>
+        `;
+
+        if (wrong.length === 0) {
+          html += `<div class="ok" style="margin-top:8px;">Perfecto. Estás listo para examen.</div>`;
+        } else {
+          html += `<div class="muted" style="margin-top:8px;">Fallos (${wrong.length}):</div>`;
+          html += `<ul class="small">`;
+          wrong.slice(0, 12).forEach(item => {
+            const n = item.q.replace("q", "");
+            html += `<li>Pregunta ${n}: tu respuesta <strong>${item.picked ?? "-"}</strong> · correcta <strong>${item.correct}</strong></li>`;
+          });
+          if (wrong.length > 12) {
+            html += `<li>…y ${wrong.length - 12} más (corrige y repite).</li>`;
+          }
+          html += `</ul>`;
+        }
+
+        result.innerHTML = html;
+        result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      function reset() {
+        form.reset();
+        result.innerHTML = `<div class="muted">Tu resultado aparecerá aquí.</div>`;
+        form.querySelectorAll(".q").forEach(fs => {
+          fs.style.borderColor = "rgba(255,255,255,.08)";
+        });
+      }
+
+      gradeBtn.addEventListener("click", grade);
+      resetBtn.addEventListener("click", reset);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1073 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UF1 — Resumen + Test difícil (20) | Repaso examen</title>
+  <style>
+    /* ====== Estilo “muy CSS” (limpio + potente) ====== */
+    :root{
+      --bg: #0b1020;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.08);
+      --txt: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --line: rgba(255,255,255,.14);
+      --accent: #7c3aed;     /* morado */
+      --accent2:#22c55e;     /* verde */
+      --bad:#ef4444;         /* rojo */
+      --warn:#f59e0b;        /* ámbar */
+      --shadow: 0 18px 45px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius2: 14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      background:
+        radial-gradient(1200px 700px at 10% 10%, rgba(124,58,237,.35), transparent 55%),
+        radial-gradient(1000px 650px at 90% 30%, rgba(34,197,94,.20), transparent 55%),
+        radial-gradient(900px 600px at 50% 90%, rgba(245,158,11,.14), transparent 60%),
+        var(--bg);
+      color:var(--txt);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height:1.4;
+    }
+    a{ color:inherit; }
+    .container{ max-width: 1100px; margin: 0 auto; padding: 22px 16px 46px; }
+    header{
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: blur(12px);
+      background: linear-gradient(to bottom, rgba(11,16,32,.92), rgba(11,16,32,.70));
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar{
+      max-width:1100px; margin:0 auto; padding: 16px 16px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .brand{
+      display:flex; align-items:flex-start; gap:12px; min-width: 220px;
+    }
+    .logo{
+      width:40px; height:40px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), rgba(34,197,94,.65));
+      box-shadow: 0 14px 28px rgba(124,58,237,.20);
+      flex: none;
+    }
+    .brand h1{ margin:0; font-size: 16px; letter-spacing:.2px;}
+    .brand p{ margin:3px 0 0; color: var(--muted); font-size: 12px; }
+    nav{
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .navbtn{
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: var(--txt);
+      padding: 9px 11px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-weight: 650;
+      font-size: 12px;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      text-decoration:none;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .navbtn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.22); }
+    .navbtn .dot{
+      width:8px; height:8px; border-radius: 99px; background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(124,58,237,.20);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 16px;
+      margin-top: 18px;
+    }
+    @media (max-width: 980px){ .grid{ grid-template-columns: 1fr; } }
+
+    .card{
+      background: linear-gradient(180deg, var(--card), rgba(255,255,255,.04));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+    .card h2{
+      margin: 0 0 8px;
+      font-size: 15px;
+      letter-spacing:.2px;
+    }
+    .sub{ margin: 0; color: var(--muted); font-size: 13px; }
+
+    .pillrow{ display:flex; flex-wrap:wrap; gap:10px; margin-top: 10px; }
+    .pill{
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 12px;
+      color: var(--muted);
+      display:inline-flex; gap:8px; align-items:center;
+    }
+    .pill b{ color: var(--txt); }
+    .kbd{
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color: var(--txt);
+    }
+    .hr{ height:1px; background: var(--line); margin: 14px 0; border:0; }
+
+    /* ====== Resumen ====== */
+    .unit{
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      border-radius: var(--radius2);
+      padding: 14px;
+      margin: 12px 0;
+    }
+    .unit h3{
+      margin:0 0 8px;
+      font-size: 14px;
+      letter-spacing:.2px;
+      display:flex; align-items:center; gap:10px;
+    }
+    .tag{
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(124,58,237,.18);
+      color: var(--txt);
+    }
+    .points{ display:grid; gap:10px; }
+    .point{
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+    }
+    .point .title{
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      margin-bottom: 6px;
+      align-items:center;
+    }
+    .point .title strong{ font-size: 13px; }
+    .key{
+      display:flex; gap:10px; align-items:flex-start;
+      border-left: 3px solid var(--accent);
+      padding-left: 10px;
+      margin: 10px 0 8px;
+    }
+    .key b{ white-space:nowrap; }
+    .key span{ color: var(--muted); }
+    .example{
+      border: 1px dashed rgba(255,255,255,.22);
+      background: rgba(34,197,94,.08);
+      border-radius: 12px;
+      padding: 10px 12px;
+      color: rgba(255,255,255,.88);
+      font-family: var(--mono);
+      font-size: 12px;
+      overflow:auto;
+    }
+    .hot{
+      color: #fff;
+      background: linear-gradient(90deg, rgba(124,58,237,.45), rgba(245,158,11,.20));
+      border: 1px solid rgba(255,255,255,.18);
+      padding: 8px 10px;
+      border-radius: 14px;
+      font-weight: 700;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+    }
+    .hot small{ color: rgba(255,255,255,.80); font-weight: 600; }
+    .mini{
+      color: var(--muted);
+      font-size: 12px;
+      margin: 8px 0 0;
+    }
+
+    /* ====== Test ====== */
+    .quizHeader{
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; align-items:center;
+    }
+    .score{
+      font-weight: 900;
+      font-size: 13px;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(34,197,94,.14);
+    }
+    .progress{
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.14);
+      overflow:hidden;
+      margin-top: 12px;
+    }
+    .bar{ height:100%; width:0%; background: linear-gradient(90deg, var(--accent), rgba(34,197,94,.8)); }
+    .btnRow{ display:flex; flex-wrap:wrap; gap:10px; margin-top: 12px; }
+    button{
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 14px;
+      cursor:pointer;
+      font-weight: 750;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+    button:hover{ transform: translateY(-1px); background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.24); }
+    button.primary{ background: linear-gradient(135deg, rgba(124,58,237,.95), rgba(34,197,94,.55)); border-color: rgba(255,255,255,.18); }
+    button.danger{ background: rgba(239,68,68,.18); }
+    button:disabled{ opacity: .55; cursor:not-allowed; transform:none; }
+    .qbox{
+      margin-top: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      border-radius: var(--radius2);
+      padding: 14px;
+    }
+    .qbox h3{ margin:0 0 10px; font-size: 14px; }
+    .opts{ display:grid; gap:10px; margin-top: 10px; }
+    .opt{
+      display:grid;
+      grid-template-columns: 22px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      transition: background .12s ease, border-color .12s ease;
+    }
+    .opt:hover{ background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.22); }
+    .opt.correct{ border-color: rgba(34,197,94,.70); background: rgba(34,197,94,.10); }
+    .opt.wrong{ border-color: rgba(239,68,68,.65); background: rgba(239,68,68,.10); }
+    .feedback{
+      margin-top: 12px;
+      border-radius: 14px;
+      padding: 12px 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+    }
+    .feedback.good{ border-color: rgba(34,197,94,.70); background: rgba(34,197,94,.10); }
+    .feedback.bad{ border-color: rgba(239,68,68,.65); background: rgba(239,68,68,.10); }
+    .small{ color: var(--muted); font-size: 12px; margin: 10px 0 0; }
+    .muted{ color: var(--muted); }
+    .badge{
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.86);
+    }
+    .toc{
+      display:grid; gap:10px; margin-top: 10px;
+    }
+    .toc a{
+      text-decoration:none;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      display:flex; justify-content:space-between; align-items:center; gap:12px;
+    }
+    .toc a:hover{ background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.22); }
+    .toc span{ color: rgba(255,255,255,.86); font-weight: 750; }
+    .toc small{ color: var(--muted); font-weight: 600; }
+    .footer{
+      margin-top: 18px;
+      color: rgba(255,255,255,.70);
+      font-size: 12px;
+      text-align:center;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <h1>UF1 — Resumen + Test difícil (20)</h1>
+        <p>Repaso completo para examen (con frases clave + ejemplos) y test con corrección y explicación.</p>
+      </div>
+    </div>
+    <nav aria-label="Navegación">
+      <a class="navbtn" href="#resumen"><span class="dot"></span>Resumen UF1</a>
+      <a class="navbtn" href="#test"><span class="dot"></span>Test UF1</a>
+      <a class="navbtn" href="#trucos"><span class="dot"></span>Trucos examen</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <section class="grid">
+    <article class="card">
+      <h2 id="resumen">Resumen UF1 (todos los puntos)</h2>
+      <p class="sub">Objetivo: que lo leas y te sirva como “chuleta mental”. Cada punto incluye <b>frase clave</b> + <b>ejemplo</b>.</p>
+
+      <div class="hr"></div>
+
+      <div class="hot">
+        <span>Orden CLAVE de diseño previo</span>
+        <small>Mapa web → Wireframe → Mockup → Prototipo</small>
+      </div>
+
+      <!-- ===== TEMA 1 ===== -->
+      <div class="unit" id="tema1">
+        <h3><span class="tag">Tema 1</span> Introducción a las interfaces</h3>
+        <div class="points">
+          <div class="point">
+            <div class="title">
+              <strong>1.1 Interfaz (definición)</strong>
+              <span class="badge">Pregunta típica</span>
+            </div>
+            <div class="key"><b>Frase clave:</b><span>La interfaz es el conjunto de elementos y mecanismos que permiten la interacción usuario–sistema.</span></div>
+            <div class="example">Ej.: Menú + botones + formulario + mensajes de error/confirmación en una web.</div>
+          </div>
+
+          <div class="point">
+            <div class="title">
+              <strong>1.2 IPO (Interacción Persona–Ordenador)</strong>
+              <span class="badge">Definición</span>
+            </div>
+            <div class="key"><b>Frase clave:</b><span>La IPO estudia y mejora la interacción entre personas y sistemas TIC para que sea más fácil y amigable.</span></div>
+            <div class="example">Ej.: Ajustar tamaño de botones y flujo de compra para reducir errores en usuarios reales.</div>
+          </div>
+
+          <div class="point">
+            <div class="title">
+              <strong>1.3 Usabilidad vs Accesibilidad</strong>
+              <span class="badge">Trampa habitual</span>
+            </div>
+            <div class="key"><b>Frase clave:</b><span>Usabilidad = facilidad/eficiencia; Accesibilidad = que pueda usarse por todos (incluidas discapacidades).</span></div>
+            <div class="example">Ej.: <span class="muted">Usable</span> → pocos clics; <span class="muted">Accesible</span> → <code>alt</code> en imágenes + navegación por teclado.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TEMA 2 ===== -->
+      <div class="unit" id="tema2">
+        <h3><span class="tag">Tema 2</span> Planificación y diseño previo</h3>
+        <div class="points">
+
+          <div class="point">
+            <div class="title">
+              <strong>2.1 UXD (Diseño centrado en el usuario)</strong>
+              <span class="badge">Cae en teoría</span>
+            </div>
+            <div class="key"><b>Frase clave:</b><span>UXD busca que el usuario logre su objetivo de forma fácil, eficiente y satisfactoria.</span></div>
+            <div class="example">Ej.: Probar con usuarios el flujo “registrarse y comprar” antes de programar.</div>
+          </div>
+
+          <div class="point">
+            <div class="title">
+              <strong>2.2 Entrevista y análisis de requisitos</strong>
+              <span class="badge">3 fases</span>
+            </div>
+            <div class="key"><b>Frase clave:</b><span>Entrevista = recoger requisitos; fases: preparación → realización → análisis; resultado: documento de especificación.</span></div>
+            <div class="example">Ej.: Preguntar al cliente: “¿Qué acciones principales hará el usuario?” y documentarlo.</div>
+          </div>
+
+          <div class="point">
+            <div class="title">
+              <strong>2.3 Mapas web y mapas conceptuales</strong>
+              <span class="badge">Diferencia</span>
+            </div>
+            <div class="key"><b>Frase clave:</b><span>Mapa web = páginas + navegación; mapa conceptual = conceptos/relaciones/acciones del sistema.</span></div>
+            <div class="example">Ej.: Mapa web: Inicio → Productos → Detalle → Carrito. Conceptual: Usuario–Compra–Pago–Envío.</div>
+          </div>
+
+          <div class="point">
+            <div class="title">
+              <strong>2.4 Wireframes (bajo coste)</strong>
+              <span class="badge">Sin diseño</span>
+            </div>
+            <div class="key"><b>Frase clave:</b><span>Wireframe = estructura/distribución sin colores; se valida antes de mockups.</span></div>
+            <div class="example">Ej.: Cajas para “logo”, “menú”, “contenido”, “botón comprar”.</div>
+          </div>
+
+          <div class="point">
+            <div class="title">
+              <strong>2.5 Mockups y prototipos</strong>
+              <span class="badge">Orden y tipos</span>
+            </div>
+            <div class="key"><b>Frase clave:</b><span>Mockup = aspecto visual (estático/dinámico); prototipo horizontal = navegación simulada; vertical = funcionalidad real.</span></div>
+            <div class="example">Ej.: Mockup con colores; prototipo vertical con “registro” funcionando de verdad.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===== TEMA 3 ===== -->
+      <div class="unit" id="tema3">
+        <h3><span class="tag">Tema 3</span> Desarrollo de la interfaz web (HTML5)</h3>
+        <div class="points">
+
+          <div class="point">
+            <div class="title">
+              <strong>3.1 Front-end</strong>
+              <span class="badge">Comparación</span>
+            </div>
+            <div class="key"><b>Frase clave:</b><span>Front-end = parte visible e interactiva que se ejecuta en el navegador; back-end = lógica/datos en servidor.</span></div>
+            <div class="example">Ej.: HTML/CSS visibles en Chrome (front); base de datos y API (back).</div>
+          </div>
+
+          <div class="point">
+            <div class="title">
+              <strong>3.2 HTML5 (lenguaje de marcado)</strong>
+              <span class="badge">Trampa: no es programación</span>
+            </div>
+            <div class="key"><b>Frase clave:</b><span>HTML5 estructura el contenido con etiquetas; no programa (sin lógica/funciones).</span></div>
+            <div class="example">&lt;p&gt;Esto es un párrafo&lt;/p&gt;</div>
+          </div>
+
+          <div class="point">
+            <div class="title">
+              <strong>3.3 Estructura base HTML5</strong>
+              <span class="badge">Muy preguntable</span>
+            </div>
+            <div class="key"><b>Frase clave:</b><span>Un HTML5 mínimo tiene: <code>&lt;!DOCTYPE html&gt;</code>, <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, <code>&lt;body&gt;</code>.</span></div>
+            <div class="example">&lt;head&gt; contiene metadatos y &lt;title&gt;; &lt;body&gt; el contenido visible.</div>
+          </div>
+
+          <div class="point">
+            <div class="title">
+              <strong>3.4 Estructuración del body (semántica)</strong>
+              <span class="badge">SEO + accesibilidad</span>
+            </div>
+            <div class="key"><b>Frase clave:</b><span>Etiquetas semánticas (header/nav/main/section/article/aside/footer) dan significado y mejoran interpretación.</span></div>
+            <div class="example">&lt;main&gt;...&lt;article&gt;Noticia&lt;/article&gt;...&lt;/main&gt;</div>
+          </div>
+
+          <div class="point">
+            <div class="title">
+              <strong>3.5 Contenido textual</strong>
+              <span class="badge">strong vs em</span>
+            </div>
+            <div class="key"><b>Frase clave:</b><span><code>h1–h6</code> jerarquía; <code>p</code> párrafo; <code>strong</code> importancia; <code>em</code> énfasis; <code>div/span</code> contenedores sin semántica.</span></div>
+            <div class="example">&lt;h1&gt;Título&lt;/h1&gt; · &lt;p&gt;Texto con &lt;strong&gt;importancia&lt;/strong&gt;.&lt;/p&gt;</div>
+          </div>
+
+          <div class="point">
+            <div class="title">
+              <strong>3.6 Listas y tablas</strong>
+              <span class="badge">Etiquetas clave</span>
+            </div>
+            <div class="key"><b>Frase clave:</b><span>Listas: <code>ul/ol</code> + <code>li</code>. Tablas: <code>table</code>, <code>tr</code>, <code>th</code>, <code>td</code>.</span></div>
+            <div class="example">&lt;ul&gt;&lt;li&gt;HTML&lt;/li&gt;&lt;/ul&gt; · &lt;th&gt;Encabezado&lt;/th&gt;</div>
+          </div>
+
+          <div class="point">
+            <div class="title">
+              <strong>3.7 Enlaces e imágenes</strong>
+              <span class="badge">alt = accesibilidad</span>
+            </div>
+            <div class="key"><b>Frase clave:</b><span><code>a</code> con <code>href</code> enlaza; <code>img</code> con <code>src</code> muestra imagen; <code>alt</code> describe y mejora accesibilidad.</span></div>
+            <div class="example">&lt;a href="pagina.html"&gt;Ir&lt;/a&gt; · &lt;img src="foto.jpg" alt="Descripción"&gt;</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===== TEMA 4 ===== -->
+      <div class="unit" id="tema4">
+        <h3><span class="tag">Tema 4</span> Herramientas esenciales</h3>
+        <div class="points">
+          <div class="point">
+            <div class="title">
+              <strong>4.1 Editores de código</strong>
+              <span class="badge">VS Code</span>
+            </div>
+            <div class="key"><b>Frase clave:</b><span>El editor sirve para escribir/editar código (resaltado, autocompletado, etc.). No ejecuta la web.</span></div>
+            <div class="example">Ej.: Visual Studio Code para crear archivos .html/.css/.js.</div>
+          </div>
+
+          <div class="point">
+            <div class="title">
+              <strong>4.2 Navegadores + DevTools</strong>
+              <span class="badge">F12</span>
+            </div>
+            <div class="key"><b>Frase clave:</b><span>El navegador interpreta HTML/CSS/JS; DevTools inspecciona, depura y analiza (F12).</span></div>
+            <div class="example">Ej.: Abrir DevTools con <span class="kbd">F12</span> y revisar HTML/CSS, errores y rendimiento.</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="mini" id="trucos">
+        <b>Trucos examen rápidos:</b> (1) <code>HTML</code> = estructura, <code>CSS</code> = estilo, <code>JS</code> = lógica. (2) <code>strong</code>/<code>em</code> = semántica. (3) <code>alt</code> = accesibilidad. (4) Orden: Mapa → Wireframe → Mockup → Prototipo.
+      </p>
+    </article>
+
+    <aside class="card">
+      <h2>Índice rápido</h2>
+      <p class="sub">Salta al punto que quieras repasar en 1 clic.</p>
+      <div class="toc" role="list">
+        <a href="#tema1" role="listitem"><span>Tema 1</span><small>Interfaces · IPO · Usab/Acc</small></a>
+        <a href="#tema2" role="listitem"><span>Tema 2</span><small>UXD · Requisitos · Mapas · Wire/Mock/Proto</small></a>
+        <a href="#tema3" role="listitem"><span>Tema 3</span><small>Front-end · HTML5 · Semántica · Texto · Tablas</small></a>
+        <a href="#tema4" role="listitem"><span>Tema 4</span><small>Editores · Navegadores · DevTools</small></a>
+        <a href="#test" role="listitem"><span>Test UF1</span><small>20 difíciles + explicación</small></a>
+      </div>
+
+      <div class="hr"></div>
+
+      <h2>Cómo usar este documento</h2>
+      <div class="pillrow">
+        <span class="pill"><b>1)</b> Lee resumen</span>
+        <span class="pill"><b>2)</b> Haz test</span>
+        <span class="pill"><b>3)</b> Repite fallos</span>
+        <span class="pill"><b>4)</b> Objetivo: <b>18+</b></span>
+      </div>
+      <p class="small">
+        El test corrige al instante: si fallas, marca la correcta y explica por qué.
+      </p>
+    </aside>
+  </section>
+
+  <!-- ===================== TEST ===================== -->
+  <section class="card" id="test" style="margin-top:16px;">
+    <div class="quizHeader">
+      <div>
+        <h2>Test UF1 — 20 preguntas difíciles “a pillar”</h2>
+        <p class="sub">Corrección inmediata + explicación. Responde con calma: son trampas de examen.</p>
+      </div>
+      <div class="score">Puntuación: <span id="scoreText">0</span> / 20</div>
+    </div>
+
+    <div class="progress" aria-label="Progreso del test">
+      <div class="bar" id="bar"></div>
+    </div>
+
+    <div class="btnRow">
+      <button class="primary" id="startBtn" type="button">Empezar test</button>
+      <button id="checkBtn" type="button" disabled>Corregir</button>
+      <button id="nextBtn" type="button" disabled>Siguiente</button>
+      <button class="danger" id="restartBtn" type="button" disabled>Reiniciar</button>
+    </div>
+
+    <p class="small" id="statusPill">Listo para empezar.</p>
+
+    <div id="quizArea" aria-live="polite">
+      <div class="qbox">
+        <p class="muted" style="margin:0;">Pulsa <b>Empezar test</b> para cargar la primera pregunta.</p>
+      </div>
+    </div>
+  </section>
+
+  <p class="footer">UF1 — Documento de repaso (Resumen + Test). Puedes personalizar preguntas editando el array <code style="font-family:var(--mono)">QUESTIONS</code>.</p>
+</div>
+
+<script>
+  // =============================
+  // 20 preguntas difíciles UF1
+  // =============================
+  const QUESTIONS = [
+    {
+      id: 1,
+      topic: "T1 Interfaces / IPO",
+      q: "¿Cuál de estas afirmaciones describe mejor el concepto de “interfaz” en el contexto de una aplicación web?",
+      options: [
+        "Solo el diseño visual (colores y tipografías) de la web.",
+        "El conjunto de elementos y mecanismos (visuales y funcionales) que permiten la interacción usuario-sistema.",
+        "El conjunto de APIs del servidor que devuelven datos al navegador.",
+        "La base de datos y sus relaciones."
+      ],
+      correctIndex: 1,
+      why: "En web, interfaz no es solo estética: incluye elementos y mecanismos para interactuar (botones, formularios, menús, feedback del sistema)."
+    },
+    {
+      id: 2,
+      topic: "T1 Usabilidad/Accesibilidad",
+      q: "Marca la opción correcta sobre usabilidad y accesibilidad:",
+      options: [
+        "Una interfaz accesible siempre es usable.",
+        "Una interfaz usable siempre es accesible.",
+        "Usabilidad = facilidad de uso; Accesibilidad = posibilidad de uso por personas con discapacidades y, en general, por todos.",
+        "Accesibilidad solo afecta a colores y fuentes."
+      ],
+      correctIndex: 2,
+      why: "Son conceptos distintos: accesibilidad busca eliminar barreras (discapacidades y diversidad), usabilidad busca facilidad y eficiencia. Pueden no coincidir."
+    },
+    {
+      id: 3,
+      topic: "T2 UXD",
+      q: "¿Qué enunciado define mejor el objetivo del UXD?",
+      options: [
+        "Crear una interfaz bonita y moderna.",
+        "Maximizar la cantidad de opciones disponibles.",
+        "Permitir que el usuario logre sus objetivos de forma fácil, eficiente y satisfactoria.",
+        "Reducir el uso de etiquetas semánticas para simplificar el HTML."
+      ],
+      correctIndex: 2,
+      why: "UXD se centra en la experiencia global: eficacia, eficiencia y satisfacción. La estética (UI) ayuda, pero no es el objetivo principal."
+    },
+    {
+      id: 4,
+      topic: "T2 Entrevistas",
+      q: "¿Cuál NO pertenece a la fase de preparación de una entrevista de requisitos?",
+      options: [
+        "Definir objetivos y preparar preguntas.",
+        "Investigar el contexto del usuario/empresa.",
+        "Ordenar y sintetizar conclusiones tras la entrevista.",
+        "Decidir a quién entrevistar."
+      ],
+      correctIndex: 2,
+      why: "Ordenar/sintetizar conclusiones corresponde a la fase de análisis posterior, no a la preparación."
+    },
+    {
+      id: 5,
+      topic: "T2 Mapas",
+      q: "¿Qué diferencia clave hay entre mapa web y mapa conceptual?",
+      options: [
+        "El mapa web muestra conceptos y relaciones; el conceptual muestra páginas.",
+        "El mapa web muestra páginas y navegación; el conceptual representa conceptos/acciones/relaciones del sistema.",
+        "Ambos son exactamente lo mismo, solo cambia el nombre.",
+        "El mapa conceptual se usa después del mockup."
+      ],
+      correctIndex: 1,
+      why: "Mapa web = estructura de páginas y enlaces; mapa conceptual = visión más profunda (conceptos, relaciones, acciones)."
+    },
+    {
+      id: 6,
+      topic: "T2 Orden de diseño",
+      q: "Elige el orden correcto del proceso de diseño previo:",
+      options: [
+        "Wireframe → Mockup → Mapa web → Prototipo",
+        "Mapa web → Wireframe → Mockup → Prototipo",
+        "Mockup → Wireframe → Prototipo → Mapa conceptual",
+        "Prototipo → Mockup → Wireframe → Mapa web"
+      ],
+      correctIndex: 1,
+      why: "Primero estructura/navegación (mapas), luego esqueleto (wireframes), después aspecto visual (mockups) y finalmente prueba/evaluación (prototipos)."
+    },
+    {
+      id: 7,
+      topic: "T2 Prototipos",
+      q: "¿Qué opción describe mejor un prototipo vertical?",
+      options: [
+        "Simula muchas pantallas sin funcionalidad real.",
+        "Implementa una parte del sistema con funcionalidad real, probándose en un entorno parecido al final.",
+        "Es una imagen estática con el aspecto final.",
+        "Es un wireframe dibujado a mano."
+      ],
+      correctIndex: 1,
+      why: "Vertical = profundidad (funciona de verdad) en un módulo o flujo. Horizontal = amplitud (muchas pantallas) simulada."
+    },
+    {
+      id: 8,
+      topic: "T3 Front-end",
+      q: "¿Cuál es la afirmación correcta sobre front-end y back-end?",
+      options: [
+        "El front-end se ejecuta en el servidor y el back-end en el navegador.",
+        "El front-end es lo visible e interactivo en el navegador; el back-end gestiona lógica/datos en servidor.",
+        "Ambos se ejecutan siempre en la base de datos.",
+        "El back-end define la estructura con HTML."
+      ],
+      correctIndex: 1,
+      why: "Front-end: navegador (UI). Back-end: servidor (lógica, datos, servicios)."
+    },
+    {
+      id: 9,
+      topic: "T3 HTML5",
+      q: "¿Por qué HTML5 NO se considera un lenguaje de programación?",
+      options: [
+        "Porque no se ejecuta en navegadores.",
+        "Porque no permite lógica (condiciones/bucles) ni funciones: marca/estructura contenido con etiquetas.",
+        "Porque solo se usa en servidores.",
+        "Porque reemplaza a JavaScript."
+      ],
+      correctIndex: 1,
+      why: "HTML describe estructura y significado. La lógica la aporta JS u otros lenguajes."
+    },
+    {
+      id: 10,
+      topic: "T3 Estructura base",
+      q: "¿Qué elemento contiene información NO visible para el usuario, como metadatos y el título de la pestaña?",
+      options: [
+        "<body>",
+        "<main>",
+        "<head>",
+        "<footer>"
+      ],
+      correctIndex: 2,
+      why: "En <head> van metadatos, <title>, charset, enlaces a recursos, etc. El contenido visible va en <body>."
+    },
+    {
+      id: 11,
+      topic: "T3 Semántica",
+      q: "¿Qué etiqueta semántica define el contenido principal y debería aparecer una sola vez?",
+      options: [
+        "<section>",
+        "<main>",
+        "<article>",
+        "<nav>"
+      ],
+      correctIndex: 1,
+      why: "<main> representa el contenido principal único del documento. <section>/<article> pueden repetirse."
+    },
+    {
+      id: 12,
+      topic: "T3 Semántica",
+      q: "Se quiere marcar un contenido que tiene sentido por sí mismo (una noticia o post). ¿Qué etiqueta es la más adecuada?",
+      options: [
+        "<section>",
+        "<article>",
+        "<aside>",
+        "<div>"
+      ],
+      correctIndex: 1,
+      why: "<article> es contenido independiente. <section> agrupa temática; <aside> es complementario; <div> no es semántico."
+    },
+    {
+      id: 13,
+      topic: "T3 Texto",
+      q: "¿Cuál es la diferencia correcta entre <strong> y <b>?",
+      options: [
+        "No hay ninguna: ambas significan lo mismo.",
+        "<b> aporta importancia semántica y <strong> solo estilo.",
+        "<strong> aporta importancia semántica; <b> es principalmente presentación visual.",
+        "<strong> solo se usa dentro de <head>."
+      ],
+      correctIndex: 2,
+      why: "<strong> expresa importancia a nivel de significado (accesibilidad/SEO). <b> suele usarse como estilo (mejor evitarlo en favor de semántica + CSS)."
+    },
+    {
+      id: 14,
+      topic: "T3 Texto",
+      q: "¿Qué opción describe correctamente la diferencia entre <div> y <span>?",
+      options: [
+        "<div> es en línea; <span> es de bloque.",
+        "<div> es de bloque; <span> es en línea.",
+        "Ambos son semánticos y equivalentes.",
+        "<span> solo puede usarse dentro de <head>."
+      ],
+      correctIndex: 1,
+      why: "div agrupa en bloque (rompe línea). span agrupa en línea (no rompe línea). Ninguno aporta semántica."
+    },
+    {
+      id: 15,
+      topic: "T3 Listas",
+      q: "¿Qué afirmación es correcta sobre <li>?",
+      options: [
+        "Puede usarse sin <ul> o <ol>.",
+        "Solo se usa dentro de <table>.",
+        "Debe estar contenido en una lista (<ul> o <ol>).",
+        "Es equivalente a <p>."
+      ],
+      correctIndex: 2,
+      why: "<li> es un ítem de lista y debe ir dentro de <ul> o <ol>."
+    },
+    {
+      id: 16,
+      topic: "T3 Tablas",
+      q: "¿Qué etiqueta se usa para una celda de encabezado en una tabla?",
+      options: [
+        "<td>",
+        "<th>",
+        "<tr>",
+        "<caption>"
+      ],
+      correctIndex: 1,
+      why: "<th> es encabezado (header cell). <td> es celda de datos, <tr> fila, <caption> título de la tabla."
+    },
+    {
+      id: 17,
+      topic: "T3 Enlaces",
+      q: "¿Qué atributo es imprescindible para que un enlace <a> sea funcional?",
+      options: [
+        "src",
+        "alt",
+        "href",
+        "lang"
+      ],
+      correctIndex: 2,
+      why: "href define el destino del enlace. Sin href, no hay enlace funcional."
+    },
+    {
+      id: 18,
+      topic: "T3 Imágenes/Accesibilidad",
+      q: "¿Qué combinación es correcta para una imagen accesible y por qué?",
+      options: [
+        "Solo src, porque alt no se usa en HTML5.",
+        "Solo alt, porque src es opcional.",
+        "src + alt, porque alt describe la imagen para lectores de pantalla y si no carga.",
+        "target + alt, porque target abre la imagen en otra pestaña."
+      ],
+      correctIndex: 2,
+      why: "src carga el recurso; alt describe el contenido (accesibilidad) y se muestra si la imagen falla. Es una trampa clásica."
+    },
+    {
+      id: 19,
+      topic: "T4 Herramientas",
+      q: "¿Qué afirmación sobre editores y navegadores es correcta?",
+      options: [
+        "El editor interpreta HTML y muestra la web al usuario.",
+        "El navegador interpreta HTML/CSS/JS y muestra la web; el editor sirve para escribir/editar el código.",
+        "DevTools sustituye al editor y modifica directamente el servidor.",
+        "F12 abre el editor de código."
+      ],
+      correctIndex: 1,
+      why: "El navegador renderiza e interpreta; el editor escribe. DevTools inspecciona en el cliente, no sustituye al editor ni toca el servidor por sí solo."
+    },
+    {
+      id: 20,
+      topic: "T2 Validación",
+      q: "¿Por qué es importante que el usuario valide mapas, wireframes y mockups?",
+      options: [
+        "Porque así se mejora el diseño gráfico automáticamente.",
+        "Porque permite detectar a tiempo errores de estructura, navegación y expectativas antes de programar, reduciendo costes.",
+        "Porque reemplaza la fase de análisis de requisitos.",
+        "Porque convierte el mockup en un prototipo vertical funcional."
+      ],
+      correctIndex: 1,
+      why: "La validación temprana evita malentendidos y retrabajo caro. Es el motivo principal de estos artefactos de bajo/medio coste."
+    }
+  ];
+
+  // ---------- Estado ----------
+  let order = [];
+  let idx = -1;
+  let score = 0;
+  let answered = new Map(); // id -> { chosenIndex, correct, checked }
+
+  // ---------- DOM ----------
+  const quizArea = document.getElementById("quizArea");
+  const startBtn = document.getElementById("startBtn");
+  const checkBtn = document.getElementById("checkBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const restartBtn = document.getElementById("restartBtn");
+  const scoreText = document.getElementById("scoreText");
+  const statusPill = document.getElementById("statusPill");
+  const bar = document.getElementById("bar");
+
+  // ---------- Helpers ----------
+  function shuffle(array) {
+    const a = array.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function setProgress() {
+    const done = Math.max(0, idx);
+    const pct = Math.round(((done) / QUESTIONS.length) * 100);
+    bar.style.width = pct + "%";
+  }
+
+  function renderQuestion() {
+    const q = QUESTIONS[order[idx]];
+    const prev = answered.get(q.id);
+
+    const box = document.createElement("div");
+    box.className = "qbox";
+
+    const title = document.createElement("h3");
+    title.innerHTML = `(${idx + 1}/20) <span class="badge">${q.topic}</span><br>${q.q}`;
+    box.appendChild(title);
+
+    const opts = document.createElement("div");
+    opts.className = "opts";
+
+    const name = `q_${q.id}`;
+
+    q.options.forEach((optText, i) => {
+      const optId = `${name}_opt_${i}`;
+
+      const opt = document.createElement("div");
+      opt.className = "opt";
+      opt.dataset.index = i;
+
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = name;
+      input.id = optId;
+      input.value = i;
+      input.required = true;
+
+      const label = document.createElement("label");
+      // forma explícita: label for + input id
+      label.setAttribute("for", optId);
+      label.textContent = optText;
+
+      if (prev && prev.chosenIndex === i) input.checked = true;
+      if (prev && prev.checked) input.disabled = true;
+
+      opt.appendChild(input);
+      opt.appendChild(label);
+      opts.appendChild(opt);
+    });
+
+    box.appendChild(opts);
+
+    const fb = document.createElement("div");
+    fb.id = "feedback";
+    fb.style.display = "none";
+    fb.className = "feedback";
+    box.appendChild(fb);
+
+    quizArea.innerHTML = "";
+    quizArea.appendChild(box);
+
+    if (!prev) {
+      checkBtn.disabled = false;
+      nextBtn.disabled = true;
+      statusPill.textContent = `Pregunta ${idx + 1} de 20 — pendiente de corregir.`;
+    } else {
+      if (prev.checked) {
+        checkBtn.disabled = true;
+        nextBtn.disabled = false;
+        statusPill.textContent = `Pregunta ${idx + 1} de 20 — corregida.`;
+        paintResult(q, prev.chosenIndex);
+        showFeedback(q, prev.chosenIndex);
+      } else {
+        checkBtn.disabled = false;
+        nextBtn.disabled = true;
+        statusPill.textContent = `Pregunta ${idx + 1} de 20 — pendiente de corregir.`;
+      }
+    }
+
+    setProgress();
+    scoreText.textContent = String(score);
+  }
+
+  function getChosenIndex(q) {
+    const chosen = document.querySelector(`input[name="q_${q.id}"]:checked`);
+    return chosen ? Number(chosen.value) : null;
+  }
+
+  function paintResult(q, chosenIndex) {
+    const optEls = Array.from(document.querySelectorAll(".opt"));
+    optEls.forEach(el => {
+      const i = Number(el.dataset.index);
+      el.classList.remove("correct", "wrong");
+      if (i === q.correctIndex) el.classList.add("correct");
+      if (i === chosenIndex && chosenIndex !== q.correctIndex) el.classList.add("wrong");
+    });
+  }
+
+  function showFeedback(q, chosenIndex) {
+    const fb = document.getElementById("feedback");
+    if (!fb) return;
+
+    const isCorrect = chosenIndex === q.correctIndex;
+    fb.style.display = "block";
+    fb.className = "feedback " + (isCorrect ? "good" : "bad");
+
+    const letters = ["A","B","C","D"];
+    fb.innerHTML = `
+      <div><b>${isCorrect ? "✅ Correcto" : "❌ Incorrecto"}</b></div>
+      <div style="margin-top:6px">
+        Tu respuesta: <b>${letters[chosenIndex]}</b> — Correcta: <b>${letters[q.correctIndex]}</b>
+      </div>
+      <div style="margin-top:8px"><b>Explicación:</b> ${q.why}</div>
+    `;
+  }
+
+  function lockInputs(q) {
+    document.querySelectorAll(`input[name="q_${q.id}"]`).forEach(i => i.disabled = true);
+  }
+
+  function finish() {
+    statusPill.textContent = "Test finalizado ✅";
+    checkBtn.disabled = true;
+    nextBtn.disabled = true;
+    startBtn.disabled = true;
+    restartBtn.disabled = false;
+    bar.style.width = "100%";
+
+    const end = document.createElement("div");
+    end.className = "qbox";
+    end.innerHTML = `
+      <h3>Resultado final</h3>
+      <p style="margin:0;">Has sacado <b>${score}</b> / 20.</p>
+      <p class="small" style="margin-top:10px;">
+        Objetivo examen: <b>18+</b>. Repite el test y revisa explicaciones de los fallos.
+      </p>
+    `;
+    quizArea.appendChild(end);
+  }
+
+  // ---------- Eventos ----------
+  startBtn.addEventListener("click", () => {
+    order = shuffle([...Array(QUESTIONS.length).keys()]);
+    idx = 0;
+    score = 0;
+    answered.clear();
+
+    startBtn.disabled = true;
+    restartBtn.disabled = false;
+    renderQuestion();
+  });
+
+  checkBtn.addEventListener("click", () => {
+    const q = QUESTIONS[order[idx]];
+    const chosen = getChosenIndex(q);
+
+    if (chosen === null) {
+      alert("Elige una respuesta antes de corregir.");
+      return;
+    }
+
+    const prev = answered.get(q.id);
+    if (prev && prev.checked) return;
+
+    const isCorrect = chosen === q.correctIndex;
+    if (isCorrect) score += 1;
+
+    answered.set(q.id, { chosenIndex: chosen, correct: isCorrect, checked: true });
+
+    paintResult(q, chosen);
+    showFeedback(q, chosen);
+    lockInputs(q);
+
+    checkBtn.disabled = true;
+    nextBtn.disabled = false;
+
+    scoreText.textContent = String(score);
+    statusPill.textContent = `Pregunta ${idx + 1} de 20 — corregida.`;
+  });
+
+  nextBtn.addEventListener("click", () => {
+    idx += 1;
+    if (idx >= QUESTIONS.length) { finish(); return; }
+    renderQuestion();
+  });
+
+  restartBtn.addEventListener("click", () => {
+    order = [];
+    idx = -1;
+    score = 0;
+    answered.clear();
+
+    quizArea.innerHTML = `
+      <div class="qbox">
+        <p class="muted" style="margin:0;">Pulsa <b>Empezar test</b> para cargar la primera pregunta.</p>
+      </div>`;
+    startBtn.disabled = false;
+    checkBtn.disabled = true;
+    nextBtn.disabled = true;
+    restartBtn.disabled = true;
+
+    scoreText.textContent = "0";
+    statusPill.textContent = "Listo para empezar.";
+    bar.style.width = "0%";
+  });
+</script>
+</body>
+</html>

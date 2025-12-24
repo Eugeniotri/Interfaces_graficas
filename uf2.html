@@ -1,0 +1,1226 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>UF2 CSS — Repaso completo + Práctica + Test (40)</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --card:#111a33;
+      --card2:#0f1730;
+      --text:#e8ecff;
+      --muted:#aab3d6;
+      --accent:#7c5cff;
+      --accent2:#2dd4bf;
+      --danger:#ff4d6d;
+      --ok:#2de37a;
+      --line:rgba(255,255,255,.10);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      background: radial-gradient(1200px 700px at 15% 10%, rgba(124,92,255,.22), transparent 60%),
+                  radial-gradient(900px 500px at 85% 15%, rgba(45,212,191,.16), transparent 55%),
+                  linear-gradient(180deg, #070a14, var(--bg));
+      color:var(--text);
+      line-height:1.35;
+    }
+    header{
+      position:sticky; top:0; z-index:60;
+      backdrop-filter: blur(10px);
+      background: rgba(7,10,20,.65);
+      border-bottom:1px solid var(--line);
+    }
+    .wrap{max-width:1160px; margin:0 auto; padding:18px 18px;}
+    .top{
+      display:flex; align-items:center; gap:14px; justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .brand{display:flex; flex-direction:column; gap:2px;}
+    .brand h1{margin:0; font-size:18px; letter-spacing:.3px;}
+    .brand p{margin:0; color:var(--muted); font-size:12px;}
+    .nav{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;}
+    .pill{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:13px;
+      cursor:pointer;
+      transition: transform .08s ease, background .2s ease, border-color .2s ease;
+      user-select:none;
+      text-decoration:none;
+      display:inline-flex; align-items:center; gap:8px;
+      white-space:nowrap;
+    }
+    .pill:hover{transform: translateY(-1px); border-color: rgba(124,92,255,.45); background: rgba(124,92,255,.12);}
+    .pill .dot{width:8px; height:8px; border-radius:99px; background: var(--accent); box-shadow: 0 0 0 4px rgba(124,92,255,.18);}
+    .pill.green .dot{background: var(--accent2); box-shadow: 0 0 0 4px rgba(45,212,191,.15);}
+
+    main .wrap{padding-top:22px; padding-bottom:64px;}
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:16px 16px 0 16px;
+      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+      flex-wrap:wrap;
+    }
+    .card h2{margin:0; font-size:16px; letter-spacing:.2px;}
+    .badge{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      white-space:nowrap;
+    }
+    .card .bd{padding:14px 16px 16px 16px;}
+
+    .callout{
+      padding:14px;
+      border-radius:14px;
+      border:1px dashed rgba(124,92,255,.55);
+      background: rgba(124,92,255,.10);
+      color: var(--text);
+      font-size:13px;
+      margin-top:10px;
+    }
+    .callout b{color:#fff}
+
+    .kpi{
+      display:grid; grid-template-columns: repeat(3, 1fr); gap:10px;
+      margin-top:12px;
+    }
+    @media (max-width: 780px){ .kpi{grid-template-columns: 1fr;} }
+    .mini{
+      padding:12px; border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(17,26,51,.55);
+    }
+    .mini .t{color:var(--muted); font-size:12px;}
+    .mini .v{font-size:14px; margin-top:6px;}
+
+    .sections{display:grid; grid-template-columns: 1fr; gap:16px; margin-top:16px;}
+    .section{
+      background: rgba(17,26,51,.45);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      padding:16px;
+    }
+    .section h3{
+      margin:0 0 10px 0;
+      font-size:15px;
+      letter-spacing:.2px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      flex-wrap:wrap;
+    }
+    .tag{
+      font-size:11px; color:var(--muted);
+      border:1px solid var(--line);
+      padding:4px 8px; border-radius:999px;
+      background: rgba(255,255,255,.03);
+      white-space:nowrap;
+    }
+    .points{display:grid; grid-template-columns: 1fr 1fr; gap:10px;}
+    @media (max-width: 900px){ .points{grid-template-columns: 1fr;} }
+
+    .point{
+      background: rgba(15,23,48,.75);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+    }
+    .point .k{font-size:12px; color:var(--muted); margin-bottom:6px;}
+    .point .v{font-size:13px;}
+
+    .code{
+      font-family: var(--mono);
+      font-size: 12px;
+      background: rgba(0,0,0,.28);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: 12px;
+      padding:10px;
+      margin-top:10px;
+      overflow:auto;
+      white-space: pre;
+    }
+
+    /* TABLES */
+    .tblwrap{margin-top:10px; overflow:auto; border-radius:14px; border:1px solid var(--line);}
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width: 720px;
+      background: rgba(0,0,0,.18);
+    }
+    th, td{
+      padding:10px 12px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      vertical-align:top;
+      font-size:12px;
+    }
+    th{
+      text-align:left;
+      color: rgba(220,230,255,.95);
+      background: rgba(124,92,255,.10);
+      position:sticky; top:0;
+    }
+    td{color: rgba(235,238,255,.92);}
+    td code, th code{
+      font-family: var(--mono);
+      font-size: 11px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      padding:2px 6px;
+      border-radius:999px;
+    }
+
+    /* PRACTICE BLOCKS */
+    details.practice{
+      margin-top:12px;
+      border:1px solid rgba(45,212,191,.22);
+      background: rgba(45,212,191,.06);
+      border-radius: 14px;
+      padding:10px 12px;
+    }
+    details.practice summary{
+      cursor:pointer;
+      font-weight:700;
+      list-style:none;
+      display:flex; align-items:center; gap:10px;
+    }
+    details.practice summary::-webkit-details-marker{display:none}
+    .pbadge{
+      font-size:11px;
+      border:1px solid rgba(45,212,191,.35);
+      color: rgba(220,255,245,.95);
+      background: rgba(45,212,191,.10);
+      padding:3px 8px;
+      border-radius:999px;
+      white-space:nowrap;
+    }
+    .practice .ptext{margin:10px 0 0 0; color: var(--text); font-size:13px;}
+    .practice .hint{margin:8px 0 0 0; color: var(--muted); font-size:12px;}
+
+    .divider{height:1px; background: var(--line); margin:14px 0;}
+
+    /* QUIZ */
+    .quiz{
+      margin-top:18px;
+      background: rgba(17,26,51,.55);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      overflow:hidden;
+    }
+    .quiz .qhd{
+      padding:16px;
+      background: linear-gradient(180deg, rgba(45,212,191,.10), rgba(124,92,255,.06));
+      border-bottom:1px solid var(--line);
+      display:flex; align-items:flex-start; justify-content:space-between; gap:14px;
+      flex-wrap:wrap;
+    }
+    .quiz .qhd .left{display:flex; flex-direction:column; gap:4px;}
+    .quiz .qhd h3{margin:0; font-size:16px;}
+    .quiz .qhd p{margin:0; color:var(--muted); font-size:12px;}
+    .actions{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; align-items:center;}
+    button{
+      font: inherit;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      transition: transform .08s ease, background .2s ease, border-color .2s ease;
+    }
+    button:hover{transform: translateY(-1px); border-color: rgba(124,92,255,.55); background: rgba(124,92,255,.12);}
+    button.primary{border-color: rgba(45,212,191,.55); background: rgba(45,212,191,.12);}
+    button.primary:hover{border-color: rgba(45,212,191,.85); background: rgba(45,212,191,.18);}
+    button.danger{border-color: rgba(255,77,109,.55); background: rgba(255,77,109,.10);}
+
+    .controls{
+      display:flex; gap:10px; flex-wrap:wrap;
+      align-items:center;
+      margin-top:8px;
+    }
+    select, input[type="checkbox"]{
+      accent-color: var(--accent2);
+    }
+    select{
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.14);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      cursor:pointer;
+    }
+    .toggle{
+      display:flex; align-items:center; gap:8px;
+      font-size:12px; color: var(--muted);
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      padding:8px 10px;
+      border-radius:12px;
+    }
+
+    .qbody{padding:16px;}
+    .qgrid{display:grid; grid-template-columns: 1fr; gap:12px;}
+    .qcard{
+      border:1px solid var(--line);
+      background: rgba(15,23,48,.80);
+      border-radius: 16px;
+      padding:12px;
+    }
+    .qtop{display:flex; align-items:flex-start; justify-content:space-between; gap:10px; flex-wrap:wrap;}
+    .qtitle{font-size:14px; margin:0; max-width: 900px;}
+    .meta{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;}
+    .chip{
+      font-size:11px; padding:4px 8px; border-radius:999px;
+      border:1px solid var(--line);
+      color: var(--muted);
+      background: rgba(255,255,255,.03);
+    }
+    .chip.easy{border-color: rgba(45,212,191,.30); color: rgba(203,255,240,.95);}
+    .chip.med{border-color: rgba(124,92,255,.35); color: rgba(225,218,255,.95);}
+    .chip.hard{border-color: rgba(255,77,109,.35); color: rgba(255,210,218,.95);}
+
+    .opts{margin-top:10px; display:grid; grid-template-columns: 1fr; gap:8px;}
+    .opt{
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: 12px;
+      padding:10px;
+      background: rgba(0,0,0,.20);
+      display:flex; align-items:flex-start; gap:10px;
+      cursor:pointer;
+      user-select:none;
+      transition: background .2s ease, border-color .2s ease, transform .08s ease;
+    }
+    .opt:hover{transform: translateY(-1px); border-color: rgba(124,92,255,.45); background: rgba(124,92,255,.08);}
+    .opt input{margin-top:2px}
+
+    .feedback{
+      margin-top:10px;
+      border-radius: 14px;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      display:none;
+    }
+    .feedback.ok{
+      display:block;
+      border-color: rgba(45,212,191,.45);
+      background: rgba(45,212,191,.10);
+      color: rgba(220,255,245,.95);
+    }
+    .feedback.bad{
+      display:block;
+      border-color: rgba(255,77,109,.45);
+      background: rgba(255,77,109,.10);
+      color: rgba(255,220,226,.95);
+    }
+    .feedback .why{margin-top:6px; color: var(--text); font-size:13px;}
+
+    .score{
+      margin-top:12px;
+      border:1px solid var(--line);
+      border-radius: 16px;
+      padding:12px;
+      background: rgba(0,0,0,.22);
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      flex-wrap:wrap;
+    }
+    .score .big{font-size:16px; font-weight:700;}
+    .score .small{font-size:12px; color:var(--muted)}
+
+    footer{
+      border-top:1px solid var(--line);
+      background: rgba(7,10,20,.65);
+      padding:18px 0;
+      color:var(--muted);
+      font-size:12px;
+    }
+    a{color: inherit}
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="wrap top">
+    <div class="brand">
+      <h1>UF2 CSS — Repaso completo + práctica + test</h1>
+      <p>Resumen al grano + tablas de propiedades + mini práctica por punto + test 40 (fácil → difícil)</p>
+    </div>
+    <nav class="nav">
+      <a class="pill" href="#resumen"><span class="dot"></span>Resumen UF2</a>
+      <a class="pill green" href="#test"><span class="dot"></span>Test 40</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="card" id="resumen">
+      <div class="hd">
+        <div>
+          <h2>Resumen UF2 (con tablas y mini práctica por punto)</h2>
+          <p class="badge">Estudia rápido + practica cada bloque</p>
+        </div>
+        <span class="badge">CSS · Selectores · Box Model · Position · Flex · Grid</span>
+      </div>
+      <div class="bd">
+        <div class="kpi">
+          <div class="mini">
+            <div class="t">Lo que más cae</div>
+            <div class="v"><b>especificidad</b>, <b>box model</b>, <b>position</b>, <b>flex</b>, <b>grid</b></div>
+          </div>
+          <div class="mini">
+            <div class="t">Regla oro maquetación</div>
+            <div class="v"><b>Grid</b> para layout · <b>Flex</b> para alinear componentes</div>
+          </div>
+          <div class="mini">
+            <div class="t">Cómo sacar nota</div>
+            <div class="v">haz test → revisa fallos → repite solo position/flex/grid</div>
+          </div>
+        </div>
+
+        <div class="callout">
+          <b>Modo examen:</b> Lee cada punto (1–2 min) → abre “Mini práctica” → intenta hacerlo en tu editor → mira solución.
+        </div>
+
+        <div class="sections">
+
+          <!-- 1. Introducción -->
+          <div class="section">
+            <h3>1. Introducción a CSS <span class="tag">HTML estructura · CSS estilo</span></h3>
+            <div class="points">
+              <div class="point">
+                <div class="k">Frase clave</div>
+                <div class="v"><b>CSS</b> separa la presentación del contenido: mejora mantenimiento y consistencia.</div>
+              </div>
+              <div class="point">
+                <div class="k">Idea examen</div>
+                <div class="v">CSS es “en cascada” (puede haber conflictos) y se resuelven con especificidad/cascada.</div>
+              </div>
+            </div>
+
+            <div class="tblwrap">
+              <table>
+                <thead>
+                  <tr><th>Concepto</th><th>Qué debes decir en examen</th><th>Mini ejemplo</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Separación</td>
+                    <td>HTML = estructura / contenido · CSS = apariencia · JS = interacción</td>
+                    <td><code>h1{color:blue;}</code></td>
+                  </tr>
+                  <tr>
+                    <td>Estándares</td>
+                    <td>CSS está estandarizado (W3C) y evoluciona (CSS3 añade módulos)</td>
+                    <td><code>@media</code>, Flexbox, Grid</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <details class="practice">
+              <summary><span class="pbadge">Mini práctica</span> Cambia el color y tamaño de un título</summary>
+              <p class="ptext"><b>Objetivo:</b> crear un <code>&lt;h1&gt;</code> y hacerlo morado y grande.</p>
+              <p class="hint">Solución (mira solo si hace falta):</p>
+              <div class="code">&lt;h1&gt;Hola UF2&lt;/h1&gt;
+
+h1{
+  color: rebeccapurple;
+  font-size: 42px;
+}</div>
+            </details>
+          </div>
+
+          <!-- 1.2 -->
+          <div class="section">
+            <h3>1.2 Añadir estilos a HTML <span class="tag">externo · interno · inline</span></h3>
+
+            <div class="tblwrap">
+              <table>
+                <thead>
+                  <tr><th>Forma</th><th>Dónde</th><th>Ventaja / uso</th><th>Ejemplo</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Externo (recomendado)</td>
+                    <td><code>&lt;link&gt;</code> en <code>&lt;head&gt;</code></td>
+                    <td>Reutilizable y mantenible</td>
+                    <td><code>&lt;link rel="stylesheet" href="css/estilos.css"&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td>Interno</td>
+                    <td><code>&lt;style&gt;</code> en <code>&lt;head&gt;</code></td>
+                    <td>Para demos / pruebas rápidas</td>
+                    <td><code>&lt;style&gt;h1{color:red;}&lt;/style&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td>En línea</td>
+                    <td>Atributo <code>style</code></td>
+                    <td>Evitar salvo casos puntuales</td>
+                    <td><code>&lt;p style="color:blue"&gt;...&lt;/p&gt;</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <details class="practice">
+              <summary><span class="pbadge">Mini práctica</span> Enlaza un CSS externo (ruta relativa)</summary>
+              <p class="ptext"><b>Objetivo:</b> si tu HTML está en <code>paginas/index.html</code> y tu CSS en <code>css/estilos.css</code>, enlaza bien.</p>
+              <div class="code">&lt;!-- paginas/index.html --&gt;
+&lt;link rel="stylesheet" href="../css/estilos.css"&gt;</div>
+              <p class="hint">Pista: <code>..</code> sube un nivel.</p>
+            </details>
+          </div>
+
+          <!-- 1.3 -->
+          <div class="section">
+            <h3>1.3 Sintaxis básica <span class="tag">selector + {prop:valor}</span></h3>
+            <div class="tblwrap">
+              <table>
+                <thead>
+                  <tr><th>Parte</th><th>Qué es</th><th>Ejemplo</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Selector</td><td>Qué elementos seleccionas</td><td><code>p</code>, <code>.clase</code>, <code>#id</code></td></tr>
+                  <tr><td>Propiedad</td><td>Qué cambias</td><td><code>color</code>, <code>margin</code>, <code>display</code></td></tr>
+                  <tr><td>Valor</td><td>Con qué lo cambias</td><td><code>red</code>, <code>10px</code>, <code>flex</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <details class="practice">
+              <summary><span class="pbadge">Mini práctica</span> Crea una regla con 3 propiedades</summary>
+              <div class="code">.caja{
+  width: 200px;
+  padding: 10px;
+  border: 1px solid #fff;
+}</div>
+            </details>
+          </div>
+
+          <!-- 1.4 -->
+          <div class="section">
+            <h3>1.4 Especificidad, cascada y herencia <span class="tag">resolver conflictos</span></h3>
+
+            <div class="points">
+              <div class="point">
+                <div class="k">Frase clave</div>
+                <div class="v">Si hay conflicto: <b>gana la regla más específica</b>. Si empatan: <b>gana la última</b>.</div>
+              </div>
+              <div class="point">
+                <div class="k">Orden típico</div>
+                <div class="v">elemento &lt; clase &lt; id &lt; inline &lt; <b>!important</b></div>
+              </div>
+            </div>
+
+            <div class="tblwrap">
+              <table>
+                <thead>
+                  <tr><th>Regla</th><th>Qué pasa</th><th>Por qué</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>p{color:orange} #x{color:green}</code></td>
+                    <td>Sale verde</td>
+                    <td>id es más específico</td>
+                  </tr>
+                  <tr>
+                    <td><code>p{color:orange} p{color:blue}</code></td>
+                    <td>Sale azul</td>
+                    <td>Cascada (última regla)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <details class="practice">
+              <summary><span class="pbadge">Mini práctica</span> Haz que un párrafo “gane” por especificidad</summary>
+              <p class="ptext"><b>Objetivo:</b> un <code>&lt;p id="x"&gt;</code> debe verse verde aunque exista un <code>p{color:orange}</code>.</p>
+              <div class="code">p{ color: orange; }
+#x{ color: green; }</div>
+            </details>
+          </div>
+
+          <!-- 2.1 Selectores -->
+          <div class="section">
+            <h3>2.1 Selectores <span class="tag">simples · combinados · pseudo</span></h3>
+
+            <div class="tblwrap">
+              <table>
+                <thead>
+                  <tr><th>Tipo</th><th>Selector</th><th>Selecciona</th><th>Ejemplo</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Elemento</td><td><code>p</code></td><td>todos los p</td><td><code>p{...}</code></td></tr>
+                  <tr><td>Clase</td><td><code>.btn</code></td><td>todos con clase btn</td><td><code>.btn{...}</code></td></tr>
+                  <tr><td>ID</td><td><code>#main</code></td><td>uno (único)</td><td><code>#main{...}</code></td></tr>
+                  <tr><td>Universal</td><td><code>*</code></td><td>todo</td><td><code>*{box-sizing:border-box}</code></td></tr>
+                  <tr><td>Descendiente</td><td><code>div p</code></td><td>p dentro de div (nietos también)</td><td><code>div p{...}</code></td></tr>
+                  <tr><td>Hijo directo</td><td><code>div &gt; p</code></td><td>p hijos directos</td><td><code>div&gt;p{...}</code></td></tr>
+                  <tr><td>Adyacente</td><td><code>h1 + p</code></td><td>p justo después del h1</td><td><code>h1+p{...}</code></td></tr>
+                  <tr><td>Hermanos</td><td><code>h1 ~ p</code></td><td>todos los p hermanos tras h1</td><td><code>h1~p{...}</code></td></tr>
+                  <tr><td>Pseudoclase</td><td><code>a:hover</code></td><td>estado (interacción)</td><td><code>a:hover{...}</code></td></tr>
+                  <tr><td>Pseudoelemento</td><td><code>p::before</code></td><td>parte virtual</td><td><code>p::before{content:"★"}</code></td></tr>
+                  <tr><td>Atributo</td><td><code>input[type="text"]</code></td><td>por atributo</td><td><code>input[type="text"]{...}</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <details class="practice">
+              <summary><span class="pbadge">Mini práctica</span> Cambia el color del primer párrafo tras un h2</summary>
+              <div class="code">h2 + p{
+  color: tomato;
+}</div>
+            </details>
+          </div>
+
+          <!-- 2.2 Unidades -->
+          <div class="section">
+            <h3>2.2 Unidades <span class="tag">px · % · em · rem</span></h3>
+            <div class="tblwrap">
+              <table>
+                <thead>
+                  <tr><th>Unidad</th><th>Tipo</th><th>Cuándo usar</th><th>Ejemplo</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>px</code></td><td>Absoluta</td><td>Detalles finos / borders</td><td><code>border:1px</code></td></tr>
+                  <tr><td><code>%</code></td><td>Relativa</td><td>Layouts fluidos</td><td><code>width:80%</code></td></tr>
+                  <tr><td><code>em</code></td><td>Relativa</td><td>Escala según fuente del elemento</td><td><code>padding:1em</code></td></tr>
+                  <tr><td><code>rem</code></td><td>Relativa</td><td>Tipografía consistente</td><td><code>font-size:1rem</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <details class="practice">
+              <summary><span class="pbadge">Mini práctica</span> Haz un contenedor responsive</summary>
+              <div class="code">.contenedor{
+  width: 90%;
+  max-width: 900px;
+  margin: 0 auto;
+}</div>
+            </details>
+          </div>
+
+          <!-- 2.3 Fuentes y textos -->
+          <div class="section">
+            <h3>2.3 Fuentes y textos <span class="tag">font · text-align</span></h3>
+            <div class="tblwrap">
+              <table>
+                <thead>
+                  <tr><th>Propiedad</th><th>Para qué</th><th>Ejemplo</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>font-family</code></td><td>Familia tipográfica</td><td><code>font-family: Arial, sans-serif;</code></td></tr>
+                  <tr><td><code>font-size</code></td><td>Tamaño</td><td><code>font-size: 1rem;</code></td></tr>
+                  <tr><td><code>font-weight</code></td><td>Grosor</td><td><code>font-weight: 700;</code></td></tr>
+                  <tr><td><code>line-height</code></td><td>Altura de línea</td><td><code>line-height: 1.5;</code></td></tr>
+                  <tr><td><code>text-align</code></td><td>Alineación</td><td><code>text-align: center;</code></td></tr>
+                  <tr><td><code>text-decoration</code></td><td>Subrayado, etc.</td><td><code>text-decoration: none;</code></td></tr>
+                  <tr><td><code>text-transform</code></td><td>Mayúsculas</td><td><code>text-transform: uppercase;</code></td></tr>
+                  <tr><td><code>font</code> (shorthand)</td><td>Atajo</td><td><code>font: 16px/1.5 Georgia, serif;</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <details class="practice">
+              <summary><span class="pbadge">Mini práctica</span> Estilo “párrafo legible”</summary>
+              <div class="code">p{
+  font: 16px/1.6 system-ui, sans-serif;
+  color: #e8ecff;
+  max-width: 65ch;
+}</div>
+            </details>
+          </div>
+
+          <!-- 2.4 Color -->
+          <div class="section">
+            <h3>2.4 Color <span class="tag">hex · rgb · hsl</span></h3>
+            <div class="tblwrap">
+              <table>
+                <thead>
+                  <tr><th>Formato</th><th>Ejemplo</th><th>Uso típico</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Nombre</td><td><code>tomato</code></td><td>Rápido / demo</td></tr>
+                  <tr><td>Hex</td><td><code>#ff0000</code></td><td>Muy común</td></tr>
+                  <tr><td>RGB</td><td><code>rgb(255,0,0)</code></td><td>Precisión</td></tr>
+                  <tr><td>HSL</td><td><code>hsl(0,100%,50%)</code></td><td>Manipular tono/saturación</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <details class="practice">
+              <summary><span class="pbadge">Mini práctica</span> Fondo + texto con contraste</summary>
+              <div class="code">.banner{
+  background: #111a33;
+  color: #e8ecff;
+}</div>
+            </details>
+          </div>
+
+          <!-- 3 Box model -->
+          <div class="section">
+            <h3>3. Modelo de caja (Box Model) <span class="tag">content + padding + border + margin</span></h3>
+            <div class="points">
+              <div class="point">
+                <div class="k">Frase clave</div>
+                <div class="v"><b>width</b> mide el <b>content</b>. El tamaño total suma padding + border (+ margin por fuera).</div>
+              </div>
+              <div class="point">
+                <div class="k">Trampa típica</div>
+                <div class="v">Colapso de márgenes verticales (se queda el mayor).</div>
+              </div>
+            </div>
+
+            <div class="tblwrap">
+              <table>
+                <thead>
+                  <tr><th>Zona</th><th>Qué es</th><th>Propiedades</th><th>Ejemplo</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Content</td><td>Contenido real</td><td><code>width</code>, <code>height</code></td><td><code>width:200px;</code></td></tr>
+                  <tr><td>Padding</td><td>Relleno interno</td><td><code>padding</code></td><td><code>padding:10px 20px;</code></td></tr>
+                  <tr><td>Border</td><td>Borde</td><td><code>border</code>, <code>border-radius</code></td><td><code>border:1px solid</code></td></tr>
+                  <tr><td>Margin</td><td>Espacio externo</td><td><code>margin</code></td><td><code>margin: 0 auto;</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <details class="practice">
+              <summary><span class="pbadge">Mini práctica</span> Calcula el ancho total</summary>
+              <p class="ptext"><b>Objetivo:</b> si <code>width:200px</code>, <code>padding:15px</code> izq/der y <code>border:2px</code, ¿ancho total?</p>
+              <div class="code">Total = 200 + 15 + 15 + 2 + 2 = 234px</div>
+            </details>
+          </div>
+
+          <!-- display inline/block -->
+          <div class="section">
+            <h3>3.x display: block/inline/inline-block <span class="tag">base para maquetar</span></h3>
+
+            <div class="tblwrap">
+              <table>
+                <thead>
+                  <tr><th>display</th><th>Comportamiento</th><th>Width/height</th><th>Ejemplos</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>block</code></td><td>Salta de línea, ocupa ancho</td><td>Sí</td><td><code>div</code>, <code>p</code>, <code>h1</code></td></tr>
+                  <tr><td><code>inline</code></td><td>En línea como texto</td><td>No (en general)</td><td><code>a</code>, <code>span</code></td></tr>
+                  <tr><td><code>inline-block</code></td><td>En línea pero “caja”</td><td>Sí</td><td>menús, chips</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <details class="practice">
+              <summary><span class="pbadge">Mini práctica</span> Menú simple: li en línea</summary>
+              <div class="code">ul{ list-style:none; padding:0; }
+li{ display:inline-block; }
+a{ display:block; padding:10px 20px; }</div>
+            </details>
+          </div>
+
+          <!-- Position -->
+          <div class="section">
+            <h3>4.1 Position + z-index <span class="tag">de lo más importante</span></h3>
+
+            <div class="tblwrap">
+              <table>
+                <thead>
+                  <tr><th>Valor</th><th>Qué hace</th><th>¿Sale del flujo?</th><th>Uso típico</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>static</code></td><td>Por defecto</td><td>No</td><td>normal</td></tr>
+                  <tr><td><code>relative</code></td><td>Desplaza desde su posición original</td><td>No</td><td>ancla para absolute</td></tr>
+                  <tr><td><code>absolute</code></td><td>Se posiciona respecto al ancestro posicionado</td><td><b>Sí</b></td><td>badges, overlays</td></tr>
+                  <tr><td><code>fixed</code></td><td>Respecto al viewport</td><td><b>Sí</b></td><td>botón flotante</td></tr>
+                  <tr><td><code>sticky</code></td><td>Relative hasta umbral y se “pega”</td><td>No (en general)</td><td>cabecera sticky</td></tr>
+                  <tr><td><code>z-index</code></td><td>Orden en apilamiento</td><td>—</td><td>capas</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <details class="practice">
+              <summary><span class="pbadge">Mini práctica</span> Badge en esquina (padre relative + hijo absolute)</summary>
+              <div class="code">.card{ position: relative; }
+.badge{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}</div>
+            </details>
+          </div>
+
+          <!-- Float -->
+          <div class="section">
+            <h3>4.2 Float <span class="tag">layout clásico</span></h3>
+
+            <div class="tblwrap">
+              <table>
+                <thead>
+                  <tr><th>Propiedad</th><th>Valores</th><th>Uso típico</th><th>Ejemplo</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>float</code></td><td><code>left</code>, <code>right</code>, <code>none</code></td><td>imagen + texto</td><td><code>img{float:left;}</code></td></tr>
+                  <tr><td><code>clear</code></td><td><code>left</code>, <code>right</code>, <code>both</code></td><td>romper flotados</td><td><code>.fin{clear:both;}</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <details class="practice">
+              <summary><span class="pbadge">Mini práctica</span> Imagen con texto alrededor</summary>
+              <div class="code">img{ float:left; margin: 0 12px 12px 0; }</div>
+            </details>
+          </div>
+
+          <!-- Flexbox -->
+          <div class="section">
+            <h3>4.3 Flexbox <span class="tag">1D · alinear y distribuir</span></h3>
+
+            <div class="tblwrap">
+              <table>
+                <thead>
+                  <tr><th>Tipo</th><th>Propiedad</th><th>Qué hace</th><th>Ejemplo</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Contenedor</td><td><code>display:flex</code></td><td>Activa flex</td><td><code>.row{display:flex}</code></td></tr>
+                  <tr><td>Contenedor</td><td><code>flex-direction</code></td><td>Dirección del eje principal</td><td><code>row / column</code></td></tr>
+                  <tr><td>Contenedor</td><td><code>justify-content</code></td><td>Alinea en eje principal</td><td><code>space-between</code></td></tr>
+                  <tr><td>Contenedor</td><td><code>align-items</code></td><td>Alinea en eje secundario (una fila)</td><td><code>center</code></td></tr>
+                  <tr><td>Contenedor</td><td><code>flex-wrap</code></td><td>Permite varias filas</td><td><code>wrap</code></td></tr>
+                  <tr><td>Contenedor</td><td><code>align-content</code></td><td>Alinea filas (con wrap)</td><td><code>center</code></td></tr>
+                  <tr><td>Contenedor</td><td><code>gap</code></td><td>Separación</td><td><code>gap:10px</code></td></tr>
+                  <tr><td>Item</td><td><code>flex-grow</code></td><td>Reparte espacio</td><td><code>flex-grow:2</code></td></tr>
+                  <tr><td>Item</td><td><code>flex-basis</code></td><td>Tamaño base</td><td><code>flex-basis:200px</code></td></tr>
+                  <tr><td>Item</td><td><code>flex</code></td><td>Atajo grow shrink basis</td><td><code>flex:1 1 200px</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <details class="practice">
+              <summary><span class="pbadge">Mini práctica</span> Menú centrado con separación</summary>
+              <div class="code">nav{
+  display:flex;
+  justify-content:center;
+  gap: 20px;
+}
+nav a{
+  display:block;
+  padding: 10px 20px;
+}</div>
+            </details>
+          </div>
+
+          <!-- Grid -->
+          <div class="section">
+            <h3>4.4 Grid <span class="tag">2D · layout</span></h3>
+
+            <div class="tblwrap">
+              <table>
+                <thead>
+                  <tr><th>Tipo</th><th>Propiedad</th><th>Qué hace</th><th>Ejemplo</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Contenedor</td><td><code>display:grid</code></td><td>Activa grid</td><td><code>.g{display:grid}</code></td></tr>
+                  <tr><td>Contenedor</td><td><code>grid-template-columns</code></td><td>Columnas</td><td><code>1fr 1fr 1fr</code></td></tr>
+                  <tr><td>Contenedor</td><td><code>grid-template-rows</code></td><td>Filas</td><td><code>100px 200px</code></td></tr>
+                  <tr><td>Contenedor</td><td><code>gap</code></td><td>Separación</td><td><code>gap:10px</code></td></tr>
+                  <tr><td>Item</td><td><code>grid-column</code></td><td>Ocupa columnas</td><td><code>span 3</code></td></tr>
+                  <tr><td>Item</td><td><code>grid-row</code></td><td>Ocupa filas</td><td><code>span 2</code></td></tr>
+                  <tr><td>Contenedor</td><td><code>grid-template-areas</code></td><td>Layout visual</td><td><code>"h h" "m c"</code></td></tr>
+                  <tr><td>Item</td><td><code>grid-area</code></td><td>Asigna área</td><td><code>grid-area:header</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <details class="practice">
+              <summary><span class="pbadge">Mini práctica</span> Layout típico (header/menu/main/footer)</summary>
+              <div class="code">.layout{
+  display:grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-areas:
+    "header header"
+    "menu   main"
+    "footer footer";
+  gap: 10px;
+}
+header{grid-area:header;}
+nav{grid-area:menu;}
+main{grid-area:main;}
+footer{grid-area:footer;}</div>
+            </details>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section class="quiz" id="test">
+      <div class="qhd">
+        <div class="left">
+          <h3>Test UF2 — 40 preguntas (fácil → difícil)</h3>
+          <p>Corregir muestra correcta + explicación. Usa el filtro para repasar solo position/flex/grid.</p>
+
+          <div class="controls">
+            <select id="topicFilter" title="Filtrar por tema">
+              <option value="ALL">Todos los temas</option>
+              <option value="Base CSS">Base CSS</option>
+              <option value="Position">Position</option>
+              <option value="Flexbox">Flexbox</option>
+              <option value="Grid">Grid</option>
+              <option value="Box/Text/Color">Box/Text/Color</option>
+            </select>
+
+            <label class="toggle">
+              <input type="checkbox" id="onlyWrong" />
+              Solo falladas (después de corregir)
+            </label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="btnCheck" class="primary">Corregir</button>
+          <button id="btnReveal">Mostrar soluciones</button>
+          <button id="btnReset" class="danger">Reset</button>
+        </div>
+      </div>
+
+      <div class="qbody">
+        <div class="score" id="scoreBox" aria-live="polite">
+          <div>
+            <div class="big">Puntuación: <span id="score">0</span>/<span id="total">40</span></div>
+            <div class="small" id="scoreDetail">Aún sin corregir.</div>
+          </div>
+          <div class="small">Tip: filtra “Position” → repite hasta 90%+.</div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="qgrid" id="quiz"></div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>UF2 CSS — Repaso completo + mini práctica por punto + test 40 (con explicación).</div>
+  </div>
+</footer>
+
+<script>
+  // ===================== BANCO DE PREGUNTAS (40) =====================
+  const QUESTIONS = [
+    // Base CSS (1–10)
+    {id:1, topic:"Base CSS", level:"easy", q:"¿Qué lenguaje se encarga de la apariencia/estilos de una página web?", options:["HTML","CSS","JavaScript","SQL"], answer:1, why:"CSS define la apariencia (colores, tipografía, layout). HTML estructura; JS aporta interactividad."},
+    {id:2, topic:"Base CSS", level:"easy", q:"¿Cuál es la forma recomendada de añadir CSS en proyectos reales?", options:["En línea (style=\"\")","Interno (<style>)","Externo (<link> a .css)","No usar CSS"], answer:2, why:"El CSS externo separa HTML/CSS, facilita mantenimiento y reutilización."},
+    {id:3, topic:"Base CSS", level:"easy", q:"Una regla CSS está compuesta por…", options:["propiedad + etiqueta","selector + declaración","atributo + clase","cascada + herencia"], answer:1, why:"Regla CSS = selector + declaración (propiedad: valor;)."},
+    {id:4, topic:"Base CSS", level:"easy", q:"Si dos reglas tienen la misma especificidad y se contradicen, gana…", options:["La primera","La última definida","La que esté en un archivo externo","Ninguna"], answer:1, why:"Con igual especificidad manda la cascada: gana la última regla en orden de lectura."},
+    {id:5, topic:"Base CSS", level:"med", q:"¿Cuál suele tener mayor especificidad?", options:["Selector de elemento (p)","Selector de clase (.x)","Selector de id (#x)","Selector universal (*)"], answer:2, why:"Orden típico: elemento < clase/pseudoclase < id < inline < !important."},
+    {id:6, topic:"Base CSS", level:"med", q:"¿Qué propiedad es típica que se herede?", options:["border","color","margin","width"], answer:1, why:"Color suele heredarse; border/margin/width normalmente no se heredan."},
+    {id:7, topic:"Base CSS", level:"easy", q:"¿Qué selector selecciona TODOS los elementos?", options:["#id",".clase","*","div > p"], answer:2, why:"El selector universal * aplica a todos los elementos."},
+    {id:8, topic:"Base CSS", level:"med", q:"¿Qué selector selecciona solo hijos directos?", options:["div p","div > p","div + p","div ~ p"], answer:1, why:"El combinador '>' selecciona hijos directos (no nietos)."},
+    {id:9, topic:"Base CSS", level:"med", q:"¿Cuál es una pseudoclase?", options:["::before",":hover","div > p","[type]"], answer:1, why:":hover es pseudoclase (estado). ::before es pseudoelemento."},
+    {id:10, topic:"Base CSS", level:"easy", q:"¿Cuál es una unidad relativa recomendable para texto?", options:["px","pt","rem","cm"], answer:2, why:"rem es relativa a la fuente raíz, más consistente y accesible."},
+
+    // Box/Text/Color (11–16)
+    {id:11, topic:"Box/Text/Color", level:"easy", q:"¿Qué propiedad define la familia tipográfica?", options:["font-weight","font-family","text-align","line-height"], answer:1, why:"font-family define la fuente y permite fallbacks."},
+    {id:12, topic:"Box/Text/Color", level:"easy", q:"¿Qué propiedad alinea el texto al centro?", options:["text-align: center","align-items: center","justify-content: center","vertical-align: center"], answer:0, why:"text-align alinea texto en línea dentro del contenedor."},
+    {id:13, topic:"Box/Text/Color", level:"easy", q:"¿Cuál es un formato válido de color?", options:["rgb(255,0,0)","rbg(255,0,0)","hex(#ff0000)","hls(0,100%,50%)"], answer:0, why:"rgb() es válido. Los otros están mal escritos."},
+    {id:14, topic:"Box/Text/Color", level:"med", q:"En el box model, ¿qué está más cerca del contenido?", options:["margin","border","padding","outline"], answer:2, why:"Orden: content → padding → border → margin."},
+    {id:15, topic:"Box/Text/Color", level:"med", q:"width:200px y padding izq/der 15px → ancho total (sin border) es…", options:["200px","215px","230px","245px"], answer:2, why:"Total = 200 + 15 + 15 = 230px."},
+    {id:16, topic:"Box/Text/Color", level:"med", q:"¿Qué afirmación es correcta?", options:["inline permite width/height siempre","block ocupa todo el ancho y salta línea","inline-block obliga salto de línea","span es block por defecto"], answer:1, why:"block ocupa ancho disponible y fuerza salto. inline no respeta width/height; inline-block sí."},
+
+    // Position (17–28)
+    {id:17, topic:"Position", level:"easy", q:"¿Cuál es el valor por defecto de position?", options:["relative","absolute","static","fixed"], answer:2, why:"static es el valor por defecto: sigue el flujo normal."},
+    {id:18, topic:"Position", level:"easy", q:"Con position: relative, el elemento…", options:["Sale del flujo y no reserva espacio","Se mueve desde su posición original y reserva su hueco","Se pega al viewport","Siempre se coloca arriba a la izquierda"], answer:1, why:"relative desplaza visualmente pero mantiene su hueco original."},
+    {id:19, topic:"Position", level:"med", q:"Con position:absolute, se posiciona respecto a…", options:["Siempre el body","El primer ancestro con position distinto de static","El último hermano","El propio elemento"], answer:1, why:"absolute busca el primer ancestro posicionado (no static)."},
+    {id:20, topic:"Position", level:"med", q:"position: fixed coloca el elemento respecto a…", options:["Su contenedor padre","El viewport","El primer ancestro relativo","La última fila del grid"], answer:1, why:"fixed se fija al viewport (no se mueve con el contenido)."},
+    {id:21, topic:"Position", level:"med", q:"¿Qué describe mejor position: sticky?", options:["Se comporta como fixed desde el inicio","Se comporta como relative hasta un umbral y luego se pega","Es igual que absolute","Solo funciona en móviles"], answer:1, why:"sticky es relative hasta alcanzar top (u otro offset) y entonces se fija."},
+    {id:22, topic:"Position", level:"med", q:"Para que z-index funcione, normalmente el elemento debe…", options:["Tener display:block","Tener position distinto de static","Tener float","Tener width fijo"], answer:1, why:"z-index se aplica en elementos posicionados (relative/absolute/fixed/sticky)."},
+    {id:23, topic:"Position", level:"med", q:"Patrón típico para mover un hijo dentro de un contenedor:", options:["Padre static + hijo absolute","Padre relative + hijo absolute","Padre inline + hijo fixed","Padre flex + hijo sticky"], answer:1, why:"Padre position:relative; hijo position:absolute; top/left…"},
+    {id:24, topic:"Position", level:"hard", q:"¿Qué valores sacan al elemento del flujo normal?", options:["static y relative","relative y sticky","absolute y fixed","sticky y static"], answer:2, why:"absolute y fixed salen del flujo (no reservan espacio)."},
+    {id:25, topic:"Position", level:"hard", q:"En position: relative, top:10px significa…", options:["Crear margen superior real","Mover visualmente 10px hacia abajo","Mover visualmente 10px hacia arriba","No hace nada"], answer:1, why:"top desplaza el elemento hacia abajo (aumenta la distancia al borde superior)."},
+    {id:26, topic:"Position", level:"hard", q:"Dos elementos solapados con z-index 1 y 10. ¿Cuál se ve encima?", options:["z-index 1","z-index 10","Depende del HTML siempre","Ninguno"], answer:1, why:"Mayor z-index se apila por encima (mismo contexto)."},
+    {id:27, topic:"Position", level:"hard", q:"Para que sticky funcione de forma típica necesitas…", options:["top (u otro offset) definido","z-index negativo","display:inline","grid-area definido"], answer:0, why:"sticky requiere top/left/etc. para fijar el umbral."},
+    {id:28, topic:"Position", level:"hard", q:"¿Qué afirmación es correcta?", options:["absolute respeta el hueco como relative","fixed se mueve con el contenedor","relative mueve y desplaza a los demás","absolute sale del flujo y no reserva espacio"], answer:3, why:"absolute sale del flujo y no reserva espacio."},
+
+    // Flexbox (29–34)
+    {id:29, topic:"Flexbox", level:"easy", q:"¿Dónde se aplica display:flex?", options:["En cada item","En el contenedor padre","En el body","En el html"], answer:1, why:"display:flex se aplica al contenedor; sus hijos directos son flex items."},
+    {id:30, topic:"Flexbox", level:"easy", q:"Por defecto, flex-direction es…", options:["column","row","row-reverse","column-reverse"], answer:1, why:"Por defecto es row (eje principal horizontal)."},
+    {id:31, topic:"Flexbox", level:"med", q:"¿Qué propiedad alinea en el eje principal?", options:["align-items","align-content","justify-content","flex-wrap"], answer:2, why:"justify-content alinea/distribuye en el eje principal."},
+    {id:32, topic:"Flexbox", level:"med", q:"Para que los items bajen de línea al no caber necesitas…", options:["flex-wrap: wrap","align-content: wrap","justify-content: wrap","display:inline"], answer:0, why:"flex-wrap: wrap permite múltiples filas."},
+    {id:33, topic:"Flexbox", level:"hard", q:"¿Qué propiedad reparte el tamaño entre items sin usar width?", options:["justify-content","flex-grow (o flex:1)","gap","align-items"], answer:1, why:"El reparto de tamaño entre items lo controla flex-grow (ej. flex:1)."},
+    {id:34, topic:"Flexbox", level:"hard", q:"¿Qué propiedad alinea filas SOLO cuando hay wrap?", options:["align-items","align-content","justify-content","flex-basis"], answer:1, why:"align-content controla el conjunto de filas (solo con wrap)."},
+
+    // Grid (35–40)
+    {id:35, topic:"Grid", level:"easy", q:"¿Dónde se activa Grid?", options:["En cada item","En el contenedor padre","En el footer","En el main"], answer:1, why:"display:grid se aplica al contenedor; los hijos directos son grid items."},
+    {id:36, topic:"Grid", level:"med", q:"¿Qué propiedad define el tamaño de columnas?", options:["grid-template-rows","grid-template-columns","grid-column","grid-area"], answer:1, why:"grid-template-columns define número y tamaño de columnas."},
+    {id:37, topic:"Grid", level:"med", q:"¿Qué unidad reparte el espacio disponible en Grid?", options:["em","fr","vh","pt"], answer:1, why:"fr = fracción del espacio disponible."},
+    {id:38, topic:"Grid", level:"med", q:"Para que un item ocupe 3 columnas desde su posición, usas…", options:["grid-row: span 3","grid-column: span 3","grid-template-columns: span 3","grid-area: span 3"], answer:1, why:"grid-column: span 3 hace que el item abarque 3 columnas."},
+    {id:39, topic:"Grid", level:"hard", q:"¿Qué propiedad permite definir el layout de forma visual por zonas?", options:["grid-template-areas","grid-template-columns","grid-row","justify-content"], answer:0, why:"grid-template-areas permite escribir el layout como un mapa de áreas."},
+    {id:40, topic:"Grid", level:"hard", q:"Si usas grid-template-areas, ¿cómo asignas un elemento a un área?", options:["grid-template-area: header","grid-area: header","grid-column: header","grid-row: header"], answer:1, why:"Los items se asignan con grid-area: nombre; (coincidiendo con el área definida)."}
+  ];
+
+  // ===================== RENDER + FILTRO + SOLO FALLADAS =====================
+  const quizEl = document.getElementById("quiz");
+  const scoreEl = document.getElementById("score");
+  const totalEl = document.getElementById("total");
+  const scoreDetailEl = document.getElementById("scoreDetail");
+  const topicFilterEl = document.getElementById("topicFilter");
+  const onlyWrongEl = document.getElementById("onlyWrong");
+
+  // estado
+  let lastCheck = null; // { [id]: { selected, correct, ok } }
+  let currentIds = QUESTIONS.map(q => q.id);
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+  }
+
+  function topicGroup(q){
+    if(q.topic === "Base CSS") return "Base CSS";
+    if(q.topic === "Position") return "Position";
+    if(q.topic === "Flexbox") return "Flexbox";
+    if(q.topic === "Grid") return "Grid";
+    return "Box/Text/Color";
+  }
+
+  function applyFilter(){
+    const sel = topicFilterEl.value;
+    let filtered = QUESTIONS;
+
+    if(sel !== "ALL"){
+      filtered = QUESTIONS.filter(q => topicGroup(q) === sel);
+    }
+
+    // Si "solo falladas" y hay lastCheck, filtra a las falladas dentro del filtro actual
+    if(onlyWrongEl.checked && lastCheck){
+      filtered = filtered.filter(q => lastCheck[q.id] && !lastCheck[q.id].ok);
+    }
+
+    currentIds = filtered.map(q => q.id);
+    totalEl.textContent = String(filtered.length);
+    buildQuiz(filtered);
+    // Ajuste texto score
+    if(!lastCheck){
+      scoreEl.textContent = "0";
+      scoreDetailEl.textContent = "Aún sin corregir.";
+    }else{
+      // recalcular score solo en subset visible
+      let score = 0, answered = 0;
+      filtered.forEach(q=>{
+        const s = lastCheck[q.id]?.selected;
+        if(s !== null && s !== undefined) answered++;
+        if(lastCheck[q.id]?.ok) score++;
+      });
+      scoreEl.textContent = String(score);
+      const pct = filtered.length ? Math.round((score/filtered.length)*100) : 0;
+      scoreDetailEl.textContent = `Visibles: ${filtered.length} · Respondidas: ${answered}/${filtered.length} · Aciertos: ${score}/${filtered.length} · ${pct}%`;
+    }
+  }
+
+  function buildQuiz(list){
+    quizEl.innerHTML = "";
+    list.forEach((qq, idx) => {
+      const card = document.createElement("div");
+      card.className = "qcard";
+      card.dataset.qid = qq.id;
+
+      const levelClass = qq.level === "easy" ? "easy" : (qq.level === "med" ? "med" : "hard");
+      const levelLabel = qq.level === "easy" ? "Fácil" : (qq.level === "med" ? "Media" : "Difícil");
+
+      card.innerHTML = `
+        <div class="qtop">
+          <p class="qtitle"><b>${idx+1}.</b> ${escapeHtml(qq.q)}</p>
+          <div class="meta">
+            <span class="chip ${levelClass}">${levelLabel}</span>
+            <span class="chip">${escapeHtml(qq.topic)}</span>
+          </div>
+        </div>
+
+        <div class="opts" role="radiogroup" aria-label="Opciones pregunta ${idx+1}">
+          ${qq.options.map((op, i) => `
+            <label class="opt">
+              <input type="radio" name="q${qq.id}" value="${i}" />
+              <span>${escapeHtml(op)}</span>
+            </label>
+          `).join("")}
+        </div>
+
+        <div class="feedback" id="fb${qq.id}">
+          <div class="res"></div>
+          <div class="why"></div>
+        </div>
+      `;
+      quizEl.appendChild(card);
+
+      // restaurar selección si ya hubo corrección previa
+      if(lastCheck && lastCheck[qq.id]){
+        const selected = lastCheck[qq.id].selected;
+        if(selected !== null && selected !== undefined){
+          const input = card.querySelector(`input[name="q${qq.id}"][value="${selected}"]`);
+          if(input) input.checked = true;
+        }
+      }
+    });
+  }
+
+  function getSelected(qid){
+    const sel = document.querySelector(`input[name="q${qid}"]:checked`);
+    return sel ? Number(sel.value) : null;
+  }
+
+  function setFeedback(qid, ok, msg, why){
+    const fb = document.getElementById(`fb${qid}`);
+    if(!fb) return;
+    fb.classList.remove("ok","bad");
+    fb.classList.add(ok ? "ok" : "bad");
+    fb.style.display = "block";
+    fb.querySelector(".res").innerHTML = msg;
+    fb.querySelector(".why").innerHTML = `<b>Explicación:</b> ${escapeHtml(why)}`;
+  }
+
+  function checkAll(){
+    // evaluar solo los visibles
+    const visibleQuestions = QUESTIONS.filter(q => currentIds.includes(q.id));
+    let score = 0;
+    let answered = 0;
+
+    if(!lastCheck) lastCheck = {};
+
+    visibleQuestions.forEach(q => {
+      const sel = getSelected(q.id);
+      const correct = q.answer;
+      const correctText = q.options[correct];
+      if(sel !== null) answered++;
+
+      const ok = (sel === correct);
+      if(ok) score++;
+
+      lastCheck[q.id] = { selected: sel, correct, ok };
+
+      if(ok){
+        setFeedback(q.id, true,
+          `✅ Correcta. (${String.fromCharCode(65+correct)}) ${escapeHtml(correctText)}`,
+          q.why
+        );
+      }else{
+        const chosen = (sel === null) ? "— (sin responder)" : `(${String.fromCharCode(65+sel)}) ${q.options[sel]}`;
+        setFeedback(q.id, false,
+          `❌ Incorrecta. Tu respuesta: ${escapeHtml(chosen)}<br>✅ Correcta: (${String.fromCharCode(65+correct)}) ${escapeHtml(correctText)}`,
+          q.why
+        );
+      }
+    });
+
+    scoreEl.textContent = String(score);
+    const pct = visibleQuestions.length ? Math.round((score / visibleQuestions.length) * 100) : 0;
+    scoreDetailEl.textContent = `Visibles: ${visibleQuestions.length} · Respondidas: ${answered}/${visibleQuestions.length} · Aciertos: ${score}/${visibleQuestions.length} · ${pct}%`;
+
+    document.getElementById("scoreBox").scrollIntoView({behavior:"smooth", block:"nearest"});
+
+    // si está activado "solo falladas", reaplicar filtro tras corregir
+    if(onlyWrongEl.checked){
+      applyFilter();
+    }
+  }
+
+  function revealAll(){
+    // marca feedback sin depender de selección
+    const visibleQuestions = QUESTIONS.filter(q => currentIds.includes(q.id));
+    if(!lastCheck) lastCheck = {};
+
+    visibleQuestions.forEach(q => {
+      const correct = q.answer;
+      lastCheck[q.id] = { selected: getSelected(q.id), correct, ok: (getSelected(q.id) === correct) };
+
+      setFeedback(q.id, true,
+        `✅ Solución: (${String.fromCharCode(65+correct)}) ${escapeHtml(q.options[correct])}`,
+        q.why
+      );
+    });
+
+    // score solo informativo
+    let score = 0, answered = 0;
+    visibleQuestions.forEach(q=>{
+      const sel = getSelected(q.id);
+      if(sel !== null) answered++;
+      if(sel === q.answer) score++;
+    });
+    scoreEl.textContent = String(score);
+    const pct = visibleQuestions.length ? Math.round((score / visibleQuestions.length) * 100) : 0;
+    scoreDetailEl.textContent = `Visibles: ${visibleQuestions.length} · Respondidas: ${answered}/${visibleQuestions.length} · Aciertos: ${score}/${visibleQuestions.length} · ${pct}%`;
+  }
+
+  function resetAll(){
+    document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+    // ocultar feedback visible
+    document.querySelectorAll('.feedback').forEach(fb=>{
+      fb.className = "feedback";
+      fb.style.display = "none";
+      fb.querySelector(".res").innerHTML = "";
+      fb.querySelector(".why").innerHTML = "";
+    });
+
+    lastCheck = null;
+    onlyWrongEl.checked = false;
+    topicFilterEl.value = "ALL";
+    currentIds = QUESTIONS.map(q=>q.id);
+    totalEl.textContent = String(QUESTIONS.length);
+
+    scoreEl.textContent = "0";
+    scoreDetailEl.textContent = "Aún sin corregir.";
+
+    buildQuiz(QUESTIONS);
+    document.getElementById("test").scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  // INIT
+  totalEl.textContent = String(QUESTIONS.length);
+  buildQuiz(QUESTIONS);
+
+  // EVENTS
+  document.getElementById("btnCheck").addEventListener("click", checkAll);
+  document.getElementById("btnReveal").addEventListener("click", revealAll);
+  document.getElementById("btnReset").addEventListener("click", resetAll);
+  topicFilterEl.addEventListener("change", applyFilter);
+  onlyWrongEl.addEventListener("change", applyFilter);
+
+  // UX: al cambiar respuesta, oculto feedback de esa pregunta para no distraer
+  quizEl.addEventListener("change", (e) => {
+    const input = e.target;
+    if(input && input.matches('input[type="radio"]')){
+      const qid = Number(input.name.replace("q",""));
+      const fb = document.getElementById(`fb${qid}`);
+      if(fb){
+        fb.style.display = "none";
+      }
+      // si había corrección anterior, actualizamos selected en lastCheck (sin recalcular ok)
+      if(lastCheck && lastCheck[qid]){
+        lastCheck[qid].selected = Number(input.value);
+      }
+    }
+  });
+</script>
+</body>
+</html>
