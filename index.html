@@ -4,449 +4,232 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Temario Interfaces (2º DAW) – Índice</title>
-  <meta name="description" content="Índice del temario de Interfaces (2º DAW) con acceso a UF1–UF7 y examen. Preparado para GitHub Pages." />
+  <meta name="description" content="Índice del temario de Interfaces (2º DAW) con acceso a UF1–UF7 y examen UF1–UF4. Preparado para GitHub Pages." />
+
   <style>
     :root{
-      --bg: #0b1226;
+      --bg:#0b1226;
       --bg2:#0f172a;
-      --card: rgba(17,28,54,.86);
-      --border: rgba(255,255,255,.10);
+      --card:rgba(17,28,54,.86);
+      --border:rgba(255,255,255,.10);
       --text:#e5e7eb;
       --muted:#a7b0c0;
       --accent:#38bdf8;
-      --ok:#22c55e;
       --warn:#f59e0b;
-      --shadow: 0 12px 28px rgba(0,0,0,.35);
-      --radius: 18px;
+      --shadow:0 12px 28px rgba(0,0,0,.35);
+      --radius:18px;
     }
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
     body{
       margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       color:var(--text);
       background:
         radial-gradient(1200px 700px at 15% 0%, rgba(56,189,248,.18), transparent 60%),
         radial-gradient(1000px 700px at 85% 10%, rgba(34,197,94,.12), transparent 55%),
-        linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+        linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);
       min-height:100vh;
     }
 
-    /* Header */
     header{
-      position: sticky;
+      position:sticky;
       top:0;
       z-index:10;
-      backdrop-filter: blur(10px);
-      background: rgba(11,18,38,.86);
-      border-bottom: 1px solid var(--border);
+      backdrop-filter:blur(10px);
+      background:rgba(11,18,38,.86);
+      border-bottom:1px solid var(--border);
     }
     .wrap{
-      max-width: 1100px;
+      max-width:1100px;
       margin:0 auto;
-      padding: 18px 16px;
+      padding:18px 16px;
       display:flex;
       gap:16px;
-      align-items:center;
       justify-content:space-between;
+      align-items:center;
       flex-wrap:wrap;
     }
-    .brand{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      min-width: 260px;
-    }
+    .brand{display:flex;gap:12px;align-items:center}
     .logo{
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      background: rgba(56,189,248,.16);
-      border: 1px solid rgba(56,189,248,.35);
-      display:grid;
-      place-items:center;
-      box-shadow: var(--shadow);
-      flex: 0 0 auto;
+      width:42px;height:42px;border-radius:14px;
+      background:rgba(56,189,248,.16);
+      border:1px solid rgba(56,189,248,.35);
+      display:grid;place-items:center;
+      font-weight:900;color:var(--accent);
     }
-    .logo span{
-      font-weight: 900;
-      color: var(--accent);
-      letter-spacing: .5px;
-    }
-    h1{
-      font-size: 16px;
-      margin:0;
-      letter-spacing:.2px;
-      line-height:1.2;
-    }
-    .subtitle{
-      margin:4px 0 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
-    .header-actions{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-    .chip{
-      font-size:12px;
-      color: var(--muted);
-      border: 1px solid var(--border);
-      padding: 8px 10px;
-      border-radius: 999px;
-      background: rgba(2,6,23,.35);
-      white-space:nowrap;
-    }
-    .chip strong{color:var(--text)}
-    .btn{
-      font-size:12px;
-      font-weight:700;
-      color: var(--text);
-      border:1px solid var(--border);
-      padding: 9px 12px;
-      border-radius: 12px;
-      background: rgba(2,6,23,.45);
-      cursor:pointer;
-      text-decoration:none;
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-    }
-    .btn:hover{
-      border-color: rgba(56,189,248,.55);
-      color: var(--accent);
-    }
+    h1{font-size:16px;margin:0}
+    .subtitle{font-size:12px;color:var(--muted);margin:4px 0 0}
 
-    /* Main */
     main{
-      max-width: 1100px;
+      max-width:1100px;
       margin:0 auto;
-      padding: 18px 16px 70px;
-    }
-    .hero{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 14px;
-      margin-top: 10px;
-    }
-    @media (max-width: 980px){
-      .hero{grid-template-columns: 1fr;}
-    }
-    .card{
-      background: var(--card);
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px;
-      box-shadow: var(--shadow);
-    }
-    .hero h2{
-      margin:0 0 10px;
-      font-size: 18px;
-    }
-    .hero p{
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 13px;
+      padding:18px 16px 70px;
     }
 
-    /* Grid of links */
     .grid{
-      margin-top: 14px;
       display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 12px;
+      grid-template-columns:repeat(12,1fr);
+      gap:12px;
     }
+
     .tile{
-      grid-column: span 4;
-      background: rgba(17,28,54,.78);
+      grid-column:span 4;
+      background:var(--card);
       border:1px solid var(--border);
-      border-radius: 18px;
-      padding: 14px;
-      box-shadow: var(--shadow);
+      border-radius:var(--radius);
+      padding:14px;
       text-decoration:none;
-      color: var(--text);
-      position: relative;
-      overflow:hidden;
-      min-height: 118px;
+      color:var(--text);
       display:flex;
       flex-direction:column;
       justify-content:space-between;
+      box-shadow:var(--shadow);
+      min-height:120px;
     }
     .tile:hover{
-      border-color: rgba(56,189,248,.55);
-      transform: translateY(-1px);
-      transition: transform .12s ease;
-    }
-    .tile::before{
-      content:"";
-      position:absolute;
-      inset:-60px -80px auto auto;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle at 30% 30%, rgba(56,189,248,.28), transparent 60%);
-      transform: rotate(12deg);
-      pointer-events:none;
-    }
-    .tile .top{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap: 10px;
-      position:relative;
-      z-index:1;
-    }
-    .tag{
-      font-size: 11px;
-      color: var(--muted);
-      border: 1px solid var(--border);
-      padding: 5px 8px;
-      border-radius: 999px;
-      background: rgba(2,6,23,.35);
-      white-space:nowrap;
-      height: fit-content;
-    }
-    .uf{
-      font-size: 12px;
-      color: var(--accent);
-      font-weight: 900;
-      letter-spacing: .5px;
-    }
-    .title{
-      margin: 6px 0 0;
-      font-size: 14px;
-      font-weight: 800;
-      line-height: 1.25;
-    }
-    .desc{
-      margin: 10px 0 0;
-      font-size: 12px;
-      color: var(--muted);
-      position:relative;
-      z-index:1;
-    }
-    .go{
-      margin-top: 12px;
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--text);
-      display:inline-flex;
-      gap: 8px;
-      align-items:center;
-      position:relative;
-      z-index:1;
-      opacity:.95;
-    }
-    .go span{
-      width: 22px;
-      height: 22px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      display:grid;
-      place-items:center;
-      background: rgba(2,6,23,.35);
-    }
-    .tile:hover .go{color: var(--accent);}
-
-    /* Responsive tiles */
-    @media (max-width: 980px){
-      .tile{grid-column: span 6;}
-    }
-    @media (max-width: 620px){
-      .tile{grid-column: span 12;}
-      .wrap{padding: 14px 14px;}
-      .hero h2{font-size: 17px;}
+      border-color:rgba(56,189,248,.55);
+      transform:translateY(-1px);
     }
 
-    /* Special tile for exam */
-    .tile.exam::before{
-      background: radial-gradient(circle at 30% 30%, rgba(245,158,11,.28), transparent 60%);
+    .tile.exam{
+      border-color:rgba(245,158,11,.35);
     }
-    .tile.exam .uf{color: var(--warn);}
 
-    /* Footer */
+    .uf{font-size:12px;font-weight:900;color:var(--accent)}
+    .tile.exam .uf{color:var(--warn)}
+    .title{font-size:14px;font-weight:800;margin-top:6px}
+    .desc{font-size:12px;color:var(--muted);margin-top:10px}
+    .go{margin-top:12px;font-size:12px;font-weight:800;display:flex;gap:6px;align-items:center}
+
+    @media(max-width:980px){
+      .tile{grid-column:span 6}
+    }
+    @media(max-width:620px){
+      .tile{grid-column:span 12}
+    }
+
     footer{
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 16px 26px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-    .foot{
+      max-width:1100px;
+      margin:0 auto;
+      padding:20px 16px;
+      font-size:12px;
+      color:var(--muted);
       border-top:1px solid var(--border);
-      padding-top: 16px;
-      display:flex;
-      gap:10px;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      align-items:center;
     }
     .kbd{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 11px;
-      border: 1px solid var(--border);
-      border-bottom-color: rgba(255,255,255,.18);
-      padding: 3px 6px;
-      border-radius: 8px;
-      background: rgba(2,6,23,.35);
-      color: var(--text);
+      font-family:ui-monospace,monospace;
+      border:1px solid var(--border);
+      padding:3px 6px;
+      border-radius:6px;
+      background:rgba(2,6,23,.4);
+      color:var(--text);
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <div class="wrap">
-      <div class="brand">
-        <div class="logo" aria-hidden="true"><span>UI</span></div>
-        <div>
-          <h1>Temario Interfaces · 2º DAW</h1>
-          <p class="subtitle">Índice para GitHub Pages (móvil + ordenador).</p>
-        </div>
-      </div>
 
-      <div class="header-actions">
-        <div class="chip"><strong>Consejo:</strong> repasa → test → repite</div>
-        <a class="btn" href="#temario">Ir al temario <span aria-hidden="true">↓</span></a>
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo">UI</div>
+      <div>
+        <h1>Temario Interfaces · 2º DAW</h1>
+        <div class="subtitle">Acceso a UF + Examen real</div>
       </div>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main>
-    <section class="hero">
-      <div class="card">
-        <h2>Acceso rápido a cada UF</h2>
-        <p>
-          Esta página sirve como <strong>menú principal</strong> para tu repositorio.
-          Abre cada Unidad Formativa desde el móvil u ordenador y repasa antes del examen.
-        </p>
-        <p class="muted" style="margin-top:10px;">
-          ✔ Recomendación: usa “Abrir con Live Server” en local, y en GitHub Pages funcionará igual.
-        </p>
+<main>
+
+  <section class="grid" aria-label="Listado de unidades y examen">
+
+    <a class="tile" href="uf1.html">
+      <div>
+        <div class="uf">UF1</div>
+        <div class="title">Unidad Formativa 1</div>
+        <div class="desc">Introducción, IPO, UX, estructura y planificación.</div>
       </div>
+      <div class="go">→ Abrir UF1</div>
+    </a>
 
-      <div class="card">
-        <h2>Cómo subirlo a GitHub Pages</h2>
-        <ol class="muted" style="margin:0 0 0 18px;">
-          <li>Sube todos los <code>.html</code> al repo.</li>
-          <li>Settings → Pages → Deploy from branch.</li>
-          <li>Branch: <strong>main</strong> / folder: <strong>/(root)</strong>.</li>
-          <li>Entra al enlace que te genera Pages.</li>
-        </ol>
-        <p class="muted" style="margin-top:10px;">
-          <span class="kbd">index.html</span> debe estar en la raíz del repo.
-        </p>
+    <a class="tile" href="uf2.html">
+      <div>
+        <div class="uf">UF2</div>
+        <div class="title">Unidad Formativa 2</div>
+        <div class="desc">CSS básico, selectores, box model y layout.</div>
       </div>
-    </section>
+      <div class="go">→ Abrir UF2</div>
+    </a>
 
-    <section id="temario" class="grid" aria-label="Listado de unidades">
-      <!-- Ajusta títulos/etiquetas si quieres, los nombres de archivo son los que se ven en tu carpeta -->
+    <a class="tile" href="uf3.html">
+      <div>
+        <div class="uf">UF3</div>
+        <div class="title">CSS Avanzado</div>
+        <div class="desc">Flexbox, Grid, responsive, media queries.</div>
+      </div>
+      <div class="go">→ Abrir UF3</div>
+    </a>
 
-      <a class="tile" href="uf1.html">
-        <div class="top">
-          <div>
-            <div class="uf">UF1</div>
-            <div class="title">Unidad Formativa 1</div>
-          </div>
-          <div class="tag">Temario</div>
-        </div>
-        <div class="desc">Apuntes, ejemplos y repaso para examen.</div>
-        <div class="go"><span aria-hidden="true">→</span> Abrir UF1</div>
-      </a>
+    <a class="tile" href="uf4.html">
+      <div>
+        <div class="uf">UF4</div>
+        <div class="title">Unidad Formativa 4</div>
+        <div class="desc">Diseño avanzado y buenas prácticas.</div>
+      </div>
+      <div class="go">→ Abrir UF4</div>
+    </a>
 
-      <a class="tile" href="uf2.html">
-        <div class="top">
-          <div>
-            <div class="uf">UF2</div>
-            <div class="title">Unidad Formativa 2</div>
-          </div>
-          <div class="tag">Temario</div>
-        </div>
-        <div class="desc">Contenido organizado para repasar rápido.</div>
-        <div class="go"><span aria-hidden="true">→</span> Abrir UF2</div>
-      </a>
+    <a class="tile" href="uf5.html">
+      <div>
+        <div class="uf">UF5</div>
+        <div class="title">Unidad Formativa 5</div>
+        <div class="desc">Frameworks y componentes.</div>
+      </div>
+      <div class="go">→ Abrir UF5</div>
+    </a>
 
-      <a class="tile" href="uf3.html">
-        <div class="top">
-          <div>
-            <div class="uf">UF3</div>
-            <div class="title">CSS Avanzado</div>
-          </div>
-          <div class="tag">Repaso + Test</div>
-        </div>
-        <div class="desc">Diseños, media queries, efectos y preprocesadores + test.</div>
-        <div class="go"><span aria-hidden="true">→</span> Abrir UF3</div>
-      </a>
+    <a class="tile" href="uf6.html">
+      <div>
+        <div class="uf">UF6</div>
+        <div class="title">Unidad Formativa 6</div>
+        <div class="desc">Bootstrap y diseño responsive.</div>
+      </div>
+      <div class="go">→ Abrir UF6</div>
+    </a>
 
-      <a class="tile" href="uf4.html">
-        <div class="top">
-          <div>
-            <div class="uf">UF4</div>
-            <div class="title">Unidad Formativa 4</div>
-          </div>
-          <div class="tag">Temario</div>
-        </div>
-        <div class="desc">Apuntes listos para móvil y ordenador.</div>
-        <div class="go"><span aria-hidden="true">→</span> Abrir UF4</div>
-      </a>
+    <a class="tile" href="uf7.html">
+      <div>
+        <div class="uf">UF7</div>
+        <div class="title">Unidad Formativa 7</div>
+        <div class="desc">Repaso final y checklist de examen.</div>
+      </div>
+      <div class="go">→ Abrir UF7</div>
+    </a>
 
-      <a class="tile" href="uf5.html">
-        <div class="top">
-          <div>
-            <div class="uf">UF5</div>
-            <div class="title">Unidad Formativa 5</div>
-          </div>
-          <div class="tag">Temario</div>
-        </div>
-        <div class="desc">Resumenes y ejercicios para examen.</div>
-        <div class="go"><span aria-hidden="true">→</span> Abrir UF5</div>
-      </a>
+    <!-- 🔴 EXAMEN REAL -->
+    <a class="tile exam" href="exameninterfacesuf1-uf4.html">
+      <div>
+        <div class="uf">EXAMEN</div>
+        <div class="title">Simulacro UF1–UF4</div>
+        <div class="desc">Test autocorregible con explicación al fallar. Modo examen real.</div>
+      </div>
+      <div class="go">📝 Abrir examen</div>
+    </a>
 
-      <a class="tile" href="uf6.html">
-        <div class="top">
-          <div>
-            <div class="uf">UF6</div>
-            <div class="title">Unidad Formativa 6</div>
-          </div>
-          <div class="tag">Temario</div>
-        </div>
-        <div class="desc">Estructura de repaso y conceptos clave.</div>
-        <div class="go"><span aria-hidden="true">→</span> Abrir UF6</div>
-      </a>
+  </section>
 
-      <a class="tile" href="uf7.html">
-        <div class="top">
-          <div>
-            <div class="uf">UF7</div>
-            <div class="title">Unidad Formativa 7</div>
-          </div>
-          <div class="tag">Temario</div>
-        </div>
-        <div class="desc">Últimos puntos + checklist de examen.</div>
-        <div class="go"><span aria-hidden="true">→</span> Abrir UF7</div>
-      </a>
+</main>
 
-      <a class="tile exam" href="exameninterfaces.html">
-        <div class="top">
-          <div>
-            <div class="uf">EXAMEN</div>
-            <div class="title">Simulacro / Test</div>
-          </div>
-          <div class="tag">Modo examen</div>
-        </div>
-        <div class="desc">Haz el test completo como si fuera el día del examen.</div>
-        <div class="go"><span aria-hidden="true">📝</span> Abrir examen</div>
-      </a>
-    </section>
-  </main>
+<footer>
+  <div>
+    Archivos esperados:
+    <span class="kbd">uf1.html</span> …
+    <span class="kbd">uf7.html</span> ·
+    <span class="kbd">exameninterfacesuf1-uf4.html</span>
+  </div>
+</footer>
 
-  <footer>
-    <div class="foot">
-      <div>Hecho para repasar rápido (GitHub Pages). Archivos esperados: <span class="kbd">uf1.html</span> … <span class="kbd">uf7.html</span>, <span class="kbd">uf3.html</span> y <span class="kbd">exameninterfaces.html</span>.</div>
-      <div>Tip: en VS Code → <span class="kbd">Alt</span> + <span class="kbd">Z</span> para ajustar líneas.</div>
-    </div>
-  </footer>
 </body>
 </html>

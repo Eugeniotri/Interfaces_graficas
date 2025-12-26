@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Examen Interfaces — Autocorrección + explicación</title>
+  <style>
+    :root { --max: 980px; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background:#0f1115; color:#e9eef7; }
+    header { padding: 20px 16px; border-bottom: 1px solid #2a3140; background:#121622; position: sticky; top:0; z-index: 10; }
+    main { max-width: var(--max); margin: 0 auto; padding: 18px 16px 60px; }
+    h1 { margin: 0 0 6px; font-size: 1.15rem; }
+    p { margin: 0; opacity: .9; }
+    .card { background:#141a28; border: 1px solid #27314a; border-radius: 12px; padding: 14px; margin: 14px 0; }
+    fieldset { border: 1px solid #2a3552; border-radius: 12px; padding: 12px; margin: 14px 0; }
+    legend { padding: 0 8px; font-weight: 800; }
+    label { display: block; padding: 6px 8px; border-radius: 8px; cursor: pointer; }
+    label:hover { background: rgba(255,255,255,.06); }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    button { cursor: pointer; border: 0; border-radius: 10px; padding: 10px 14px; font-weight: 800; }
+    .btn { background:#3b82f6; color:white; }
+    .btn2 { background:#26324d; color:#e9eef7; border:1px solid #3a4b74; }
+    .pill { display:inline-block; padding:4px 10px; border:1px solid #334063; border-radius: 999px; font-size:.85rem; opacity:.95; }
+    .ok { border-color: rgba(34,197,94,.85)!important; }
+    .bad { border-color: rgba(239,68,68,.9)!important; }
+    .muted { opacity:.85; }
+    .explain {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px solid #2a3552;
+      border-radius: 10px;
+      background:#0c0f17;
+    }
+    .explain h3 { margin: 0 0 6px; font-size: .95rem; }
+    .explain p { margin: 6px 0; }
+    .small { font-size: .92rem; }
+    code { background:#0c0f17; padding:2px 6px; border-radius:6px; }
+    .stickybar { display:flex; align-items:center; justify-content:space-between; gap:12px; max-width:980px; margin:0 auto; }
+    .counter { font-weight: 800; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="stickybar">
+      <div>
+        <h1>Interfaces Gráficas — Test (40) · autocorrección al responder</h1>
+        <p class="muted">Marca una opción: se verifica al instante. Si fallas, te muestra la correcta + razonamiento breve + “ojo con…”.</p>
+      </div>
+      <div class="row">
+        <span class="pill" id="status">En progreso</span>
+        <span class="pill counter" id="score">0/40</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <div class="row">
+        <button class="btn2" type="button" onclick="reiniciar()">Reiniciar todo</button>
+        <span class="muted small">Tip: si cambias una respuesta, se vuelve a evaluar.</span>
+      </div>
+      <div class="muted small" style="margin-top:8px">
+        Colores: ✅ correcta (verde) · ❌ elegida incorrecta (rojo) · ✔ correcta resaltada aunque falles.
+      </div>
+    </section>
+
+    <form id="quiz" autocomplete="off">
+
+      <!-- =========================
+           1–20 (TU LISTA)
+           ========================= -->
+
+      <fieldset data-q="q1">
+        <legend>1) ¿Qué elemento HTML representa el contenido principal de la página?</legend>
+        <label><input type="radio" name="q1" value="a"> a. &lt;article&gt;</label>
+        <label><input type="radio" name="q1" value="b"> b. &lt;main&gt;</label>
+        <label><input type="radio" name="q1" value="c"> c. &lt;body&gt;</label>
+        <label><input type="radio" name="q1" value="d"> d. &lt;section&gt;</label>
+        <div class="explain" id="exp-q1" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q2">
+        <legend>2) ¿Qué es el diseño fluido?</legend>
+        <label><input type="radio" name="q2" value="a"> a. Usa em para todo</label>
+        <label><input type="radio" name="q2" value="b"> b. Usa tamaños fijos</label>
+        <label><input type="radio" name="q2" value="c"> c. Usa porcentajes adaptables</label>
+        <label><input type="radio" name="q2" value="d"> d. No se usa actualmente</label>
+        <div class="explain" id="exp-q2" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q3">
+        <legend>3) Los wireframes representan…</legend>
+        <label><input type="radio" name="q3" value="a"> a. La estructura básica de una interfaz</label>
+        <label><input type="radio" name="q3" value="b"> b. El código JavaScript</label>
+        <label><input type="radio" name="q3" value="c"> c. La interacción con bases de datos</label>
+        <label><input type="radio" name="q3" value="d"> d. El diseño final con colores</label>
+        <div class="explain" id="exp-q3" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q4">
+        <legend>4) ¿Qué es la accesibilidad web?</legend>
+        <label><input type="radio" name="q4" value="a"> a. Que la web cargue rápido</label>
+        <label><input type="radio" name="q4" value="b"> b. Un conjunto de estilos CSS</label>
+        <label><input type="radio" name="q4" value="c"> c. Posibilidad de que cualquier persona acceda a los contenidos</label>
+        <label><input type="radio" name="q4" value="d"> d. Facilidad de uso para administradores</label>
+        <div class="explain" id="exp-q4" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q5">
+        <legend>5) ¿Qué propiedad define el color del texto?</legend>
+        <label><input type="radio" name="q5" value="a"> a. border</label>
+        <label><input type="radio" name="q5" value="b"> b. background-color</label>
+        <label><input type="radio" name="q5" value="c"> c. font-family</label>
+        <label><input type="radio" name="q5" value="d"> d. color</label>
+        <div class="explain" id="exp-q5" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q6">
+        <legend>6) La sintaxis de una regla CSS contiene…</legend>
+        <label><input type="radio" name="q6" value="a"> a. Selector, propiedad y valor</label>
+        <label><input type="radio" name="q6" value="b"> b. Función, variable y parámetro</label>
+        <label><input type="radio" name="q6" value="c"> c. Selector, evento y función</label>
+        <label><input type="radio" name="q6" value="d"> d. Etiqueta, clase y ID</label>
+        <div class="explain" id="exp-q6" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q7">
+        <legend>7) ¿Qué propiedad controla el espacio interno de un elemento?</legend>
+        <label><input type="radio" name="q7" value="a"> a. spacing</label>
+        <label><input type="radio" name="q7" value="b"> b. padding</label>
+        <label><input type="radio" name="q7" value="c"> c. border</label>
+        <label><input type="radio" name="q7" value="d"> d. margin</label>
+        <div class="explain" id="exp-q7" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q8">
+        <legend>8) ¿Qué elemento se usa para enlazar una hoja de estilos externa?</legend>
+        <label><input type="radio" name="q8" value="a"> a. &lt;style&gt;</label>
+        <label><input type="radio" name="q8" value="b"> b. &lt;link&gt;</label>
+        <label><input type="radio" name="q8" value="c"> c. &lt;css&gt;</label>
+        <label><input type="radio" name="q8" value="d"> d. &lt;script&gt;</label>
+        <div class="explain" id="exp-q8" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q9">
+        <legend>9) ¿Qué operador permite sumar valores en SCSS?</legend>
+        <label><input type="radio" name="q9" value="a"> a. *</label>
+        <label><input type="radio" name="q9" value="b"> b. &amp;</label>
+        <label><input type="radio" name="q9" value="c"> c. +</label>
+        <label><input type="radio" name="q9" value="d"> d. %</label>
+        <div class="explain" id="exp-q9" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q10">
+        <legend>10) ¿Qué lenguaje define la estructura del documento web?</legend>
+        <label><input type="radio" name="q10" value="a"> a. JavaScript</label>
+        <label><input type="radio" name="q10" value="b"> b. HTML</label>
+        <label><input type="radio" name="q10" value="c"> c. PHP</label>
+        <label><input type="radio" name="q10" value="d"> d. CSS</label>
+        <div class="explain" id="exp-q10" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q11">
+        <legend>11) ¿Cómo se definen columnas responsivas en Bootstrap?</legend>
+        <label><input type="radio" name="q11" value="a"> a. .col-fluid</label>
+        <label><input type="radio" name="q11" value="b"> b. .col</label>
+        <label><input type="radio" name="q11" value="c"> c. .col-sm-6</label>
+        <label><input type="radio" name="q11" value="d"> d. .col-static</label>
+        <div class="explain" id="exp-q11" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q12">
+        <legend>12) ¿Qué lenguaje define la apariencia visual del documento web?</legend>
+        <label><input type="radio" name="q12" value="a"> a. CSS</label>
+        <label><input type="radio" name="q12" value="b"> b. JavaScript</label>
+        <label><input type="radio" name="q12" value="c"> c. HTML</label>
+        <label><input type="radio" name="q12" value="d"> d. SQL</label>
+        <div class="explain" id="exp-q12" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q13">
+        <legend>13) ¿Qué propiedad establece el eje principal en flexbox?</legend>
+        <label><input type="radio" name="q13" value="a"> a. flex-start</label>
+        <label><input type="radio" name="q13" value="b"> b. flex-direction</label>
+        <label><input type="radio" name="q13" value="c"> c. justify-content</label>
+        <label><input type="radio" name="q13" value="d"> d. flex-flow</label>
+        <div class="explain" id="exp-q13" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q14">
+        <legend>14) La IPO estudia la interacción entre…</legend>
+        <label><input type="radio" name="q14" value="a"> a. Bases de datos y servidores</label>
+        <label><input type="radio" name="q14" value="b"> b. Personas y ordenadores</label>
+        <label><input type="radio" name="q14" value="c"> c. Frameworks y lenguajes</label>
+        <label><input type="radio" name="q14" value="d"> d. Navegadores y servidores</label>
+        <div class="explain" id="exp-q14" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q15">
+        <legend>15) La filosofía mobile-first implica…</legend>
+        <label><input type="radio" name="q15" value="a"> a. Usar solo grid</label>
+        <label><input type="radio" name="q15" value="b"> b. No usar media queries</label>
+        <label><input type="radio" name="q15" value="c"> c. Diseñar primero para escritorio</label>
+        <label><input type="radio" name="q15" value="d"> d. Diseñar pensando primero en móviles</label>
+        <div class="explain" id="exp-q15" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q16">
+        <legend>16) ¿Qué valor de position posiciona un elemento relativo al contenedor más cercano con posición?</legend>
+        <label><input type="radio" name="q16" value="a"> a. absolute</label>
+        <label><input type="radio" name="q16" value="b"> b. fixed</label>
+        <label><input type="radio" name="q16" value="c"> c. static</label>
+        <label><input type="radio" name="q16" value="d"> d. sticky</label>
+        <div class="explain" id="exp-q16" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q17">
+        <legend>17) Un mapa web muestra…</legend>
+        <label><input type="radio" name="q17" value="a"> a. El aspecto gráfico del proyecto</label>
+        <label><input type="radio" name="q17" value="b"> b. El diseño final del sitio</label>
+        <label><input type="radio" name="q17" value="c"> c. El comportamiento de menús</label>
+        <label><input type="radio" name="q17" value="d"> d. La estructura y relación entre páginas</label>
+        <div class="explain" id="exp-q17" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q18">
+        <legend>18) ¿Qué propiedad define la sombra de caja?</legend>
+        <label><input type="radio" name="q18" value="a"> a. text-shadow</label>
+        <label><input type="radio" name="q18" value="b"> b. box-shadow</label>
+        <label><input type="radio" name="q18" value="c"> c. bg-shadow</label>
+        <label><input type="radio" name="q18" value="d"> d. shadow-box</label>
+        <div class="explain" id="exp-q18" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q19">
+        <legend>19) ¿Qué es un mixin?</legend>
+        <label><input type="radio" name="q19" value="a"> a. Un tipo de variable</label>
+        <label><input type="radio" name="q19" value="b"> b. Una regla de posicionamiento</label>
+        <label><input type="radio" name="q19" value="c"> c. Un selector avanzado</label>
+        <label><input type="radio" name="q19" value="d"> d. Un bloque reutilizable de estilos</label>
+        <div class="explain" id="exp-q19" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q20">
+        <legend>20) ¿Qué modelo se usa para representar cajas en CSS?</legend>
+        <label><input type="radio" name="q20" value="a"> a. DOM Model</label>
+        <label><input type="radio" name="q20" value="b"> b. Grid Model</label>
+        <label><input type="radio" name="q20" value="c"> c. Box Model</label>
+        <label><input type="radio" name="q20" value="d"> d. Flexbox</label>
+        <div class="explain" id="exp-q20" hidden></div>
+      </fieldset>
+
+      <!-- =========================
+           21–40 (DIFÍCILES)
+           ========================= -->
+
+      <fieldset data-q="q21">
+        <legend>21) En accesibilidad, ¿qué atributo es clave para que un lector de pantalla describa una imagen informativa?</legend>
+        <label><input type="radio" name="q21" value="a"> a. title</label>
+        <label><input type="radio" name="q21" value="b"> b. alt</label>
+        <label><input type="radio" name="q21" value="c"> c. aria-hidden</label>
+        <label><input type="radio" name="q21" value="d"> d. role="img"</label>
+        <div class="explain" id="exp-q21" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q22">
+        <legend>22) ¿Cuál es la diferencia “trampa” entre <code>display: none</code> y <code>visibility: hidden</code>?</legend>
+        <label><input type="radio" name="q22" value="a"> a. Son equivalentes, solo cambia el rendimiento</label>
+        <label><input type="radio" name="q22" value="b"> b. visibility:hidden elimina el elemento del flujo</label>
+        <label><input type="radio" name="q22" value="c"> c. display:none elimina del flujo; visibility:hidden mantiene el espacio</label>
+        <label><input type="radio" name="q22" value="d"> d. display:none mantiene el espacio; visibility:hidden lo elimina</label>
+        <div class="explain" id="exp-q22" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q23">
+        <legend>23) ¿Qué selector tiene mayor especificidad?</legend>
+        <label><input type="radio" name="q23" value="a"> a. <code>.menu a</code></label>
+        <label><input type="radio" name="q23" value="b"> b. <code>#menu a</code></label>
+        <label><input type="radio" name="q23" value="c"> c. <code>nav a</code></label>
+        <label><input type="radio" name="q23" value="d"> d. <code>a:hover</code></label>
+        <div class="explain" id="exp-q23" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q24">
+        <legend>24) En Flexbox, ¿qué propiedad alinea los ítems en el eje cruzado (cross axis) en una sola línea?</legend>
+        <label><input type="radio" name="q24" value="a"> a. justify-content</label>
+        <label><input type="radio" name="q24" value="b"> b. align-items</label>
+        <label><input type="radio" name="q24" value="c"> c. align-content</label>
+        <label><input type="radio" name="q24" value="d"> d. place-items</label>
+        <div class="explain" id="exp-q24" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q25">
+        <legend>25) ¿Qué propiedad de Grid define el tamaño de las filas?</legend>
+        <label><input type="radio" name="q25" value="a"> a. grid-template-rows</label>
+        <label><input type="radio" name="q25" value="b"> b. grid-auto-flow</label>
+        <label><input type="radio" name="q25" value="c"> c. grid-template-areas</label>
+        <label><input type="radio" name="q25" value="d"> d. grid-row</label>
+        <div class="explain" id="exp-q25" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q26">
+        <legend>26) Mobile-first con media queries suele basarse en…</legend>
+        <label><input type="radio" name="q26" value="a"> a. <code>@media (max-width: ...)</code></label>
+        <label><input type="radio" name="q26" value="b"> b. <code>@media (min-width: ...)</code></label>
+        <label><input type="radio" name="q26" value="c"> c. <code>@media (orientation: landscape)</code> únicamente</label>
+        <label><input type="radio" name="q26" value="d"> d. <code>@media print</code></label>
+        <div class="explain" id="exp-q26" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q27">
+        <legend>27) En Bootstrap 5, ¿qué clase centra horizontalmente un bloque con ancho fijo usando márgenes automáticos?</legend>
+        <label><input type="radio" name="q27" value="a"> a. .text-center</label>
+        <label><input type="radio" name="q27" value="b"> b. .mx-auto</label>
+        <label><input type="radio" name="q27" value="c"> c. .justify-content-center</label>
+        <label><input type="radio" name="q27" value="d"> d. .align-items-center</label>
+        <div class="explain" id="exp-q27" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q28">
+        <legend>28) ¿Qué clase de Bootstrap aplica un display flex?</legend>
+        <label><input type="radio" name="q28" value="a"> a. .d-flex</label>
+        <label><input type="radio" name="q28" value="b"> b. .flex</label>
+        <label><input type="radio" name="q28" value="c"> c. .display-flex</label>
+        <label><input type="radio" name="q28" value="d"> d. .df</label>
+        <div class="explain" id="exp-q28" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q29">
+        <legend>29) En SCSS, ¿qué símbolo se usa para interpolar dentro de un selector (ej.: <code>.col-#{$i}</code>)?</legend>
+        <label><input type="radio" name="q29" value="a"> a. <code>@</code></label>
+        <label><input type="radio" name="q29" value="b"> b. <code>&amp;</code></label>
+        <label><input type="radio" name="q29" value="c"> c. <code>#{$var}</code></label>
+        <label><input type="radio" name="q29" value="d"> d. <code>%</code></label>
+        <div class="explain" id="exp-q29" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q30">
+        <legend>30) ¿Qué hace <code>@extend</code> en SCSS?</legend>
+        <label><input type="radio" name="q30" value="a"> a. Importa ficheros SCSS</label>
+        <label><input type="radio" name="q30" value="b"> b. Reutiliza reglas combinando selectores (herencia de estilos)</label>
+        <label><input type="radio" name="q30" value="c"> c. Declara una función</label>
+        <label><input type="radio" name="q30" value="d"> d. Convierte px a rem automáticamente</label>
+        <div class="explain" id="exp-q30" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q31">
+        <legend>31) ¿Qué valor de <code>box-sizing</code> hace que el ancho incluya padding y border?</legend>
+        <label><input type="radio" name="q31" value="a"> a. content-box</label>
+        <label><input type="radio" name="q31" value="b"> b. border-box</label>
+        <label><input type="radio" name="q31" value="c"> c. padding-box</label>
+        <label><input type="radio" name="q31" value="d"> d. outer-box</label>
+        <div class="explain" id="exp-q31" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q32">
+        <legend>32) En accesibilidad, ¿cuándo es apropiado usar <code>alt=""</code> (alt vacío)?</legend>
+        <label><input type="radio" name="q32" value="a"> a. Nunca, siempre debe describir la imagen</label>
+        <label><input type="radio" name="q32" value="b"> b. Cuando la imagen es decorativa y no aporta información</label>
+        <label><input type="radio" name="q32" value="c"> c. Cuando la imagen es un enlace</label>
+        <label><input type="radio" name="q32" value="d"> d. Cuando se usa SVG</label>
+        <div class="explain" id="exp-q32" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q33">
+        <legend>33) ¿Qué propiedad controla el orden visual de un ítem flex sin modificar el HTML?</legend>
+        <label><input type="radio" name="q33" value="a"> a. z-index</label>
+        <label><input type="radio" name="q33" value="b"> b. order</label>
+        <label><input type="radio" name="q33" value="c"> c. flex-rank</label>
+        <label><input type="radio" name="q33" value="d"> d. position</label>
+        <div class="explain" id="exp-q33" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q34">
+        <legend>34) ¿Qué combinación hace que un elemento “pegajoso” funcione (sticky) de forma típica?</legend>
+        <label><input type="radio" name="q34" value="a"> a. <code>position: sticky</code> + <code>top</code></label>
+        <label><input type="radio" name="q34" value="b"> b. <code>position: sticky</code> + <code>left</code> únicamente</label>
+        <label><input type="radio" name="q34" value="c"> c. <code>position: fixed</code> + <code>top</code></label>
+        <label><input type="radio" name="q34" value="d"> d. <code>position: absolute</code> + <code>top</code></label>
+        <div class="explain" id="exp-q34" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q35">
+        <legend>35) ¿Qué propiedad de Grid indica cómo se colocan automáticamente los ítems (por filas o por columnas)?</legend>
+        <label><input type="radio" name="q35" value="a"> a. grid-auto-flow</label>
+        <label><input type="radio" name="q35" value="b"> b. grid-gap</label>
+        <label><input type="radio" name="q35" value="c"> c. grid-area</label>
+        <label><input type="radio" name="q35" value="d"> d. grid-template</label>
+        <div class="explain" id="exp-q35" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q36">
+        <legend>36) ¿Qué valor de <code>flex</code> suele equivaler a “crece y encoge, base 0”?</legend>
+        <label><input type="radio" name="q36" value="a"> a. <code>flex: 0 0 auto</code></label>
+        <label><input type="radio" name="q36" value="b"> b. <code>flex: 1 1 0</code></label>
+        <label><input type="radio" name="q36" value="c"> c. <code>flex: auto</code></label>
+        <label><input type="radio" name="q36" value="d"> d. <code>flex: none</code></label>
+        <div class="explain" id="exp-q36" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q37">
+        <legend>37) En Bootstrap 5, ¿qué clase crea un contenedor de ancho fijo que cambia por breakpoint?</legend>
+        <label><input type="radio" name="q37" value="a"> a. .container</label>
+        <label><input type="radio" name="q37" value="b"> b. .container-fluid</label>
+        <label><input type="radio" name="q37" value="c"> c. .container-fixed</label>
+        <label><input type="radio" name="q37" value="d"> d. .container-responsive</label>
+        <div class="explain" id="exp-q37" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q38">
+        <legend>38) Semántica: ¿qué elemento es más adecuado para un bloque de navegación principal?</legend>
+        <label><input type="radio" name="q38" value="a"> a. &lt;section&gt;</label>
+        <label><input type="radio" name="q38" value="b"> b. &lt;nav&gt;</label>
+        <label><input type="radio" name="q38" value="c"> c. &lt;main&gt;</label>
+        <label><input type="radio" name="q38" value="d"> d. &lt;aside&gt;</label>
+        <div class="explain" id="exp-q38" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q39">
+        <legend>39) ¿Qué “trampa” es cierta sobre <code>rem</code>?</legend>
+        <label><input type="radio" name="q39" value="a"> a. Depende del tamaño de fuente del elemento padre</label>
+        <label><input type="radio" name="q39" value="b"> b. Depende del tamaño de fuente del elemento raíz (html)</label>
+        <label><input type="radio" name="q39" value="c"> c. Es equivalente a px siempre</label>
+        <label><input type="radio" name="q39" value="d"> d. Solo se usa en Grid</label>
+        <div class="explain" id="exp-q39" hidden></div>
+      </fieldset>
+
+      <fieldset data-q="q40">
+        <legend>40) ¿Qué hace <code>aria-label</code> en un control sin texto visible (p.ej. un botón con icono)?</legend>
+        <label><input type="radio" name="q40" value="a"> a. Cambia el estilo del botón para lectores</label>
+        <label><input type="radio" name="q40" value="b"> b. Añade un nombre accesible para tecnologías asistivas</label>
+        <label><input type="radio" name="q40" value="c"> c. Evita que el botón sea enfocable</label>
+        <label><input type="radio" name="q40" value="d"> d. Sustituye el atributo href</label>
+        <div class="explain" id="exp-q40" hidden></div>
+      </fieldset>
+
+    </form>
+  </main>
+
+  <script>
+    // Respuestas correctas
+    const key = {
+      q1:"b", q2:"c", q3:"a", q4:"c", q5:"d",
+      q6:"a", q7:"b", q8:"b", q9:"c", q10:"b",
+      q11:"c", q12:"a", q13:"b", q14:"b", q15:"d",
+      q16:"a", q17:"d", q18:"b", q19:"d", q20:"c",
+      q21:"b", q22:"c", q23:"b", q24:"b", q25:"a",
+      q26:"b", q27:"b", q28:"a", q29:"c", q30:"b",
+      q31:"b", q32:"b", q33:"b", q34:"a", q35:"a",
+      q36:"b", q37:"a", q38:"b", q39:"b", q40:"b"
+    };
+
+    // Explicaciones “razonadas” + OJO CON (variación típica de examen)
+    const explain = {
+      q1: {
+        ok: "✅ <main> es el contenido principal (único) del documento; no incluye header/nav/aside/footer.",
+        bad: "❌ La correcta es <main>. <body> contiene TODO; <section> agrupa temas; <article> es contenido independiente (post/noticia).",
+        ojo: "Ojo: <article> se usa si ese bloque tiene sentido por sí solo (entrada de blog)."
+      },
+      q2: {
+        ok: "✅ Diseño fluido = medidas relativas (sobre todo %) para adaptarse al ancho del viewport.",
+        bad: "❌ La correcta es usar porcentajes (unidades relativas). Tamaños fijos = diseño fijo.",
+        ojo: "Ojo: Mobile-first suele combinar fluido + media queries (min-width)."
+      },
+      q3: {
+        ok: "✅ Wireframe = esquema de baja fidelidad: estructura y distribución, sin colores finales.",
+        bad: "❌ La correcta es estructura básica. Diseño final con colores = mockup/maqueta (alta fidelidad).",
+        ojo: "Ojo: Prototipo = además permite interacción (clics/flujo)."
+      },
+      q4: {
+        ok: "✅ Accesibilidad = que cualquier persona (incluidas discapacidades) pueda acceder/usar el contenido.",
+        bad: "❌ La correcta es permitir acceso a cualquier persona. Rendimiento ayuda, pero no es accesibilidad.",
+        ojo: "Ojo: Usabilidad = facilidad de uso; accesibilidad = inclusión para todos."
+      },
+      q5: {
+        ok: "✅ color define el color del texto.",
+        bad: "❌ La correcta es color. background-color es fondo; font-family es tipografía; border es borde.",
+        ojo: "Ojo: text-shadow da sombra al texto; box-shadow a la caja."
+      },
+      q6: {
+        ok: "✅ Regla CSS = selector + declaraciones (propiedad: valor).",
+        bad: "❌ La correcta es selector, propiedad y valor. Evento/función es JS.",
+        ojo: "Ojo: ‘declaración’ = propiedad: valor; varias declaraciones dentro de { }."
+      },
+      q7: {
+        ok: "✅ padding es espacio interno (contenido→borde).",
+        bad: "❌ La correcta es padding. margin es externo (borde→fuera).",
+        ojo: "Ojo: border ocupa espacio entre padding y margin."
+      },
+      q8: {
+        ok: "✅ <link rel='stylesheet' href='...'> enlaza CSS externo.",
+        bad: "❌ La correcta es <link>. <style> es CSS interno; <script> es JS.",
+        ojo: "Ojo: <link> va en <head> normalmente."
+      },
+      q9: {
+        ok: "✅ En SCSS se suma con +.",
+        bad: "❌ La correcta es +. * multiplica; & referencia el selector padre; % es placeholder.",
+        ojo: "Ojo: & se usa en anidación (ej. &:hover)."
+      },
+      q10: {
+        ok: "✅ HTML define la estructura del documento.",
+        bad: "❌ La correcta es HTML. CSS = apariencia; JS = comportamiento; PHP = servidor.",
+        ojo: "Ojo: HTML semántico mejora accesibilidad/SEO."
+      },
+      q11: {
+        ok: "✅ .col-sm-6 define columna responsiva (6/12 desde sm).",
+        bad: "❌ La correcta es .col-sm-6. .col existe pero es auto; la pregunta pide responsivo con breakpoint.",
+        ojo: "Ojo: .col-12, .col-md-4… siempre sobre 12 columnas."
+      },
+      q12: {
+        ok: "✅ CSS define la apariencia visual (estilos).",
+        bad: "❌ La correcta es CSS. HTML estructura; JS comportamiento; SQL BD.",
+        ojo: "Ojo: CSS también controla layout (flex/grid)."
+      },
+      q13: {
+        ok: "✅ flex-direction define la dirección del eje principal.",
+        bad: "❌ La correcta es flex-direction. justify-content alinea en eje principal pero NO lo define.",
+        ojo: "Ojo: align-items alinea en eje cruzado."
+      },
+      q14: {
+        ok: "✅ IPO = interacción Persona-Ordenador.",
+        bad: "❌ La correcta es Personas y ordenadores (objetivo: usabilidad/UX/accesibilidad).",
+        ojo: "Ojo: UX es parte del enfoque; no confundir con backend."
+      },
+      q15: {
+        ok: "✅ Mobile-first = diseñar primero para móviles, luego ampliar con min-width.",
+        bad: "❌ La correcta es diseñar primero para móviles. Desktop-first sería al revés (max-width).",
+        ojo: "Ojo: mobile-first suele usar @media (min-width: ...)."
+      },
+      q16: {
+        ok: "✅ absolute se posiciona respecto al ancestro más cercano ‘posicionado’ (no static).",
+        bad: "❌ La correcta es absolute. fixed se ancla al viewport; static no posiciona; sticky depende de scroll.",
+        ojo: "Ojo: el padre suele llevar position: relative para ‘anclar’ un absolute."
+      },
+      q17: {
+        ok: "✅ Mapa web (sitemap) = estructura y relación entre páginas.",
+        bad: "❌ La correcta es estructura del sitio. Wireframe es estructura de una pantalla; mockup es diseño final.",
+        ojo: "Ojo: Mapa web = arquitectura de información."
+      },
+      q18: {
+        ok: "✅ box-shadow crea sombra de caja.",
+        bad: "❌ La correcta es box-shadow. text-shadow es para texto; las otras no existen.",
+        ojo: "Ojo: box-shadow admite varios valores (x y blur spread)."
+      },
+      q19: {
+        ok: "✅ Mixin = bloque reutilizable de estilos (con o sin parámetros).",
+        bad: "❌ La correcta es bloque reutilizable. Variable guarda valores; selector avanzado no es mixin.",
+        ojo: "Ojo: @mixin se usa con @include."
+      },
+      q20: {
+        ok: "✅ Box Model: content, padding, border, margin.",
+        bad: "❌ La correcta es Box Model. DOM es estructura; Grid/Flex son sistemas de layout.",
+        ojo: "Ojo: box-sizing:border-box cambia cómo se calcula el ancho."
+      },
+      q21: {
+        ok: "✅ alt es lo clave en <img> para describir imágenes informativas.",
+        bad: "❌ La correcta es alt. title no sustituye; aria-hidden oculta; role no aporta descripción.",
+        ojo: "Ojo: si es decorativa, alt=\"\"."
+      },
+      q22: {
+        ok: "✅ display:none elimina del flujo; visibility:hidden mantiene el hueco.",
+        bad: "❌ La correcta: display:none quita del flujo; visibility:hidden oculta pero reserva espacio.",
+        ojo: "Ojo: display:none tampoco es accesible/navegable; hidden conserva layout."
+      },
+      q23: {
+        ok: "✅ #menu a gana por tener ID (más especificidad).",
+        bad: "❌ La correcta es #menu a. Un ID pesa más que clases/elementos/pseudoclases.",
+        ojo: "Ojo: !important solo rompe reglas, pero no es “especificidad” como tal."
+      },
+      q24: {
+        ok: "✅ align-items alinea en el eje cruzado (una sola línea).",
+        bad: "❌ La correcta es align-items. align-content actúa con múltiples líneas (wrap).",
+        ojo: "Ojo: justify-content = eje principal."
+      },
+      q25: {
+        ok: "✅ grid-template-rows define el tamaño de las filas.",
+        bad: "❌ La correcta es grid-template-rows. grid-row posiciona un ítem, no define filas globales.",
+        ojo: "Ojo: grid-template-columns define columnas."
+      },
+      q26: {
+        ok: "✅ Mobile-first suele usar min-width (de pequeño a grande).",
+        bad: "❌ La correcta es min-width. max-width suele asociarse a desktop-first.",
+        ojo: "Ojo: primero estilos base (móvil), luego @media (min-width...)."
+      },
+      q27: {
+        ok: "✅ .mx-auto pone márgenes horizontales auto y centra un bloque con width.",
+        bad: "❌ La correcta es .mx-auto. text-center centra texto, no un bloque.",
+        ojo: "Ojo: en flex, centrar hijos puede ser justify-content-center."
+      },
+      q28: {
+        ok: "✅ .d-flex aplica display:flex en Bootstrap.",
+        bad: "❌ La correcta es .d-flex. Las otras clases no existen.",
+        ojo: "Ojo: .d-none oculta (display:none)."
+      },
+      q29: {
+        ok: "✅ Interpolación SCSS: #{$var}.",
+        bad: "❌ La correcta es #{$var}. & es selector padre, no interpolación.",
+        ojo: "Ojo: útil en bucles @for para generar clases."
+      },
+      q30: {
+        ok: "✅ @extend combina selectores para heredar reglas.",
+        bad: "❌ La correcta: @extend reutiliza reglas (herencia) y puede generar selectores combinados.",
+        ojo: "Ojo: @mixin/@include es otra forma (más control, sin combinar selectores)."
+      },
+      q31: {
+        ok: "✅ border-box incluye padding y border en el ancho/alto.",
+        bad: "❌ La correcta es border-box. content-box (default) suma padding/border al tamaño.",
+        ojo: "Ojo: muy común aplicar: *{box-sizing:border-box}"
+      },
+      q32: {
+        ok: "✅ alt=\"\" cuando la imagen es decorativa.",
+        bad: "❌ La correcta es alt vacío si la imagen no aporta información (decorativa).",
+        ojo: "Ojo: si es enlace, el alt debe describir el destino/función."
+      },
+      q33: {
+        ok: "✅ order cambia el orden visual de ítems flex.",
+        bad: "❌ La correcta es order. z-index controla apilado, no el orden en el eje.",
+        ojo: "Ojo: order por defecto es 0; números menores van antes."
+      },
+      q34: {
+        ok: "✅ sticky suele requerir position: sticky + top (u offset).",
+        bad: "❌ La correcta es sticky + top. Sin top (o similar) no se ‘engancha’ como esperas.",
+        ojo: "Ojo: sticky depende del contenedor scroll; overflow puede afectar."
+      },
+      q35: {
+        ok: "✅ grid-auto-flow controla el autoplacement (row/column).",
+        bad: "❌ La correcta es grid-auto-flow. gap es separación; grid-area es de un ítem.",
+        ojo: "Ojo: grid-auto-flow: column cambia el flujo."
+      },
+      q36: {
+        ok: "✅ flex: 1 1 0 = crece, encoge y base 0 (reparte espacio).",
+        bad: "❌ La correcta es flex: 1 1 0. flex:auto usa base auto (tamaño del contenido).",
+        ojo: "Ojo: flex:1 suele equivaler a 1 1 0 en la práctica."
+      },
+      q37: {
+        ok: "✅ .container es ancho fijo por breakpoint.",
+        bad: "❌ La correcta es .container. .container-fluid siempre 100% de ancho.",
+        ojo: "Ojo: también existen .container-sm/md/lg... (según versión)."
+      },
+      q38: {
+        ok: "✅ <nav> es el elemento semántico para navegación principal.",
+        bad: "❌ La correcta es <nav>. <aside> es contenido complementario; <main> principal; <section> agrupación temática.",
+        ojo: "Ojo: un <nav> puede estar dentro de header."
+      },
+      q39: {
+        ok: "✅ rem depende del font-size del elemento raíz (html).",
+        bad: "❌ La correcta: rem depende del root. em depende del padre (o del propio elemento según propiedad).",
+        ojo: "Ojo: em en font-size se basa en el padre; rem siempre en root."
+      },
+      q40: {
+        ok: "✅ aria-label aporta nombre accesible a controles sin texto visible.",
+        bad: "❌ La correcta: aria-label añade un nombre accesible. No cambia estilo ni enfoque.",
+        ojo: "Ojo: alternativa: aria-labelledby apuntando a un texto visible."
+      },
+    };
+
+    const total = Object.keys(key).length;
+    const answered = new Set();       // preguntas que tienen alguna opción marcada
+    const correctSet = new Set();     // preguntas actualmente correctas
+
+    function updateScore() {
+      const scoreEl = document.getElementById("score");
+      scoreEl.textContent = `${correctSet.size}/${total}`;
+
+      const status = document.getElementById("status");
+      if (correctSet.size === total) {
+        status.textContent = "Perfecto ✅";
+        status.classList.add("ok");
+        status.classList.remove("bad");
+      } else {
+        status.textContent = "En progreso";
+        status.classList.remove("ok");
+      }
+    }
+
+    function clearOutlines(fs) {
+      fs.querySelectorAll("label").forEach(l => l.style.outline = "none");
+    }
+
+    function setOutlineFor(fs, value, color) {
+      const input = fs.querySelector(`input[value="${value}"]`);
+      if (input) input.parentElement.style.outline = `2px solid ${color}`;
+    }
+
+    function showExplain(q, ok) {
+      const box = document.getElementById(`exp-${q}`);
+      const data = explain[q] || null;
+
+      if (!data) { box.hidden = true; return; }
+
+      const title = ok ? "Resultado: CORRECTO ✅" : "Resultado: INCORRECTO ❌";
+      const body = ok ? data.ok : data.bad;
+      const ojo = data.ojo ? `<p class="small"><strong>Ojo con…</strong> ${data.ojo}</p>` : "";
+
+      box.innerHTML = `
+        <h3>${title}</h3>
+        <p class="small">${body}</p>
+        ${ojo}
+      `;
+      box.hidden = false;
+    }
+
+    function evaluateQuestion(q) {
+      const fs = document.querySelector(`fieldset[data-q="${q}"]`);
+      if (!fs) return;
+
+      const correct = key[q];
+      const chosen = fs.querySelector(`input[name="${q}"]:checked`);
+
+      clearOutlines(fs);
+
+      // Si aún no ha elegido nada, oculta explicación y no cuenta
+      if (!chosen) {
+        document.getElementById(`exp-${q}`).hidden = true;
+        answered.delete(q);
+        correctSet.delete(q);
+        updateScore();
+        return;
+      }
+
+      answered.add(q);
+
+      // Siempre resalta la correcta en verde (para estudiar)
+      setOutlineFor(fs, correct, "rgba(34,197,94,.95)");
+
+      if (chosen.value === correct) {
+        correctSet.add(q);
+        showExplain(q, true);
+      } else {
+        correctSet.delete(q);
+        // Resalta la elegida incorrecta en rojo
+        chosen.parentElement.style.outline = "2px solid rgba(239,68,68,.98)";
+        showExplain(q, false);
+      }
+
+      updateScore();
+    }
+
+    function reiniciar() {
+      const form = document.getElementById("quiz");
+      form.reset();
+      document.querySelectorAll("fieldset").forEach(fs => {
+        clearOutlines(fs);
+        const q = fs.getAttribute("data-q");
+        const exp = document.getElementById(`exp-${q}`);
+        if (exp) exp.hidden = true;
+      });
+      answered.clear();
+      correctSet.clear();
+      const status = document.getElementById("status");
+      status.textContent = "En progreso";
+      status.classList.remove("ok", "bad");
+      updateScore();
+    }
+
+    // Escucha cambios: autocorrige al instante
+    document.getElementById("quiz").addEventListener("change", (e) => {
+      const input = e.target;
+      if (input && input.name && key[input.name]) {
+        evaluateQuestion(input.name);
+      }
+    });
+
+    // Init
+    updateScore();
+  </script>
+</body>
+</html>
