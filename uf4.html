@@ -1,0 +1,1131 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UF4 — Resumen final + Test (DAW Interfaces)</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#101a33;
+      --card2:#0f1730;
+      --text:#e9eeff;
+      --muted:#a7b2d6;
+      --line:#223055;
+      --ok:#34d399;
+      --bad:#fb7185;
+      --warn:#fbbf24;
+      --accent:#60a5fa;
+      --accent2:#a78bfa;
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
+      --radius:18px;
+      --radius2:14px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1000px 700px at 20% -10%, rgba(96,165,250,.25), transparent 60%),
+                  radial-gradient(900px 600px at 80% 0%, rgba(167,139,250,.22), transparent 60%),
+                  linear-gradient(180deg, #070b15 0%, var(--bg) 100%);
+      color:var(--text);
+      line-height:1.35;
+    }
+    a{color:var(--accent)}
+    .wrap{max-width:980px; margin:0 auto; padding:18px 14px 60px}
+    header{
+      margin:18px 0 14px;
+      padding:18px;
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(16,26,51,.95), rgba(15,23,48,.85));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    header:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(600px 220px at 20% 0%, rgba(96,165,250,.25), transparent 60%),
+                  radial-gradient(550px 240px at 85% 10%, rgba(167,139,250,.20), transparent 60%);
+      pointer-events:none;
+    }
+    header > *{position:relative}
+    h1{
+      margin:0 0 6px;
+      font-size: clamp(22px, 3.5vw, 30px);
+      letter-spacing:.2px;
+    }
+    .sub{
+      color:var(--muted);
+      margin:0;
+      font-size: 14px;
+    }
+    .pillrow{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px}
+    .pill{
+      font-size:12px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color:var(--muted);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+      margin-top:14px;
+    }
+    @media (min-width:900px){
+      .grid{grid-template-columns: 1.1fr .9fr}
+    }
+    .card{
+      border:1px solid var(--line);
+      background: rgba(16,26,51,.8);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:14px 16px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+    }
+    .card .hd h2{
+      margin:0;
+      font-size: 16px;
+      letter-spacing:.2px;
+    }
+    .card .bd{padding:14px 16px}
+    .muted{color:var(--muted)}
+    .kpi{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+      margin-top:12px;
+    }
+    .kpi .box{
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      padding:10px;
+      background: rgba(255,255,255,.02);
+      text-align:center;
+    }
+    .kpi .num{font-size:18px; font-weight:700}
+    .kpi .lab{font-size:12px; color:var(--muted)}
+    .btnrow{display:flex; gap:10px; flex-wrap:wrap}
+    button{
+      appearance:none;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight:600;
+      transition: transform .06s ease, background .15s ease, border-color .15s ease;
+    }
+    button:hover{background: rgba(255,255,255,.06); border-color: rgba(96,165,250,.6)}
+    button:active{transform: translateY(1px)}
+    button.primary{
+      background: linear-gradient(180deg, rgba(96,165,250,.18), rgba(96,165,250,.10));
+      border-color: rgba(96,165,250,.55);
+    }
+    button.danger{
+      background: linear-gradient(180deg, rgba(251,113,133,.18), rgba(251,113,133,.10));
+      border-color: rgba(251,113,133,.55);
+    }
+    button.good{
+      background: linear-gradient(180deg, rgba(52,211,153,.18), rgba(52,211,153,.10));
+      border-color: rgba(52,211,153,.55);
+    }
+    button:disabled{
+      opacity:.55; cursor:not-allowed;
+    }
+
+    /* Summary / accordion */
+    details{
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      padding:10px 12px;
+      background: rgba(255,255,255,.02);
+      margin-bottom:10px;
+    }
+    details[open]{background: rgba(255,255,255,.03)}
+    summary{
+      cursor:pointer;
+      font-weight:800;
+      list-style:none;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    summary::-webkit-details-marker{display:none}
+    .tag{
+      font-size:11px;
+      padding:4px 8px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+    .bullets{
+      margin:10px 0 0;
+      padding-left:18px;
+      color:var(--text);
+    }
+    .bullets li{margin:6px 0}
+    .exam{
+      margin-top:10px;
+      border-left:3px solid var(--accent);
+      padding:8px 10px;
+      background: rgba(96,165,250,.08);
+      border-radius: 10px;
+    }
+    .exam b{color:#dbeafe}
+    code{
+      background: rgba(0,0,0,.25);
+      padding:2px 6px;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:8px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12.5px;
+      color:#dbeafe;
+      overflow-wrap:anywhere;
+    }
+
+    /* Quiz */
+    .progress{
+      height:10px;
+      background: rgba(255,255,255,.06);
+      border-radius: 999px;
+      overflow:hidden;
+      border:1px solid var(--line);
+    }
+    .bar{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(96,165,250,.85), rgba(167,139,250,.85));
+      transition: width .25s ease;
+    }
+    .qmeta{display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; margin:10px 0 8px}
+    .qmeta .left{color:var(--muted); font-size:12.5px}
+    .qmeta .right{color:var(--muted); font-size:12.5px}
+    .question{
+      font-size: 16px;
+      font-weight:800;
+      margin:10px 0 10px;
+    }
+    .opts{display:grid; gap:10px; margin-top:10px}
+    .opt{
+      border:1px solid var(--line);
+      border-radius: 14px;
+      padding:10px 12px;
+      background: rgba(255,255,255,.02);
+      cursor:pointer;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      transition: background .15s ease, border-color .15s ease, transform .06s ease;
+    }
+    .opt:hover{background: rgba(255,255,255,.04); border-color: rgba(96,165,250,.55)}
+    .opt:active{transform: translateY(1px)}
+    .badge{
+      width:24px; height:24px;
+      border-radius: 8px;
+      display:grid; place-items:center;
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-weight:900;
+      flex:0 0 auto;
+      background: rgba(0,0,0,.15);
+    }
+    .opt.correct{
+      border-color: rgba(52,211,153,.7);
+      background: rgba(52,211,153,.10);
+    }
+    .opt.wrong{
+      border-color: rgba(251,113,133,.7);
+      background: rgba(251,113,133,.10);
+    }
+    .feedback{
+      margin-top:12px;
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.02);
+    }
+    .feedback.ok{border-color: rgba(52,211,153,.7); background: rgba(52,211,153,.09)}
+    .feedback.bad{border-color: rgba(251,113,133,.7); background: rgba(251,113,133,.09)}
+    .feedback .t{
+      font-weight:900;
+      margin-bottom:6px;
+    }
+    .feedback .exp{color:var(--text)}
+    .tiny{font-size:12px; color:var(--muted)}
+    .divider{height:1px; background: var(--line); margin:14px 0}
+    .review{
+      margin-top:10px;
+      display:grid;
+      gap:10px;
+    }
+    .review .item{
+      border:1px solid var(--line);
+      border-radius: 14px;
+      padding:10px 12px;
+      background: rgba(255,255,255,.02);
+    }
+    .review .item .top{
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      margin-bottom:6px;
+      font-size:12.5px;
+      color:var(--muted);
+    }
+    .chip{
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.15);
+      color:var(--muted);
+      font-size:11px;
+    }
+    .chip.ok{border-color: rgba(52,211,153,.65); color:#d1fae5}
+    .chip.bad{border-color: rgba(251,113,133,.65); color:#ffe4e6}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <h1>UF4 — Creación de interfaces: Resumen FINAL + Test (30)</h1>
+      <p class="sub">Hecho para repasar desde el móvil: esquema visual + cuestionario tipo examen con corrección y explicación.</p>
+      <div class="pillrow">
+        <span class="pill">Plantillas</span>
+        <span class="pill">Estático vs Dinámico</span>
+        <span class="pill">Frameworks CSS</span>
+        <span class="pill">Bootstrap: instalación</span>
+        <span class="pill">Grid (12)</span>
+        <span class="pill">Utilities</span>
+        <span class="pill">Componentes</span>
+        <span class="pill">Responsive</span>
+        <span class="pill">&lt;template&gt;</span>
+        <span class="pill">Componentes con JS</span>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- SUMMARY -->
+      <section class="card" id="resumen">
+        <div class="hd">
+          <h2>📌 Resumen esquemático (UF4)</h2>
+          <span class="tag">Repaso rápido</span>
+        </div>
+        <div class="bd">
+          <details open>
+            <summary>1. Plantillas <span class="tag">Concepto</span></summary>
+            <ul class="bullets">
+              <li><b>Plantilla web</b> = estructura reutilizable (HTML/CSS/recursos) para no empezar desde cero.</li>
+              <li><b>Ventajas</b>: rapidez, consistencia visual, mantenimiento y reutilización.</li>
+              <li><b>Repositorios</b>: sitios donde descargas plantillas (gratuitas/pago). Ojo con <b>licencias</b> y calidad.</li>
+            </ul>
+            <div class="exam"><b>De examen:</b> define “plantilla” y nombra 2 ventajas + 1 precaución (licencia / responsive / código limpio).</div>
+          </details>
+
+          <details>
+            <summary>1.1 Estático vs dinámico <span class="tag">Muy examen</span></summary>
+            <ul class="bullets">
+              <li><b>Estático</b>: el servidor entrega archivos “tal cual”. Mismo contenido para todos.</li>
+              <li><b>JS en el navegador</b> puede dar interacción, pero <b>no convierte</b> en dinámico “clásico” (server-side).</li>
+              <li><b>Dinámico</b>: contenido generado/ajustado por lógica y/o datos (usuario, BD, servidor). Puede incluir backend.</li>
+              <li><b>Formulario</b>: el HTML del formulario es estático; “se vuelve parte de algo dinámico” si se procesan datos (servidor o lógica).</li>
+            </ul>
+            <div class="exam"><b>Frase clave:</b> “Interacción ≠ dinamismo; dinamismo (UF4) = contenido generado según contexto/datos (habitualmente server-side).”</div>
+          </details>
+
+          <details>
+            <summary>1.4 Frameworks CSS <span class="tag">Comparativa</span></summary>
+            <ul class="bullets">
+              <li><b>Framework CSS</b> = colección de estilos y reglas predefinidas para construir interfaces más rápido.</li>
+              <li><b>Bootstrap</b>: enfoque de <b>componentes</b> listos + grid + utilities. Fácil para empezar.</li>
+              <li><b>Tailwind</b>: enfoque <b>utility-first</b> (muchas clases pequeñas). Más control, más “montaje”.</li>
+              <li><b>Foundation</b>: más “pro”, potente, menos común en clase.</li>
+              <li><b>Bulma</b>: sencillo y moderno (Flexbox), menos completo que Bootstrap.</li>
+              <li><b>No recomendable</b> mezclar frameworks en el mismo proyecto (conflictos/duplicado/mantenimiento).</li>
+            </ul>
+            <div class="exam"><b>De examen:</b> Bootstrap = componentes; Tailwind = utilidades. Criterio de elección: proyecto/equipo, no la moda.</div>
+          </details>
+
+          <details>
+            <summary>2.1 Bootstrap: instalación (CDN vs Local) <span class="tag">Procedimiento</span></summary>
+            <ul class="bullets">
+              <li><b>CDN</b>: enlazas CSS desde Internet con <code>&lt;link&gt;</code> en el <code>&lt;head&gt;</code>. Rápido para prácticas.</li>
+              <li><b>Local (offline)</b>: descargas el ZIP oficial (Getting started → Download), copias <code>bootstrap.min.css</code> dentro del proyecto y lo enlazas con ruta relativa.</li>
+              <li><b>Rutas</b>: siempre relativas al HTML (ej: <code>css/bootstrap.min.css</code>), nunca rutas del sistema tipo <code>C:\Users\...</code> para un proyecto web.</li>
+              <li><b>JS</b>: solo necesario para componentes interactivos (modal, dropdown, offcanvas…).</li>
+            </ul>
+            <div class="exam"><b>De examen:</b> “Instalar Bootstrap” = integrarlo en el proyecto. CSS en <code>&lt;head&gt;</code>. Local = sin conexión.</div>
+          </details>
+
+          <details>
+            <summary>2.2 Grid: container → row → col (12 columnas) <span class="tag">Muy examen</span></summary>
+            <ul class="bullets">
+              <li>Jerarquía: <b>container → row → col</b>.</li>
+              <li>Grid de Bootstrap: <b>12 columnas</b>. Ej: <code>col-4</code> + <code>col-8</code> = 12.</li>
+              <li>Si suman &gt;12, el exceso “salta” a otra línea (nueva fila visual).</li>
+              <li><b>container</b> centra y limita ancho; <b>container-fluid</b> ocupa todo.</li>
+            </ul>
+            <div class="exam"><b>De examen:</b> 12 columnas + orden correcto. Errores típicos: col sin row, row sin container.</div>
+          </details>
+
+          <details>
+            <summary>2.4 Utilities (márgenes, padding, colores, alineación) <span class="tag">Clases</span></summary>
+            <ul class="bullets">
+              <li>Utilities = clases pequeñas para ajustar diseño sin CSS propio.</li>
+              <li><b>Espaciado</b>: <code>m*</code> (margin), <code>p*</code> (padding). Direcciones: <code>t</code>, <code>b</code>, <code>s</code>, <code>e</code>.</li>
+              <li><b>Start/End</b> (lógico): <code>ms</code>=margin-start, <code>me</code>=margin-end (mejor que left/right por idiomas RTL).</li>
+              <li><b>Texto</b>: <code>text-center</code> centra texto. Flex: <code>d-flex</code> + <code>justify-content-*</code> centra elementos.</li>
+              <li><b>Colores</b>: <code>text-*</code>, <code>bg-*</code>.</li>
+            </ul>
+            <div class="exam"><b>De examen:</b> diferencia “text-center” vs “justify-content-center” (texto vs flex).</div>
+          </details>
+
+          <details>
+            <summary>2.5 Responsive: breakpoints + mobile-first <span class="tag">Clave</span></summary>
+            <ul class="bullets">
+              <li><b>Responsive</b>: misma web, se adapta a pantallas.</li>
+              <li><b>Mobile-first</b>: lo no especificado aplica a móvil; luego se sobreescribe con <code>sm</code>, <code>md</code>, <code>lg</code>...</li>
+              <li>Ejemplo: <code>col-12 col-md-6 col-lg-4</code> (móvil 100%, tablet 50%, escritorio 33%).</li>
+              <li>Bootstrap logra responsive con <b>CSS</b> (media queries internas), no “por JavaScript”.</li>
+            </ul>
+            <div class="exam"><b>De examen:</b> define “breakpoint” y explica <code>col-md-6</code> (a partir de md, 50%).</div>
+          </details>
+
+          <details>
+            <summary>Refuerzo: &lt;template&gt; y componentes con JS <span class="tag">Debilidades</span></summary>
+            <ul class="bullets">
+              <li><code>&lt;template&gt;</code> contiene HTML que <b>no se renderiza</b> hasta que JS lo clona e inserta.</li>
+              <li>Componentes con JS (Bootstrap): modal, dropdown, collapse, offcanvas, tooltip, toast, carousel…</li>
+              <li>No “programas” el JS: Bootstrap lo trae; tú lo activas enlazando su JS + atributos/clases.</li>
+            </ul>
+            <div class="exam"><b>De examen:</b> “Algunos componentes requieren JS para funcionar, pero no para mostrarse.”</div>
+          </details>
+
+          <div class="divider"></div>
+          <p class="tiny">Consejo: repasa cada bloque plegable y luego haz el test (30). Si fallas, lee la explicación y repite el test.</p>
+        </div>
+      </section>
+
+      <!-- QUIZ -->
+      <section class="card" id="test">
+        <div class="hd">
+          <h2>🧠 Test tipo examen (30 preguntas)</h2>
+          <span class="tag">Corrección + explicación</span>
+        </div>
+        <div class="bd">
+          <div class="btnrow">
+            <button class="primary" id="startBtn">Empezar / Reiniciar</button>
+            <button id="shuffleBtn" title="Mezcla el orden de preguntas">Mezclar preguntas</button>
+            <button id="reviewBtn" disabled>Ver repaso final</button>
+          </div>
+
+          <div style="margin-top:12px">
+            <div class="progress" aria-label="Progreso del test">
+              <div class="bar" id="bar"></div>
+            </div>
+            <div class="qmeta">
+              <div class="left" id="qCount">Pregunta 0/30</div>
+              <div class="right" id="score">Aciertos: 0 · Fallos: 0</div>
+            </div>
+          </div>
+
+          <div id="quizArea">
+            <p class="muted" style="margin:10px 0 0">
+              Pulsa <b>Empezar</b> para hacer el cuestionario. Se corrige al instante y, si fallas, te doy la correcta con explicación.
+            </p>
+          </div>
+
+          <div id="reviewArea" style="display:none">
+            <div class="divider"></div>
+            <h3 style="margin:0 0 8px; font-size:15px;">📋 Repaso final (tus respuestas)</h3>
+            <div class="review" id="reviewList"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+<script>
+  // ==========================
+  // UF4: 30 preguntas tipo examen (a pillar)
+  // ==========================
+  const questionsBase = [
+    // 1 Plantillas
+    {
+      topic:"Plantillas",
+      q:"¿Qué describe mejor una plantilla web (template) en el contexto de UF4?",
+      opts:[
+        "Un servidor que genera HTML dinámicamente",
+        "Una estructura reutilizable (HTML/CSS/recursos) para crear páginas más rápido",
+        "Un lenguaje de programación para estilos",
+        "Un archivo JavaScript que sustituye al CSS"
+      ],
+      correct:1,
+      exp:"Una plantilla es una base reutilizable de estructura/estilos/recursos para no empezar de cero. No es un servidor ni un lenguaje."
+    },
+    {
+      topic:"Plantillas",
+      q:"¿Cuál es una precaución típica al usar plantillas de repositorios?",
+      opts:[
+        "Que siempre son incompatibles con HTML",
+        "Que pueden tener licencias/condiciones y calidad variable (responsive, código limpio)",
+        "Que solo funcionan sin conexión",
+        "Que obligan a usar Tailwind"
+      ],
+      correct:1,
+      exp:"Al descargar plantillas hay que revisar licencia, calidad del código, responsive, dependencias, etc."
+    },
+
+    // 1.1 Estático vs dinámico
+    {
+      topic:"Estático vs Dinámico",
+      q:"Según el criterio de UF4, una web se considera dinámica cuando...",
+      opts:[
+        "Tiene JavaScript en el navegador",
+        "Carga un CSS desde un CDN",
+        "El contenido se genera/modifica según datos/contexto (habitualmente con lógica/servidor)",
+        "Usa Bootstrap"
+      ],
+      correct:2,
+      exp:"Interacción o cargar recursos no implica dinamismo. Dinámico: contenido generado/ajustado por datos/contexto (típicamente server-side)."
+    },
+    {
+      topic:"Estático vs Dinámico",
+      q:"Una landing page con animaciones JavaScript (sin backend) se considera:",
+      opts:[
+        "Dinámica porque usa JS",
+        "Estática (con interacción en cliente)",
+        "Dinámica solo en móviles",
+        "Híbrida obligatoriamente"
+      ],
+      correct:1,
+      exp:"Para UF4: JS en el navegador no convierte a dinámico clásico; sigue siendo estática con interacción en cliente."
+    },
+    {
+      topic:"Estático vs Dinámico",
+      q:"Un formulario HTML 'pasa a ser parte de algo dinámico' cuando...",
+      opts:[
+        "Existe el botón Enviar",
+        "Se valida con JavaScript en el navegador",
+        "Los datos enviados se procesan y producen una respuesta según datos/usuario",
+        "Se aplica una clase de Bootstrap"
+      ],
+      correct:2,
+      exp:"El formulario HTML es estático; la parte dinámica aparece cuando hay procesamiento según datos (backend o lógica)."
+    },
+
+    // 1.4 Frameworks CSS
+    {
+      topic:"Frameworks CSS",
+      q:"¿Qué afirmación describe mejor Bootstrap frente a Tailwind?",
+      opts:[
+        "Bootstrap es utility-first y Tailwind ofrece componentes cerrados",
+        "Bootstrap ofrece componentes y Tailwind se basa en clases utilitarias",
+        "Ambos son CMS",
+        "Ambos requieren siempre backend"
+      ],
+      correct:1,
+      exp:"Bootstrap suele ofrecer componentes listos (buttons, cards, etc.). Tailwind se centra en utilidades (utility-first)."
+    },
+    {
+      topic:"Frameworks CSS",
+      q:"¿Qué se recomienda normalmente respecto a mezclar dos frameworks CSS en el mismo proyecto?",
+      opts:[
+        "Es lo más recomendable",
+        "Es obligatorio en proyectos grandes",
+        "Es posible, pero no recomendable por conflictos/duplicado/mantenimiento",
+        "No se puede técnicamente"
+      ],
+      correct:2,
+      exp:"Se puede, pero suele generar conflictos, peso extra y mantenimiento difícil. Lo habitual: un framework por proyecto."
+    },
+
+    // 2.1 Instalación
+    {
+      topic:"Bootstrap instalación",
+      q:"Instalar Bootstrap en un proyecto web significa:",
+      opts:[
+        "Instalar un programa en el ordenador",
+        "Integrar Bootstrap (CSS/JS) para usar estilos/componentes",
+        "Crear una base de datos",
+        "Activar un servidor web"
+      ],
+      correct:1,
+      exp:"En web: 'instalar' suele significar integrar/enlazar archivos del framework en el proyecto."
+    },
+    {
+      topic:"Bootstrap instalación",
+      q:"¿Dónde se coloca el enlace al CSS de Bootstrap?",
+      opts:[
+        "Dentro del <body>",
+        "En el <head>",
+        "Dentro de un <script>",
+        "Al final del HTML, después de </html>"
+      ],
+      correct:1,
+      exp:"El CSS se enlaza en el <head> para que aplique estilos al renderizar."
+    },
+    {
+      topic:"Bootstrap instalación",
+      q:"Para usar Bootstrap sin conexión, lo correcto es:",
+      opts:[
+        "Enlazar desde C:\\Users\\...\\Downloads\\bootstrap.css",
+        "Copiar reglas desde la web y pegarlas en tu CSS",
+        "Descargar el ZIP oficial y enlazar bootstrap.min.css dentro del proyecto",
+        "Usar solo JavaScript"
+      ],
+      correct:2,
+      exp:"Offline: descargas los archivos oficiales, los metes en tu proyecto y enlazas por ruta relativa."
+    },
+    {
+      topic:"Bootstrap instalación",
+      q:"Cargar Bootstrap desde un CDN convierte la web en dinámica porque 'usa un servidor'.",
+      opts:[
+        "Verdadero",
+        "Falso",
+        "Depende del navegador",
+        "Solo si además hay JS"
+      ],
+      correct:1,
+      exp:"Un CDN sirve archivos estáticos. Dinámico (UF4) implica generación/ajuste de contenido por lógica/datos, no descargar CSS."
+    },
+
+    // 2.2 Grid
+    {
+      topic:"Grid",
+      q:"Orden correcto de layout en Bootstrap:",
+      opts:[
+        "col → row → container",
+        "row → col → container",
+        "container → row → col",
+        "container → col → row"
+      ],
+      correct:2,
+      exp:"La jerarquía correcta es container (envolver) → row (fila) → col (columna)."
+    },
+    {
+      topic:"Grid",
+      q:"¿Cuántas columnas tiene el grid de Bootstrap?",
+      opts:["10","12","16","Depende del dispositivo"],
+      correct:1,
+      exp:"El grid estándar de Bootstrap está basado en 12 columnas."
+    },
+    {
+      topic:"Grid",
+      q:"Si en una fila declaras columnas que suman más de 12 (p. ej. col-8 + col-6), Bootstrap:",
+      opts:[
+        "Da error y no renderiza",
+        "Reduce automáticamente a 12",
+        "Pasa el exceso a la siguiente línea (wrap)",
+        "Hace que todo se solape"
+      ],
+      correct:2,
+      exp:"Cuando se excede 12, el exceso se coloca en la siguiente línea dentro del flujo."
+    },
+
+    // 2.4 Utilities
+    {
+      topic:"Utilities",
+      q:"La utilidad mt-3 significa:",
+      opts:["padding-top 3","margin-top 3","margin-left 3","text-align center"],
+      correct:1,
+      exp:"m = margin, t = top → mt-3 es margen superior nivel 3."
+    },
+    {
+      topic:"Utilities",
+      q:"En Bootstrap 5, ms-4 significa:",
+      opts:[
+        "margin-superior",
+        "margin-end",
+        "margin-start",
+        "padding-start"
+      ],
+      correct:2,
+      exp:"ms = margin-start. Es dirección lógica (start/end) y no left/right."
+    },
+    {
+      topic:"Utilities",
+      q:"¿Qué clase centra texto horizontalmente?",
+      opts:["d-flex","justify-content-center","text-center","align-items-center"],
+      correct:2,
+      exp:"text-center centra texto. justify-content-center centra hijos en un contenedor flex (requiere d-flex)."
+    },
+    {
+      topic:"Utilities",
+      q:"Para centrar un botón dentro de un contenedor usando flex, lo correcto es:",
+      opts:[
+        "text-center en el botón",
+        "d-flex justify-content-center en el contenedor",
+        "justify-content-center sin d-flex",
+        "align-items-center sin d-flex"
+      ],
+      correct:1,
+      exp:"justify-content-center actúa en flexbox, por eso necesitas d-flex en el contenedor."
+    },
+
+    // 2.5 Responsive
+    {
+      topic:"Responsive",
+      q:"¿Qué es un breakpoint en Bootstrap?",
+      opts:[
+        "Un componente interactivo",
+        "Un punto de ruptura de ancho para cambiar el layout",
+        "Un tipo de color",
+        "Una carpeta del proyecto"
+      ],
+      correct:1,
+      exp:"Breakpoints son umbrales de ancho que activan reglas responsive (sm, md, lg...)."
+    },
+    {
+      topic:"Responsive",
+      q:"col-md-6 significa:",
+      opts:[
+        "6 columnas en todos los tamaños",
+        "A partir de md ocupa la mitad del ancho",
+        "Solo visible en md",
+        "6 píxeles de ancho"
+      ],
+      correct:1,
+      exp:"A partir de md ocupa 6/12 = 50%. Por debajo, se aplica lo que hayas definido (o default)."
+    },
+    {
+      topic:"Responsive",
+      q:"Bootstrap es mobile-first. Eso implica que:",
+      opts:[
+        "Primero se diseña para escritorio y se reduce",
+        "Lo no especificado aplica a móvil y se sobreescribe en tamaños mayores",
+        "Necesita JavaScript para responsive",
+        "Solo funciona en móviles"
+      ],
+      correct:1,
+      exp:"Mobile-first: base para pantallas pequeñas; luego añades clases con breakpoints para ampliar."
+    },
+    {
+      topic:"Responsive",
+      q:"La combinación col-12 col-md-6 col-lg-4 significa:",
+      opts:[
+        "Siempre ocupa 12 columnas",
+        "Móvil 100%, md 50%, lg 33%",
+        "Móvil 33%, md 50%, lg 100%",
+        "Solo funciona con JavaScript"
+      ],
+      correct:1,
+      exp:"12/12=100% en móvil; 6/12=50% desde md; 4/12≈33% desde lg."
+    },
+    {
+      topic:"Responsive",
+      q:"El responsive de Bootstrap se logra principalmente con:",
+      opts:[
+        "JavaScript que reordena el DOM",
+        "CSS (media queries) y clases con breakpoints",
+        "Bases de datos",
+        "CMS obligatorio"
+      ],
+      correct:1,
+      exp:"Bootstrap usa CSS y media queries internas para responsive; JS es para interactividad, no para el grid responsive."
+    },
+
+    // Componentes
+    {
+      topic:"Componentes",
+      q:"Un componente de Bootstrap es:",
+      opts:[
+        "Un lenguaje de programación",
+        "Un bloque de interfaz predefinido que usas con clases/atributos",
+        "Un servidor de estilos",
+        "Un archivo que reemplaza el HTML"
+      ],
+      correct:1,
+      exp:"Componentes = UI predefinida (cards, alerts, etc.) que se aplica con clases."
+    },
+    {
+      topic:"Componentes",
+      q:"¿Qué componente se usa típicamente para agrupar contenido (título + texto) en un bloque?",
+      opts:["Button","Alert","Card","Grid"],
+      correct:2,
+      exp:"Card es el contenedor típico de contenido agrupado."
+    },
+    {
+      topic:"Componentes",
+      q:"¿Cuál suele requerir JavaScript para funcionar (comportamiento interactivo)?",
+      opts:["Card","Button (estilo)","Modal","Grid"],
+      correct:2,
+      exp:"Modal requiere JS de Bootstrap para abrir/cerrar. Card/estilo de button/grid funcionan con CSS."
+    },
+    {
+      topic:"Componentes con JS",
+      q:"Sobre componentes JS de Bootstrap, ¿qué es correcto?",
+      opts:[
+        "Debes programar el JavaScript tú desde cero",
+        "Bootstrap no tiene JavaScript",
+        "Bootstrap ya trae el JS; tú lo activas enlazándolo y usando atributos/clases",
+        "Todos los componentes necesitan JS"
+      ],
+      correct:2,
+      exp:"Bootstrap trae su JS para componentes interactivos; tú lo incluyes y usas la API (data-bs-...)."
+    },
+
+    // <template>
+    {
+      topic:"<template>",
+      q:"El contenido dentro de <template>...",
+      opts:[
+        "Se muestra siempre al cargar la página",
+        "Da error si no hay CSS",
+        "No se renderiza hasta que JavaScript lo clona/inserta",
+        "Solo funciona con Bootstrap"
+      ],
+      correct:2,
+      exp:"<template> guarda HTML “inactivo” para reutilizarlo desde JS (clonarlo e insertarlo en el DOM)."
+    },
+
+    // Más “a pillar” (mezcla y precisión)
+    {
+      topic:"Bootstrap instalación",
+      q:"¿Qué afirmación es correcta sobre archivos locales de Bootstrap?",
+      opts:[
+        "Es mejor enlazarlos desde Descargas con una ruta absoluta del sistema",
+        "Se copian dentro del proyecto y se enlazan con ruta relativa",
+        "Hay que pegar el contenido de bootstrap.min.css dentro de styles.css",
+        "Solo se pueden usar en servidores, no en local"
+      ],
+      correct:1,
+      exp:"La práctica correcta: meter los archivos en el proyecto y enlazar por rutas relativas al HTML."
+    },
+    {
+      topic:"Utilities",
+      q:"¿Qué clase cambia el color del texto a un “rojo de alerta” típico de Bootstrap?",
+      opts:["bg-danger","text-danger","danger-text","color-danger"],
+      correct:1,
+      exp:"text-danger cambia el color del texto. bg-danger cambia el fondo."
+    },
+    {
+      topic:"Grid",
+      q:"¿Cuál es un error típico en Bootstrap layout?",
+      opts:[
+        "Poner col dentro de row dentro de container",
+        "Usar container-fluid cuando quieres ancho completo",
+        "Poner col directamente dentro de container sin row",
+        "Usar col-6 para media fila"
+      ],
+      correct:2,
+      exp:"Las columnas deben ir dentro de rows. Container → row → col."
+    },
+    {
+      topic:"Responsive",
+      q:"Si no especificas clases para tamaños pequeños, Bootstrap aplicará:",
+      opts:[
+        "Siempre el tamaño más grande",
+        "Un error de compilación",
+        "El comportamiento por defecto (mobile-first)",
+        "Nada (sin estilo)"
+      ],
+      correct:2,
+      exp:"Mobile-first: lo no especificado se aplica para móvil y se sobreescribe en tamaños mayores."
+    },
+    {
+      topic:"Frameworks CSS",
+      q:"¿Cuál es un criterio sensato para elegir un framework CSS?",
+      opts:[
+        "El que esté más de moda",
+        "El tipo de proyecto, equipo y nivel de personalización necesario",
+        "El que tenga la URL más corta",
+        "El que obligue a usar backend"
+      ],
+      correct:1,
+      exp:"Se elige por necesidades del proyecto/equipo, no por moda."
+    }
+  ];
+
+  // ====== State ======
+  let questions = [];
+  let idx = 0;
+  let correctCount = 0;
+  let wrongCount = 0;
+  let answered = false;
+  let wantShuffle = false;
+  const answersLog = []; // {q, chosen, correct, exp, ok}
+
+  // ====== Elements ======
+  const startBtn = document.getElementById("startBtn");
+  const shuffleBtn = document.getElementById("shuffleBtn");
+  const reviewBtn = document.getElementById("reviewBtn");
+  const quizArea = document.getElementById("quizArea");
+  const bar = document.getElementById("bar");
+  const qCount = document.getElementById("qCount");
+  const scoreEl = document.getElementById("score");
+  const reviewArea = document.getElementById("reviewArea");
+  const reviewList = document.getElementById("reviewList");
+
+  function deepCopy(obj){ return JSON.parse(JSON.stringify(obj)); }
+
+  function shuffle(arr){
+    for(let i=arr.length-1; i>0; i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function resetQuiz(){
+    questions = deepCopy(questionsBase);
+    if(wantShuffle) shuffle(questions);
+    idx = 0;
+    correctCount = 0;
+    wrongCount = 0;
+    answered = false;
+    answersLog.length = 0;
+    reviewArea.style.display = "none";
+    reviewList.innerHTML = "";
+    reviewBtn.disabled = true;
+    renderQuestion();
+    updateMeta();
+  }
+
+  function updateMeta(){
+    qCount.textContent = `Pregunta ${Math.min(idx+1, 30)}/30`;
+    scoreEl.textContent = `Aciertos: ${correctCount} · Fallos: ${wrongCount}`;
+    const pct = Math.round((idx/30)*100);
+    bar.style.width = `${pct}%`;
+  }
+
+  function renderQuestion(){
+    if(idx >= 30){
+      renderFinish();
+      return;
+    }
+    const q = questions[idx];
+    answered = false;
+
+    quizArea.innerHTML = `
+      <div class="tiny">Tema: <span class="chip">${escapeHtml(q.topic)}</span></div>
+      <div class="question">${escapeHtml(q.q)}</div>
+      <div class="opts" id="opts"></div>
+      <div id="feedback"></div>
+      <div class="divider"></div>
+      <div class="btnrow">
+        <button class="primary" id="nextBtn" disabled>Siguiente</button>
+        <button id="skipBtn">Saltar</button>
+      </div>
+      <p class="tiny" style="margin-top:10px">
+        Consejo: si fallas, lee la explicación y repite mentalmente la regla clave del resumen.
+      </p>
+    `;
+
+    const optsEl = document.getElementById("opts");
+    q.opts.forEach((text, i)=>{
+      const letter = String.fromCharCode(65+i);
+      const div = document.createElement("div");
+      div.className = "opt";
+      div.setAttribute("role","button");
+      div.setAttribute("tabindex","0");
+      div.innerHTML = `
+        <div class="badge">${letter}</div>
+        <div>${escapeHtml(text)}</div>
+      `;
+      div.addEventListener("click", ()=>choose(i));
+      div.addEventListener("keydown", (e)=>{ if(e.key==="Enter" || e.key===" "){ e.preventDefault(); choose(i);} });
+      optsEl.appendChild(div);
+    });
+
+    document.getElementById("nextBtn").addEventListener("click", ()=>{
+      idx++;
+      updateMeta();
+      renderQuestion();
+    });
+
+    document.getElementById("skipBtn").addEventListener("click", ()=>{
+      // Saltar cuenta como fallo "didáctico" (para que no se “escape”)
+      if(!answered){
+        wrongCount++;
+        answersLog.push({
+          q: questions[idx],
+          chosen: null,
+          ok: false,
+          exp: "Saltada. Repasa este concepto: intenta responderla en la revisión final."
+        });
+      }
+      idx++;
+      updateMeta();
+      renderQuestion();
+    });
+  }
+
+  function choose(choiceIdx){
+    if(answered) return;
+    answered = true;
+    const q = questions[idx];
+    const opts = Array.from(document.querySelectorAll(".opt"));
+    const fb = document.getElementById("feedback");
+    const nextBtn = document.getElementById("nextBtn");
+    nextBtn.disabled = false;
+
+    const isOk = choiceIdx === q.correct;
+    if(isOk){
+      correctCount++;
+      opts[choiceIdx].classList.add("correct");
+      fb.innerHTML = `
+        <div class="feedback ok">
+          <div class="t">✅ Correcto</div>
+          <div class="exp">${escapeHtml(q.exp)}</div>
+        </div>
+      `;
+    }else{
+      wrongCount++;
+      opts[choiceIdx].classList.add("wrong");
+      opts[q.correct].classList.add("correct");
+
+      const correctLetter = String.fromCharCode(65 + q.correct);
+      const chosenLetter = String.fromCharCode(65 + choiceIdx);
+
+      fb.innerHTML = `
+        <div class="feedback bad">
+          <div class="t">❌ Incorrecto</div>
+          <div class="exp">
+            Tu respuesta: <b>${chosenLetter}</b>. Correcta: <b>${correctLetter}</b>.<br>
+            <span class="tiny">${escapeHtml(q.exp)}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    answersLog.push({
+      q,
+      chosen: choiceIdx,
+      ok: isOk,
+      exp: q.exp
+    });
+
+    updateMeta();
+
+    // Si es la última, cambia el botón
+    if(idx === 29){
+      nextBtn.textContent = "Finalizar";
+      nextBtn.classList.add("good");
+    }
+  }
+
+  function renderFinish(){
+    bar.style.width = "100%";
+    qCount.textContent = "Test finalizado (30/30)";
+    scoreEl.textContent = `Aciertos: ${correctCount} · Fallos: ${wrongCount}`;
+    reviewBtn.disabled = false;
+
+    const pct = Math.round((correctCount/30)*100);
+    let level = "Bien";
+    let msg = "Ya estás en un nivel bueno para el examen. Refuerza tus fallos en la revisión.";
+    if(pct >= 90){ level = "Excelente"; msg = "Nivel muy alto. Repite el test mezclado para consolidar al 100%."; }
+    else if(pct >= 75){ level = "Muy bien"; msg = "Buen nivel. Repite las preguntas falladas hasta que las expliques tú mismo."; }
+    else if(pct >= 60){ level = "Aprobado justo"; msg = "Vas bien, pero necesitas repetir test y repasar el resumen (especialmente tus fallos)."; }
+    else { level = "Necesita refuerzo"; msg = "Repite resumen por bloques y vuelve a hacer el test. Te falta base en algunos puntos.";}
+
+    quizArea.innerHTML = `
+      <div class="kpi">
+        <div class="box">
+          <div class="num">${correctCount}</div>
+          <div class="lab">Aciertos</div>
+        </div>
+        <div class="box">
+          <div class="num">${wrongCount}</div>
+          <div class="lab">Fallos (incluye saltos)</div>
+        </div>
+        <div class="box">
+          <div class="num">${pct}%</div>
+          <div class="lab">Rendimiento</div>
+        </div>
+      </div>
+      <div class="feedback ${pct>=75 ? "ok":"bad"}" style="margin-top:12px">
+        <div class="t">Resultado: ${level}</div>
+        <div class="exp">${escapeHtml(msg)}</div>
+      </div>
+      <div class="divider"></div>
+      <div class="btnrow">
+        <button class="primary" id="againBtn">Repetir test</button>
+        <button id="againShuffleBtn">Repetir mezclado</button>
+        <button class="good" id="showReviewBtn">Ver repaso final</button>
+      </div>
+      <p class="tiny" style="margin-top:10px">
+        Truco: si una la fallas, intenta decir en voz alta la regla (“container → row → col”, “grid 12”, “CDN no es dinámico”, “text-center vs flex”…).
+      </p>
+    `;
+
+    document.getElementById("againBtn").addEventListener("click", ()=>{
+      wantShuffle = false;
+      resetQuiz();
+    });
+    document.getElementById("againShuffleBtn").addEventListener("click", ()=>{
+      wantShuffle = true;
+      resetQuiz();
+    });
+    document.getElementById("showReviewBtn").addEventListener("click", showReview);
+  }
+
+  function showReview(){
+    reviewArea.style.display = "block";
+    reviewList.innerHTML = "";
+
+    answersLog.forEach((entry, i)=>{
+      const q = entry.q;
+      const correctLetter = String.fromCharCode(65 + q.correct);
+      const chosenLetter = entry.chosen === null ? "—" : String.fromCharCode(65 + entry.chosen);
+
+      const item = document.createElement("div");
+      item.className = "item";
+      item.innerHTML = `
+        <div class="top">
+          <div>#${i+1} · <span class="chip">${escapeHtml(q.topic)}</span></div>
+          <div>
+            <span class="chip ${entry.ok ? "ok":"bad"}">${entry.ok ? "OK":"FALLO"}</span>
+          </div>
+        </div>
+        <div style="font-weight:800; margin-bottom:6px">${escapeHtml(q.q)}</div>
+        <div class="tiny">
+          Tu respuesta: <b>${chosenLetter}</b> · Correcta: <b>${correctLetter}</b>
+        </div>
+        <div class="exam" style="margin-top:8px">
+          <b>Explicación:</b> ${escapeHtml(entry.ok ? q.exp : (entry.exp || q.exp))}
+        </div>
+      `;
+      reviewList.appendChild(item);
+    });
+
+    reviewArea.scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  function escapeHtml(str){
+    return String(str)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  // ===== Buttons =====
+  startBtn.addEventListener("click", resetQuiz);
+  shuffleBtn.addEventListener("click", ()=>{
+    wantShuffle = !wantShuffle;
+    shuffleBtn.classList.toggle("primary", wantShuffle);
+    shuffleBtn.textContent = wantShuffle ? "Mezclar: ACTIVADO" : "Mezclar preguntas";
+  });
+  reviewBtn.addEventListener("click", showReview);
+
+  // Initial meta
+  updateMeta();
+</script>
+</body>
+</html>
