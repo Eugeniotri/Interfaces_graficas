@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UF4 - Test Final (DAW) | Plantillas + Bootstrap</title>
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      max-width: 980px;
+      margin: 20px auto;
+      padding: 0 12px;
+      line-height: 1.55;
+    }
+    header{
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .muted{ color:#555; }
+    .controls{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      margin: 10px 0 18px;
+    }
+    button{
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid #111;
+      background: #fff;
+      cursor:pointer;
+    }
+    button:hover{ opacity:0.92; }
+    .score{
+      font-weight: 700;
+      padding: 8px 10px;
+      border: 2px dashed #777;
+      border-radius: 10px;
+    }
+    .q{
+      border:1px solid #ddd;
+      border-radius: 12px;
+      padding: 14px;
+      margin: 14px 0;
+      background: #fafafa;
+    }
+    .q p{ margin: 0 0 10px; }
+    label{ display:block; margin: 6px 0; cursor:pointer; }
+    code{ background:#f2f2f2; padding:2px 5px; border-radius: 6px; }
+    .result{
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      background: #fff;
+    }
+    .ok{ border-color: rgba(20,120,60,.5); color: #14783c; }
+    .ko{ border-color: rgba(180,35,24,.5); color: #b42318; }
+    .small{ font-size: 0.95rem; color:#444; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>UF4 · Test Final (DAW)</h1>
+  <p class="muted">
+    Enfoque examen: <strong>plantillas, frameworks, Bootstrap 5 (instalación, grid, utilidades, componentes)</strong> + conceptos básicos de <code>&lt;template&gt;</code> y personalización (SCSS).
+    <br>Responde y pulsa <strong>Corregir</strong>.
+  </p>
+</header>
+
+<div class="controls">
+  <button id="btnCorregir" type="button">Corregir</button>
+  <button id="btnReset" type="button">Reiniciar</button>
+  <span id="scoreBox" class="score">Puntuación: —</span>
+</div>
+
+<div id="quiz"></div>
+
+<script>
+  // 45 preguntas, 4 opciones, 1 correcta, explicación.
+  const QUESTIONS = [
+    // --- BLOQUE 1: Plantillas / repositorios / frameworks ---
+    {q:"Una plantilla web es…",
+     o:["Un lenguaje de programación","Un diseño predefinido reutilizable (HTML/CSS/JS)","Un servidor web","Un plugin del navegador"],
+     c:1, why:"Una plantilla es un diseño ya hecho que reutilizas y adaptas; no es un lenguaje ni un servidor."},
+
+    {q:"Una ventaja típica de usar plantillas es…",
+     o:["Mayor control total desde el minuto 1","Ahorro de tiempo","Requiere diseñar todo desde cero","Evita usar HTML"],
+     c:1, why:"Una plantilla acelera el desarrollo porque ya trae estructura y estilos."},
+
+    {q:"Un inconveniente típico de una plantilla descargada es…",
+     o:["No se puede modificar","Limita la personalización y puede traer código extra","No incluye HTML","Impide usar CSS"],
+     c:1, why:"Suelen traer código que no necesitas y puede costar personalizarlas si no las entiendes."},
+
+    {q:"Un repositorio de plantillas es…",
+     o:["Un framework CSS","Una colección/sitio donde descargar plantillas","Un compilador de SCSS","Un IDE"],
+     c:1, why:"Repositorio = lugar donde se almacenan y descargan plantillas."},
+
+    {q:"Diferencia clave: plantilla vs framework CSS",
+     o:["Plantilla = herramienta; framework = diseño completo","Plantilla = diseño completo; framework = conjunto de estilos/herramientas reutilizables","Son lo mismo","Framework solo sirve para JavaScript"],
+     c:1, why:"Plantilla: web ya diseñada. Framework: base de estilos/componentes para construir tu diseño."},
+
+    {q:"Al adaptar una plantilla, ¿qué NO se recomienda modificar?",
+     o:["El HTML de tu contenido","Las imágenes","El CSS propio de la plantilla","Los archivos minificados de Bootstrap (bootstrap.min.css)"],
+     c:3, why:"No se recomienda editar Bootstrap minificado; se personaliza en tu CSS o en SCSS si procede."},
+
+    // --- BLOQUE 2: Bootstrap instalación ---
+    {q:"Bootstrap 5 es principalmente…",
+     o:["Un lenguaje","Un framework CSS (y JS)","Un editor visual","Un servidor"],
+     c:1, why:"Bootstrap aporta estilos, grid y componentes; no es un lenguaje."},
+
+    {q:"Una forma de usar Bootstrap sin descargar archivos es…",
+     o:["CDN","FTP","SQL","JSON"],
+     c:0, why:"CDN carga Bootstrap desde internet."},
+
+    {q:"Ventaja típica del CDN",
+     o:["No requiere internet","Siempre tienes control local","Carga rápida y fácil de integrar","Obliga a recompilar SCSS"],
+     c:2, why:"CDN es rápido de usar y puede beneficiarse de caché."},
+
+    {q:"Con instalación local de Bootstrap, una ventaja es…",
+     o:["No necesitas internet para que funcione","Siempre está actualizado automáticamente","No hay archivos","No necesitas HTML"],
+     c:0, why:"Local = funciona sin conexión."},
+
+    {q:"En Bootstrap 5, el archivo recomendado para JS de componentes es…",
+     o:["bootstrap.js","bootstrap.bundle.min.js","jquery.min.js","popper.min.js (solo)"],
+     c:1, why:"El bundle incluye Popper y es lo habitual en Bootstrap 5."},
+
+    {q:"El meta viewport es importante porque…",
+     o:["Cambia el idioma del HTML","Permite responsive correcto en móviles","Carga Bootstrap más rápido","Evita usar CSS"],
+     c:1, why:"Sin viewport, el navegador móvil escala y el responsive no se comporta bien."},
+
+    // --- BLOQUE 3: Grid Bootstrap (2.2) ---
+    {q:"El grid de Bootstrap se basa en…",
+     o:["8 columnas","10 columnas","12 columnas","16 columnas"],
+     c:2, why:"Bootstrap divide el ancho en 12 columnas."},
+
+    {q:"Estructura correcta del grid",
+     o:["row → col → container","container → row → col","col → row → container","container → col → row"],
+     c:1, why:"Siempre: container/container-fluid → row → col."},
+
+    {q:"container-fluid significa…",
+     o:["Ancho fijo según breakpoint","100% del ancho","Elimina padding del contenido","Crea 12 filas"],
+     c:1, why:"container-fluid ocupa todo el ancho del viewport."},
+
+    {q:"Si una columna tiene solo col-md-4, en móvil ocupará…",
+     o:["33%","50%","100%","0%"],
+     c:2, why:"Mobile-first: si no defines col-*, en móvil va a 100%."},
+
+    {q:"col-md-6 significa…",
+     o:["6 columnas en móvil","6 columnas desde md hacia arriba","6 columnas siempre","6 filas desde md"],
+     c:1, why:"Se aplica desde md (tablet) en adelante."},
+
+    {q:"Para 3 columnas iguales desde md, usarías…",
+     o:["col-md-3","col-md-4","col-md-6","col-md-12"],
+     c:1, why:"12/4 = 3 columnas."},
+
+    {q:"Si en una row sumas más de 12 columnas…",
+     o:["No pasa nada","Bootstrap lo convierte en tabla","Las columnas pueden bajar a la siguiente línea","Se rompe el HTML"],
+     c:2, why:"Al superar 12, Bootstrap hace wrap y cambia el layout."},
+
+    {q:"offset-md-3 sirve para…",
+     o:["Cambiar el ancho","Desplazar la columna a la derecha desde md","Ocultar columna desde md","Eliminar gutters"],
+     c:1, why:"Offset crea espacio vacío a la izquierda y desplaza la columna."},
+
+    {q:"¿Cuál centra una columna de 6 desde md?",
+     o:["col-md-6 offset-md-6","col-md-6 offset-md-3","col-md-6 offset-md-2","col-md-6 offset-md-1"],
+     c:1, why:"3 + 6 + 3 = 12, queda centrada."},
+
+    {q:"Los gutters (g-*) son…",
+     o:["Padding interno del contenido","Espacio entre columnas","Un tipo de breakpoint","Un tipo de offset"],
+     c:1, why:"Gutters controlan el espacio entre columnas (y también vertical cuando hay varias filas)."},
+
+    {q:"¿Dónde se coloca g-0 / g-3?",
+     o:["En container","En row","En col","En body"],
+     c:1, why:"Los gutters se controlan desde la fila (row)."},
+
+    {q:"g-0 hace…",
+     o:["Elimina el espacio entre columnas","Pone columnas a 0px de ancho","Elimina el margin del body","Oculta la fila"],
+     c:0, why:"g-0 quita gutters: las columnas se “tocan”."},
+
+    {q:"Si no pones ninguna clase g-*, Bootstrap…",
+     o:["No deja espacio entre columnas","Aplica gutters por defecto","Oculta columnas","Rompe el grid"],
+     c:1, why:"Bootstrap aplica gutters por defecto."},
+
+    // --- BLOQUE 4: Utilidades (2.4) ---
+    {q:"La clase p-3 indica…",
+     o:["margin 3","padding 3","position 3","popup 3"],
+     c:1, why:"p = padding. El número es el nivel (0–5)."},
+
+    {q:"mt-4 significa…",
+     o:["padding-top 4","margin-top 4","margin-left 4","padding-left 4"],
+     c:1, why:"m=margin, t=top."},
+
+    {q:"px-3 aplica…",
+     o:["padding vertical","padding horizontal","margin horizontal","margin vertical"],
+     c:1, why:"x = eje horizontal (izquierda+derecha)."},
+
+    {q:"py-3 aplica…",
+     o:["padding horizontal","padding vertical","margin horizontal","margin vertical"],
+     c:1, why:"y = eje vertical (arriba+abajo)."},
+
+    {q:"Para ocultar en móvil y mostrar desde md, usarías…",
+     o:["hide-xs show-md","d-none d-md-block","visible-md","display-md-on"],
+     c:1, why:"d-none oculta; d-md-block muestra desde md."},
+
+    {q:"La clase bg-primary sirve para…",
+     o:["Fondo azul principal (tema)","Texto azul","Borde azul","Quitar padding"],
+     c:0, why:"bg-* cambia color de fondo; primary es el color principal del tema."},
+
+    {q:"La clase text-center…",
+     o:["Alinea el contenedor al centro","Centrar texto","Centrar el elemento en el grid","Quitar margen"],
+     c:1, why:"text-center centra el texto (alineación de texto)."},
+
+    // --- BLOQUE 5: Componentes Bootstrap (punto 3) ---
+    {q:"Clase base de botón en Bootstrap",
+     o:["button","btn","btn-style","button-primary"],
+     c:1, why:"Los botones Bootstrap comienzan por btn (ej. btn btn-primary)."},
+
+    {q:"Para crear una tarjeta (card) se usa…",
+     o:[".panel",".card",".box",".tile"],
+     c:1, why:"El componente estándar es card."},
+
+    {q:"Una alerta se crea con…",
+     o:["alert-box","alert alert-warning","warning-box","box-warning"],
+     c:1, why:"Alertas: alert + tipo (warning, danger, etc.)."},
+
+    {q:"¿Qué componente suele requerir JS para abrir/cerrar?",
+     o:["card","modal","badge","grid"],
+     c:1, why:"Modal es interactivo y requiere el JS de Bootstrap."},
+
+    {q:"Una navbar responsive suele usar…",
+     o:["navbar-expand-md","navbar-fixed-only","nav-grid-md","navbar-rows"],
+     c:0, why:"navbar-expand-md indica desde qué breakpoint se expande (responsive)."},
+
+    {q:"Offcanvas es…",
+     o:["Un botón","Un panel lateral que aparece/desaparece","Un tipo de grid","Un tipo de plantilla"],
+     c:1, why:"Offcanvas es un panel lateral interactivo (requiere JS de Bootstrap)."},
+
+    {q:"Accordion sirve para…",
+     o:["Mostrar/ocultar secciones plegables","Hacer columnas","Centrar texto","Crear un footer"],
+     c:0, why:"Acordeón = contenido colapsable por secciones."},
+
+    {q:"Carousel es…",
+     o:["Un menú lateral","Un slider de imágenes/contenido","Una tabla","Un botón"],
+     c:1, why:"Carrusel (carousel) muestra diapositivas/slide."},
+
+    {q:"Toast suele usarse para…",
+     o:["Notificaciones pequeñas temporales","Crear cards","Crear layouts","Crear gutters"],
+     c:0, why:"Toast = notificación emergente breve (normalmente con JS)."},
+
+    // --- BLOQUE 6: <template> y personalización (conceptual) ---
+    {q:"El elemento HTML <template>…",
+     o:["Se renderiza tal cual en la página","No se muestra: guarda contenido para clonarlo con JS","Sustituye a <div>","Es un componente Bootstrap"],
+     c:1, why:"<template> no se renderiza por defecto; se usa como “molde” para clonar contenido con JS."},
+
+    {q:"Una razón típica para usar <template> es…",
+     o:["Evitar HTML","Repetir estructuras (cards, filas) desde JS sin copiar/pegar HTML manual","Instalar Bootstrap","Crear breakpoints"],
+     c:1, why:"Permite reutilizar estructura HTML y generarla dinámicamente."},
+
+    {q:"Personalización “profunda” de Bootstrap (nivel avanzado) suele hacerse con…",
+     o:["Editando bootstrap.min.css directamente","Modificando variables SCSS y recompilando","Cambiando el DOCTYPE","Usando <template>"],
+     c:1, why:"Lo correcto es tocar SCSS (variables) y compilar a CSS."},
+
+    {q:"En un proyecto real, lo recomendable para cambios rápidos de estilo es…",
+     o:["Editar bootstrap.min.css","Usar tu CSS propio para sobrescribir o utilidades Bootstrap","Eliminar el viewport","Escribir todo sin Bootstrap"],
+     c:1, why:"Se recomienda sobrescribir en tu CSS o usar utilidades; no editar el core minificado."},
+
+    // --- BLOQUE 7: Uso de plantilla descargada (práctica conceptual) ---
+    {q:"Tras descargar una plantilla .zip, el primer paso correcto es…",
+     o:["Abrir el .zip y editar dentro","Descomprimir y abrir la carpeta en VS Code","Borrar css/","Poner todo en un solo archivo"],
+     c:1, why:"Siempre descomprime y abre la carpeta del proyecto para que funcionen rutas (css/js/images)."},
+
+    {q:"El archivo que normalmente se abre primero en una plantilla es…",
+     o:["style.css","index.html","readme.txt","bootstrap.min.css"],
+     c:1, why:"index.html suele ser la página de entrada (home)."},
+
+    {q:"Orden recomendado de CSS en el <head> cuando usas Bootstrap + tu CSS:",
+     o:["Tu CSS y luego Bootstrap","Bootstrap y luego tu CSS","Solo tu CSS","Solo Bootstrap"],
+     c:1, why:"Bootstrap primero, tu CSS después para poder sobrescribir estilos."},
+
+    {q:"Si un componente (modal/offcanvas) no funciona al hacer clic, una causa típica es…",
+     o:["Falta el meta charset","No se cargó el JS bundle de Bootstrap","Sobra el container","Falta el footer"],
+     c:1, why:"Componentes interactivos necesitan el JS de Bootstrap (bundle)."}
+  ];
+
+  const quizEl = document.getElementById("quiz");
+  const scoreBox = document.getElementById("scoreBox");
+  const btnCorregir = document.getElementById("btnCorregir");
+  const btnReset = document.getElementById("btnReset");
+
+  function letter(i){ return ["A","B","C","D"][i] ?? "?"; }
+
+  function render(){
+    quizEl.innerHTML = "";
+    QUESTIONS.forEach((it, idx)=>{
+      const n = idx + 1;
+      const sec = document.createElement("section");
+      sec.className = "q";
+      sec.innerHTML = `
+        <p><strong>${n}. ${it.q}</strong></p>
+        ${it.o.map((opt, j)=>`
+          <label><input type="radio" name="q${n}" value="${j}"> ${opt}</label>
+        `).join("")}
+        <div class="result" aria-live="polite"></div>
+      `;
+      quizEl.appendChild(sec);
+    });
+    scoreBox.textContent = "Puntuación: —";
+  }
+
+  function corregir(){
+    let ok = 0;
+    const blocks = document.querySelectorAll(".q");
+    blocks.forEach((block, idx)=>{
+      const n = idx + 1;
+      const it = QUESTIONS[idx];
+      const sel = block.querySelector(`input[name="q${n}"]:checked`);
+      const res = block.querySelector(".result");
+      if(!sel){
+        res.className = "result ko";
+        res.innerHTML = `❗ <strong>Sin responder.</strong> Correcta: <strong>${letter(it.c)}</strong>.<br>
+                         <span class="small"><strong>Por qué:</strong> ${it.why}</span>`;
+        return;
+      }
+      const chosen = Number(sel.value);
+      if(chosen === it.c){
+        ok++;
+        res.className = "result ok";
+        res.innerHTML = `✅ <strong>Correcto (${letter(chosen)}).</strong><br>
+                         <span class="small"><strong>Por qué:</strong> ${it.why}</span>`;
+      }else{
+        res.className = "result ko";
+        res.innerHTML = `❌ <strong>Incorrecto (${letter(chosen)}).</strong> Correcta: <strong>${letter(it.c)}</strong>.<br>
+                         <span class="small"><strong>Por qué:</strong> ${it.why}</span>`;
+      }
+    });
+    scoreBox.textContent = `Puntuación: ${ok} / ${QUESTIONS.length}`;
+    scoreBox.scrollIntoView({behavior:"smooth", block:"center"});
+  }
+
+  function reset(){
+    document.querySelectorAll("input[type='radio']").forEach(r=>r.checked=false);
+    document.querySelectorAll(".result").forEach(r=>{
+      r.className = "result";
+      r.textContent = "";
+    });
+    scoreBox.textContent = "Puntuación: —";
+    window.scrollTo({top:0, behavior:"smooth"});
+  }
+
+  btnCorregir.addEventListener("click", corregir);
+  btnReset.addEventListener("click", reset);
+
+  render();
+</script>
+</body>
+</html>
